@@ -1,0 +1,233 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 666157f8b347a5b4fa2c23d96b5ac638, type: 3}
+  m_Name: InputSetting
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes:
+    - Name: keyInfoDictionary
+      Entry: 7
+      Data: 0|System.Collections.Generic.Dictionary`2[[InputEnum, Assembly-CSharp],[InputInfo,
+        Assembly-CSharp]], mscorlib
+    - Name: comparer
+      Entry: 7
+      Data: 1|System.Collections.Generic.EnumEqualityComparer`1[[InputEnum, Assembly-CSharp]],
+        mscorlib
+    - Name: 
+      Entry: 12
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 12
+      Data: 4
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 11
+    - Name: $v
+      Entry: 7
+      Data: 2|InputInfo, Assembly-CSharp
+    - Name: isRemappable
+      Entry: 5
+      Data: false
+    - Name: inputType
+      Entry: 3
+      Data: 0
+    - Name: button
+      Entry: 3
+      Data: 0
+    - Name: keyCode
+      Entry: 3
+      Data: 119
+    - Name: axisName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 12
+    - Name: $v
+      Entry: 7
+      Data: 3|InputInfo, Assembly-CSharp
+    - Name: isRemappable
+      Entry: 5
+      Data: true
+    - Name: inputType
+      Entry: 3
+      Data: 0
+    - Name: button
+      Entry: 3
+      Data: 0
+    - Name: keyCode
+      Entry: 3
+      Data: 115
+    - Name: axisName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 13
+    - Name: $v
+      Entry: 7
+      Data: 4|InputInfo, Assembly-CSharp
+    - Name: isRemappable
+      Entry: 5
+      Data: false
+    - Name: inputType
+      Entry: 3
+      Data: 0
+    - Name: button
+      Entry: 3
+      Data: 0
+    - Name: keyCode
+      Entry: 3
+      Data: 97
+    - Name: axisName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 3
+      Data: 14
+    - Name: $v
+      Entry: 7
+      Data: 5|InputInfo, Assembly-CSharp
+    - Name: isRemappable
+      Entry: 5
+      Data: false
+    - Name: inputType
+      Entry: 3
+      Data: 0
+    - Name: button
+      Entry: 3
+      Data: 0
+    - Name: keyCode
+      Entry: 3
+      Data: 100
+    - Name: axisName
+      Entry: 6
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
+    - Name: disableKey
+      Entry: 7
+      Data: 6|System.Collections.Generic.HashSet`1[[UnityEngine.KeyCode, UnityEngine.CoreModule]],
+        System.Core
+    - Name: 
+      Entry: 12
+      Data: 17
+    - Name: 
+      Entry: 3
+      Data: 92
+    - Name: 
+      Entry: 3
+      Data: 8
+    - Name: 
+      Entry: 3
+      Data: 9
+    - Name: 
+      Entry: 3
+      Data: 19
+    - Name: 
+      Entry: 3
+      Data: 127
+    - Name: 
+      Entry: 3
+      Data: 271
+    - Name: 
+      Entry: 3
+      Data: 277
+    - Name: 
+      Entry: 3
+      Data: 278
+    - Name: 
+      Entry: 3
+      Data: 279
+    - Name: 
+      Entry: 3
+      Data: 280
+    - Name: 
+      Entry: 3
+      Data: 281
+    - Name: 
+      Entry: 3
+      Data: 301
+    - Name: 
+      Entry: 3
+      Data: 302
+    - Name: 
+      Entry: 3
+      Data: 311
+    - Name: 
+      Entry: 3
+      Data: 312
+    - Name: 
+      Entry: 3
+      Data: 316
+    - Name: 
+      Entry: 3
+      Data: 0
+    - Name: 
+      Entry: 13
+      Data: 
+    - Name: 
+      Entry: 8
+      Data: 
