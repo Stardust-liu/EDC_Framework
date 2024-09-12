@@ -21,7 +21,7 @@ public class CommonTool
    /// </summary>
     public static IEnumerator TypeWriterEffect(TextMeshProUGUI tmpGui, string content, WaitForSeconds displaySpeed, Action callBack = null){
         var typeWriterEffect = TypeWriterEffect();
-        FrameworkManager.instance.StartCoroutine(typeWriterEffect);
+        Hub.Framework.StartCoroutine(typeWriterEffect);
         IEnumerator TypeWriterEffect(){
             int showIndex = 0;
             int endIndex = content.Length-1;
@@ -43,7 +43,7 @@ public class CommonTool
     /// 停止打字机效果
     /// </summary>
     public static void StopTypeWriterEffect(IEnumerator typeWriterEffect, Action callBack = null){
-        FrameworkManager.instance.StopCoroutine(typeWriterEffect);
+        Hub.Framework.StopCoroutine(typeWriterEffect);
         callBack?.Invoke();
     }
 #endregion

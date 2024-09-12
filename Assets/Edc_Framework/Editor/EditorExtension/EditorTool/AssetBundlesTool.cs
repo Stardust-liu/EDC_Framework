@@ -5,7 +5,7 @@ using UnityEditor;
 using UnityEngine;
 using AssetBundleBrowser;
 
-[CreateAssetMenu(fileName = "AssetBundlesTool", menuName = "创建Assets文件/AssetBundlesTool")]
+[CreateAssetMenu(fileName = "AssetBundlesTool", menuName = "创建.Assets文件/AssetBundlesTool")]
 public class AssetBundlesTool : SerializedScriptableObject
 {
     [Button("打开AssetBundle Broswer", ButtonSizes.Large), GUIColor(0.5f, 0.8f, 1f)]

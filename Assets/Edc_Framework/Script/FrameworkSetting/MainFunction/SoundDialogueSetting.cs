@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "VO_Setting", menuName = "创建Assets文件/VO_Setting")]
+[CreateAssetMenu(fileName = "VO_Setting", menuName = "创建.Assets文件/VO_Setting")]
 public class SoundDialogueSetting : SerializedScriptableObject
 {
      [DictionaryDrawerSettings(KeyLabel ="音频名字", ValueLabel ="音频文件")]

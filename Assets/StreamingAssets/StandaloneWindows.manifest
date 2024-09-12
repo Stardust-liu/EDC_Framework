@@ -1,0 +1,13 @@
+ManifestFileVersion: 0
+CRC: 1352315284
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: 1.aa
+      Dependencies: {}
+    Info_1:
+      Name: 2
+      Dependencies: {}
+    Info_2:
+      Name: scriptableobject
+      Dependencies: {}

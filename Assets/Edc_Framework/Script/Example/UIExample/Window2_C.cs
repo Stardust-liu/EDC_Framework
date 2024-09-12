@@ -4,7 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 
 namespace Example{
-    public class Window2_C : Window_VC<Window2_V, Window2_C>
+    public class Window2_C : Window_VP<Window2_V, Window2_C>
     {
         public override void CreateUiPrefab()
         {

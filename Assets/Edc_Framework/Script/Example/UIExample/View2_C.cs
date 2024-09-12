@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Example{
-    public class View2_C : View_VC<View2_V, View2_C>
+    public class View2_C : View_VP<View2_V, View2_C>
     {
         public override void SetPrefabInfo()
         {

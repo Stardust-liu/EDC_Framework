@@ -21,8 +21,7 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  prefabList:
-  - {fileID: 242092444143611676, guid: 1c757773264d59a4f8a44097dd51921b, type: 3}
+  prefabList: []
   targetFont_Plugin: {fileID: 11400000, guid: 5e1bf3151e80a99479e47d925e233d2f, type: 2}
   targetfont_Native: {fileID: 0}
   material: {fileID: 2100000, guid: 20852c178c6b1b8449cadfc9ec9ac202, type: 2}

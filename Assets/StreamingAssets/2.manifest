@@ -1,0 +1,32 @@
+ManifestFileVersion: 0
+CRC: 2278197844
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 880378cdc16128e281ece03f631ed61b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: df792fd99a59582aa145a2b57597b27a
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: a39b7c3defeeae64b8c66ae73abeca08, type: 3}
+- Class: 212
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Edc_Framework/Resources/Prefabeeee.prefab
+- Assets/Game/Sources/_AssetBundles/Test2.prefab
+Dependencies: []

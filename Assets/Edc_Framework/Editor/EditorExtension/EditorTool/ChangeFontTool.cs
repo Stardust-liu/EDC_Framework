@@ -13,7 +13,7 @@ public enum TextType
     TextMeshProUGUI,
 }
 
-[CreateAssetMenu(fileName = "ChangeFontTool", menuName = "创建Assets文件/ChangeFontTool")]
+[CreateAssetMenu(fileName = "ChangeFontTool", menuName = "创建.Assets文件/ChangeFontTool")]
 public class ChangeFontTool : SerializedScriptableObject
 {
     public List<GameObject> prefabList;
@@ -24,14 +24,7 @@ public class ChangeFontTool : SerializedScriptableObject
     public Material material;
     public TextType textType;
 
-    [HorizontalGroup("split", 0.35f)]
-    [Button("清空列表", ButtonSizes.Large), GUIColor(0.8f, 0.3f, 0.3f)]
-    private void ClickCleanPrefabList()
-    {
-        prefabList.Clear();
-    }
-
-    [HorizontalGroup("split/right")]
+    [HorizontalGroup("split/left")]
     [Button("修改字体", ButtonSizes.Large), GUIColor(0.5f, 0.8f, 1)]
     public void ChangeFont()
     {
@@ -76,5 +69,12 @@ public class ChangeFontTool : SerializedScriptableObject
             }
         }
         Debug.Log("修改完成");
+    }
+
+    [HorizontalGroup("split", 0.5f)]
+    [Button("清空列表", ButtonSizes.Large), GUIColor(1, 0.5f, 0.5f)]
+    private void ClickCleanPrefabList()
+    {
+        prefabList.Clear();
     }
 }

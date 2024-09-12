@@ -185,7 +185,7 @@ MonoBehaviour:
       Data: 0
     - Name: transitionsType
       Entry: 3
-      Data: 3
+      Data: 0
     - Name: fadeInColor
       Entry: 7
       Data: UnityEngine.Color, UnityEngine.CoreModule

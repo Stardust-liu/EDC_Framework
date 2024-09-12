@@ -6,7 +6,7 @@ AudioImporter:
   defaultSettings:
     loadType: 2
     sampleRateSetting: 2
-    sampleRateOverride: 44100
+    sampleRateOverride: 22050
     compressionFormat: 1
     quality: 0
     conversionMode: 0
@@ -15,6 +15,13 @@ AudioImporter:
       loadType: 2
       sampleRateSetting: 2
       sampleRateOverride: 44100
+      compressionFormat: 1
+      quality: 0
+      conversionMode: 0
+    7:
+      loadType: 2
+      sampleRateSetting: 2
+      sampleRateOverride: 22050
       compressionFormat: 1
       quality: 0
       conversionMode: 0

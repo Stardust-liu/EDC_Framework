@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 3579352846
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 394fbdd79374b58187b88418ec9a5bdc
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 6fa056b46072819d9223cc16dae730e0
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: d5285dd8bf74eca4c8d79c72e18710d7, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Sirenix.Serialization
+  ClassName: Sirenix.Serialization.SerializationData
+Assets:
+- Assets/Edc_Framework/Sources/Resources/AssetFile/CharacterTextSetting.asset
+Dependencies: []

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-[CreateAssetMenu(fileName = "ObjectPoolSetting", menuName = "创建Assets文件/ObjectPoolSetting")]
+[CreateAssetMenu(fileName = "ObjectPoolSetting", menuName = "创建.Assets文件/ObjectPoolSetting")]
 public class ObjectPoolSetting : SerializedScriptableObject
 {
     [ReadOnly]

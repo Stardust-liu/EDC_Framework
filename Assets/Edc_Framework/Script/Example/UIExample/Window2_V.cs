@@ -7,11 +7,8 @@ namespace Example
     public class Window2_V : BaseUI_V
     {
         public CustomClickEffectsBtn closeBtn;
-        protected override void OnActive()
-        {
-        }
 
-        protected override void OnStart()
+        protected override void Start()
         {
             closeBtn.onClickEvent.AddListener(Hub.Window.CloseWindow);
         }

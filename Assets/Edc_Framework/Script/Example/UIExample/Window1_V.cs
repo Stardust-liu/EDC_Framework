@@ -7,11 +7,7 @@ namespace Example{
     {
         public CustomClickEffectsBtn openNextWindow;
         public CustomClickEffectsBtn closeBtn;
-        protected override void OnActive()
-        {
-        }
-
-        protected override void OnStart()
+        protected override void Start()
         {
             openNextWindow.onClickEvent.AddListener(()=>{Hub.Window.OpenWindow(Window2_C.Instance);});
             closeBtn.onClickEvent.AddListener(Hub.Window.CloseWindow);

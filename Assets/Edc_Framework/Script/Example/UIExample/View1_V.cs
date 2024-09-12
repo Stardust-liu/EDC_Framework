@@ -7,12 +7,6 @@ namespace Example
 {
     public class View1_V : BaseUI_V
     {
-        protected override void OnActive()
-        {
-        }
-
-        protected override void OnStart()
-        {
-        }
+      
     }
 }

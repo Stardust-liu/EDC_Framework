@@ -22,6 +22,7 @@ public class FrameworkSetting : OdinMenuEditorWindow
         tree.AddAllAssetsAtPath("音频管理","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting", typeof(SoundBgSetting));
         tree.AddAllAssetsAtPath("音频管理","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting", typeof(SoundEffectSetting));
         tree.AddAllAssetsAtPath("音频管理","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting", typeof(SoundDialogueSetting));
+        tree.AddAssetAtPath("红点树设置","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/RedDotTree/RedDotTreeSetting.asset");
         return tree;
     }
 }

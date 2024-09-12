@@ -13,9 +13,7 @@ MonoBehaviour:
   m_Name: OdinModuleConfig
   m_EditorClassIdentifier: 
   configurations:
-  - ID: Unity.Entities
-    ActivationSettings: 1
   - ID: Unity.Mathematics
     ActivationSettings: 0
   ModuleTogglingSettings: 1
-  ModuleUpdateSettings: 0
+  ModuleUpdateSettings: 1

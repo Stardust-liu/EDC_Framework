@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "BGM_Setting", menuName = "创建Assets文件/BGM_Setting")]
+[CreateAssetMenu(fileName = "BGM_Setting", menuName = "创建.Assets文件/BGM_Setting")]
 public class SoundBgSetting : SerializedScriptableObject
 {
     [DictionaryDrawerSettings(KeyLabel ="音频名字", ValueLabel ="音频文件")]

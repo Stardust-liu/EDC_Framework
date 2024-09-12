@@ -5,6 +5,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using ArchiveData;
 
 public class FrameworkManager : MonoBehaviour
 {
@@ -59,13 +60,15 @@ public class FrameworkManager : MonoBehaviour
 
     [LabelText("窗口UI管理")]
     public WindowPrefabSetting window;
+    [LabelText("红点系统管理")]
+    public RedDotTreeSetting redDotTreeSetting;
     public CanvasScaler canvas;
     public RectTransform viewLayer;
     public RectTransform persistentViewLayer;
     public RectTransform windowLayer;
     public Image windowDarkBG;
     public Image loadPanel;
-    public static FrameworkManager instance;
+    private static FrameworkManager instance;
     private static string initFinishLoadScene;
     public static LogLevel LogDisplay {get {return instance.logDisplay;}}
     public static Camera MainCamera {get {return instance.mainCamera;}}
@@ -75,7 +78,6 @@ public class FrameworkManager : MonoBehaviour
     public static SoundDialogueSetting SoundDialogueSetting{get {return instance.soundDialogueSetting;}}
     public static InputSetting InputSetting{get {return instance.inputSetting;}}
     public static WindowPrefabSetting Window{get {return instance.window;}}
-
     private void Awake() {
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -84,9 +86,12 @@ public class FrameworkManager : MonoBehaviour
     }
 
     private void InitInfo(){
+        GameArchive.Init();
         Hub.Init(this);
-        Hub.EventCenter.AddListener(EventName.enterRestriction, EnterRestriction);
-        Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);
+        GameModule.Init();
+        GC.Collect();
+        // Hub.EventCenter.AddListener(EventName.enterRestriction, EnterRestriction);
+        // Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);
     }
 
     private void FrameworkInitFinish(){

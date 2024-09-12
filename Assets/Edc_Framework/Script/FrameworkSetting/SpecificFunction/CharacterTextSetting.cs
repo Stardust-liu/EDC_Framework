@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
-[CreateAssetMenu(fileName = "CharacterText", menuName = "创建Assets文件/CharacterText")]
+[CreateAssetMenu(fileName = "CharacterText", menuName = "创建.Assets文件/CharacterText")]
 public class CharacterTextSetting : SerializedScriptableObject
 {
     [LabelText("对话文件管理")]
