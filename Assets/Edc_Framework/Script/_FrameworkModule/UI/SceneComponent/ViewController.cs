@@ -34,7 +34,12 @@ public class ViewController : MonoBehaviour
         if(!baseView_P.IsCreate){
             baseView_P.CreateUiPrefab();
         }
-        ((IBaseView_P)currentView)?.Hide(OpenView, baseView_P);
+        if(currentView != null){
+            ((IBaseView_P)currentView).Hide(OpenView, baseView_P);
+        }
+        else{
+            OpenView(baseView_P);
+        }
     }
 
     /// <summary>
