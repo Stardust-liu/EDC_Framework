@@ -6,13 +6,15 @@ using TMPro;
 
 public class DialogueView_C : View_MVP<DialogueView_M, DialogueView_V, DialogueView_C>
 {
-    public override void SetPrefabInfo()
+    public override void CreateUiPrefab()
     {
-        SetPrefabInfo("DialogueView");
+        CreateUiPrefab("DialogueView");
+        view_V.skipBtn.onClickEvent.AddListener(ClickSkip);
+        view_V.nextDialogueBtn.onClickEvent.AddListener(ClickNextDialogue);
     }
 
-    protected override void PrepareForShwo(){
-        base.PrepareForShwo();
+    protected override void StartShow(){
+        base.StartShow();
         view_V.transitionPanel.enabled = false;
         view_V.movieBordersUp.anchoredPosition = Vector2.up * 138.3f;
         view_V.movieBordersDown.anchoredPosition = Vector2.down * 138.3f;
@@ -22,12 +24,12 @@ public class DialogueView_C : View_MVP<DialogueView_M, DialogueView_V, DialogueV
 
         view_V.movieBordersUp.DOAnchorPosY(0, WaitTime.mediumSpeed).SetEase(Ease.OutQuart);
         view_V.movieBordersDown.DOAnchorPosY(0, WaitTime.mediumSpeed).SetEase(Ease.OutQuart);
-        view_V.skipBtnRectTransform.DOAnchorPosX(-335,WaitTime.slow).SetEase(Ease.OutQuart).OnComplete(ShwoFinish);
+        view_V.skipBtnRectTransform.DOAnchorPosX(-335,WaitTime.slow).SetEase(Ease.OutQuart).OnComplete(ShowFinish);
         view_V.skipBtnCanvasGroup.DOFade(1,WaitTime.mediumSpeed);
     }  
 
-    protected override void PrepareForHide(){
-        base.PrepareForHide();
+    protected override void StartHide(){
+        base.StartHide();
         view_V.movieBordersUp.DOAnchorPosY(138.3f, WaitTime.mediumSpeed).SetEase(Ease.OutQuart);
         view_V.movieBordersDown.DOAnchorPosY(-138.3f, WaitTime.mediumSpeed).SetEase(Ease.OutQuart);
         view_V.skipBtnRectTransform.DOAnchorPosX(77.5f,WaitTime.mediumSpeed).SetEase(Ease.OutQuart);
@@ -42,13 +44,6 @@ public class DialogueView_C : View_MVP<DialogueView_M, DialogueView_V, DialogueV
         view_V.gameObject.SetActive(true);
     }
 
-
-    public override void CreateUiPrefab()
-    {
-        base.CreateUiPrefab();
-        view_V.skipBtn.onClickEvent.AddListener(ClickSkip);
-        view_V.nextDialogueBtn.onClickEvent.AddListener(ClickNextDialogue);
-    }
 
     /// <summary>
     /// 点击跳过

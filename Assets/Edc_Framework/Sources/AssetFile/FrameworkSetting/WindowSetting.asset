@@ -15,17 +15,15 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 7160493854348915908, guid: 7aac03bf8784b3343b13b82d9452c68e, type: 3}
-    - {fileID: 3387966562717050544, guid: 5fb12c74909f98e41a4fd78bf1048b28, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes:
-    - Name: uiPrefab
+    - Name: windowPrefab
       Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[WindowPrefabInfo,
+      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UIPrefabInfo,
         Assembly-CSharp]], mscorlib
     - Name: comparer
       Entry: 7
@@ -36,40 +34,19 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Window1
-    - Name: $v
-      Entry: 7
-      Data: 2|WindowPrefabInfo, Assembly-CSharp
-    - Name: prefab
-      Entry: 10
-      Data: 0
-    - Name: isHideFinishDestroy
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: Window2
-    - Name: $v
-      Entry: 7
-      Data: 3|WindowPrefabInfo, Assembly-CSharp
-    - Name: prefab
-      Entry: 10
       Data: 1
+    - Name: 
+      Entry: 7
+      Data: 
+    - Name: $k
+      Entry: 1
+      Data: 
+    - Name: $v
+      Entry: 7
+      Data: 2|UIPrefabInfo, Assembly-CSharp
+    - Name: prefab
+      Entry: 6
+      Data: 
     - Name: isHideFinishDestroy
       Entry: 5
       Data: false

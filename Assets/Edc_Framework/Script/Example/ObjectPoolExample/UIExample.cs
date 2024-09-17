@@ -26,7 +26,7 @@ public class UIExample : MonoBehaviour
     }
 
     private void ClickOpenPersistentViewBtn(){
-        Hub.View.OpenPersistentView(View3_C.Instance);
+        Hub.PersistentView.OpenPersistentView(View3_C.Instance);
     }
 
     private void ClickOpenWindow1Btn(){

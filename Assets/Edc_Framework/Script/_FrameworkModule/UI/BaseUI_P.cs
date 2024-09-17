@@ -16,25 +16,13 @@ public abstract class BaseUI_P
     public bool IsCloseFinish{get{return isCloseFinish;}}
 
     public abstract void CreateUiPrefab();
-
-    /// <summary>
-    /// 显示
-    /// </summary>
-    public virtual void Show(){
-        PrepareForShwo();
-    }
-
-    /// <summary>
-    /// 隐藏
-    /// </summary>
-    public virtual void Hide(){
-        PrepareForHide();
-    }
+    protected abstract void CreateUiPrefab(string uiName);
+    protected abstract GameObject SetPrefabInfo(string uiName);
 
     /// <summary>
     /// 准备打开
     /// </summary>
-    protected virtual void PrepareForShwo(){
+    protected virtual void StartShow(){
         isShow = true;
         isCloseFinish = false;
     }
@@ -42,7 +30,7 @@ public abstract class BaseUI_P
     /// <summary>
     /// 准备隐藏
     /// </summary>
-    protected virtual void PrepareForHide(){
+    protected virtual void StartHide(){
         isShow = false;
         isShowFinish = false;
     }
@@ -50,7 +38,7 @@ public abstract class BaseUI_P
     /// <summary>
     /// 打开完成
     /// </summary>
-    protected virtual void ShwoFinish(){
+    protected virtual void ShowFinish(){
         isShowFinish = true;
     }
 
@@ -59,7 +47,7 @@ public abstract class BaseUI_P
     /// </summary>
     protected virtual void HideFinish(){
         isCloseFinish = true;
-        if(isHideFinishDestroy){
+        if (isHideFinishDestroy){
             Destroy();
         }
     }

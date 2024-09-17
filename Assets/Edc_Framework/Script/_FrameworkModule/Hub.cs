@@ -13,15 +13,6 @@ public static class Hub
     private static GameSceneManager scene;
     public static GameSceneManager Scene{get {return scene; }}
 
-    private static ViewManager view;
-    public static ViewManager View{get {return view; }}
-
-    private static WindowManager window;
-    public static WindowManager Window{get {return window; }}
-
-    private static LoadPanel loadPanel;
-    public static LoadPanel LoadPanel{get {return loadPanel; }}
-
     private static InputManager input;
     public static InputManager Input{get {return input; }}
 
@@ -39,8 +30,6 @@ public static class Hub
     private static SOFileManager soFile;
     public static SOFileManager SoFile{get{return soFile;}}
 
-    private static UpdateManager update;
-    public static UpdateManager Update{get{return update;}}
 
     private static TimeRefreshFixedManager timeRefreshFixed;
     public static TimeRefreshFixedManager TimeRefreshFixed{get{return timeRefreshFixed;}}
@@ -48,17 +37,49 @@ public static class Hub
     private static TimeRefreshSchedManager timeRefreshSched;
     public static TimeRefreshSchedManager TimeRefreshScheduled{get{return timeRefreshSched;}}
 
+    private static UpdateController update;
+    public static UpdateController Update{get{return update;}}
+
+    private static UIController ui;
+    public static UIController UI{get{return ui;}}
+
+    public static CGController cg;
+    public static CGController CG{get {return cg; }}
+
+    private static ViewController view;
+    public static ViewController View{get {return view; }}
+
+    private static PersistentViewController persistentView;
+    public static PersistentViewController PersistentView{get {return persistentView; }}
+
+    private static WindowController window;
+    public static WindowController Window{get {return window; }}
+
+    private static ScreenTransitionController screenTransition;
+    public static ScreenTransitionController ScreenTransition{get {return screenTransition; }}
+
+    
 
     public static void Init(FrameworkManager framework){
         Hub.framework = framework;
         BasePool.InitPoolSetting();
+        
+        update = framework.GetComponent<UpdateController>();
+        cg = framework.GetComponentInChildren<CGController>();
+        view = framework.GetComponentInChildren<ViewController>();
+        persistentView = framework.GetComponentInChildren<PersistentViewController>();
+        window = framework.GetComponentInChildren<WindowController>();
+        screenTransition = framework.GetComponentInChildren<ScreenTransitionController>();
+        ui = framework.GetComponentInChildren<UIController>();
+        cg.Init();
+        view.Init();
+        persistentView.Init();
+        window.Init();
+        window.Init();
+        ui.SetAdaptation();
 
         ab = new ABManager();            
         scene = new GameSceneManager();
-
-        view = new ViewManager();
-        window = new WindowManager();      
-        loadPanel = new LoadPanel();
         
         input = new InputManager();
 
@@ -71,8 +92,6 @@ public static class Hub
         localization = new LocalizationManager();
         
         soFile = new SOFileManager();
-
-        update = Hub.framework.GetComponent<UpdateManager>();
         
         timeRefreshFixed = new TimeRefreshFixedManager();
 

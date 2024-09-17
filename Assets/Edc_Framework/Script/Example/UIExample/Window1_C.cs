@@ -11,14 +11,14 @@ namespace Example{
             CreateUiPrefab("Window1");
         }
 
-        protected override void PrepareForShwo(){
-            base.PrepareForShwo();
+        protected override void StartShow(){
+            base.StartShow();
             window_V.transform.localScale = Vector2.zero;
-            window_V.transform.DOScale(Vector2.one, 0.3f).OnComplete(ShwoFinish);
+            window_V.transform.DOScale(Vector2.one, 0.3f).OnComplete(ShowFinish);
         }
 
-        protected override void PrepareForHide(){
-            base.PrepareForHide();
+        protected override void StartHide(){
+            base.StartHide();
             window_V.transform.DOScale(Vector2.zero, 0.3f).OnComplete(HideFinish);
         }
     }

@@ -215,7 +215,7 @@ MonoBehaviour:
   itemInterval: 10
   contentParent: {fileID: 4110171213464303930}
   applicationInertia: 1
-  inertia: 0.5
+  inertia: 0.95
   item:
   - {fileID: 8989451767894273436}
   - {fileID: 5998506286070684491}

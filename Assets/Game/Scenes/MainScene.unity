@@ -245,22 +245,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 963194228, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2465752071305226908, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
-      propertyPath: m_MatchWidthOrHeight
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3677671402951379607, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
       propertyPath: m_Name
       value: MainObject
       objectReference: {fileID: 0}
-    - target: {fileID: 3746498208619626503, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
-      propertyPath: redDotTreeSetting
-      value: 
-      objectReference: {fileID: 11400000, guid: 7dcb1c38a17372240b8b8a56688fbead, type: 2}
     - target: {fileID: 8079778814676234810, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -304,14 +292,6 @@ PrefabInstance:
     - target: {fileID: 8079778814676234810, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9049539251886626079, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
-      propertyPath: m_BlockingObjects
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9049539251886626079, guid: fdbfacb263691a144b47889c702a02cc, type: 3}
-      propertyPath: m_BlockingMask.m_Bits
-      value: 32
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fdbfacb263691a144b47889c702a02cc, type: 3}

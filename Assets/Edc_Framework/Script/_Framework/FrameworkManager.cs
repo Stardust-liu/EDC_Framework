@@ -4,16 +4,11 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using ArchiveData;
 
 public class FrameworkManager : MonoBehaviour
 {
     public static bool isInitFinish;
-
-    [LabelWidth(225)]
-    [LabelText("是否标记勾选了RaycastTarget的UI")]
-    public bool isMarkRaycastTargetUI;
 
     [LabelText("显示打印信息的种类")]
     public LogLevel logDisplay;
@@ -57,17 +52,14 @@ public class FrameworkManager : MonoBehaviour
     [Title("UI管理")]
     [LabelText("视图界面UI管理")]
     public ViewPrefabSetting view;
+    
+    [LabelText("常驻视图界面UI管理")]
+    public PersistentViewPrefabSetting PersistentView;
 
     [LabelText("窗口UI管理")]
     public WindowPrefabSetting window;
     [LabelText("红点系统管理")]
     public RedDotTreeSetting redDotTreeSetting;
-    public CanvasScaler canvas;
-    public RectTransform viewLayer;
-    public RectTransform persistentViewLayer;
-    public RectTransform windowLayer;
-    public Image windowDarkBG;
-    public Image loadPanel;
     private static FrameworkManager instance;
     private static string initFinishLoadScene;
     public static LogLevel LogDisplay {get {return instance.logDisplay;}}
@@ -107,25 +99,6 @@ public class FrameworkManager : MonoBehaviour
 
     public static void SetInitFinishLoadScene(string initFinishLoadScene){
         FrameworkManager.initFinishLoadScene = initFinishLoadScene;
-    }
-
-    private void OnDrawGizmos(){
-        if (isMarkRaycastTargetUI)
-        {
-            Vector3[] boxSize = new Vector3[4];
-            foreach (var item in FindObjectsOfType<MaskableGraphic>())
-            {
-                if (item.raycastTarget)
-                {
-                    Gizmos.color = Color.blue;
-                    for (int i = 0; i < 4; i++)
-                    {
-                        item.rectTransform.GetWorldCorners(boxSize);
-                        Gizmos.DrawLine(boxSize[i], boxSize[(i + 1) % 4]);
-                    }
-                }
-            }
-        }
     }
 
     private void EnterRestriction(){

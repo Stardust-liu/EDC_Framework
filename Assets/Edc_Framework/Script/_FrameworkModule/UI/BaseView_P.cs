@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class View_MVP<T1, T2, T3>: View_VP<T2, T3>
@@ -10,9 +7,9 @@ where T2 : BaseUI_V
 where T3 : BaseView_P
 {
     protected static T1 view_M;
-    public override void CreateUiPrefab(){
-        base.CreateUiPrefab();
+    protected override void CreateUiPrefab(string name){
         view_M = Activator.CreateInstance<T1>();
+        base.CreateUiPrefab(name);
     }
 
     public override void Destroy(){
@@ -31,7 +28,7 @@ where T3 : BaseView_P
     {
         get 
         {
-            instance ??= ViewManager.GetView<T3>(typeof(T3).Name);
+            instance ??= ViewController.GetView<T3>(typeof(T3).Name);
             return instance;
         }
     }
@@ -39,18 +36,25 @@ where T3 : BaseView_P
     /// <summary>
     /// 创建UI
     /// </summary>
-    public override void CreateUiPrefab(){
-        GameObject prefab;
-        if(!isPersistentView){
-            prefab = GameObject.Instantiate(this.prefab, ViewManager.Parent);
-        }
-        else{
-            prefab = GameObject.Instantiate(this.prefab, ViewManager.PersistentViewParent);
-        }
-        this.prefab = null;
+    protected override void CreateUiPrefab(string name){
+        var prefab = GameObject.Instantiate(SetPrefabInfo(name), showviewParent);
         isCreate = true;
         view_V =  prefab.GetComponent<T2>();
         ((IBaseUI_V)view_V).Init(Instance);
+    }
+
+    protected override void StartShow()
+    {
+        base.StartShow();
+        view_V.transform.SetParent(showviewParent);
+    }
+
+    protected override void HideFinish()
+    {
+        if(!isHideFinishDestroy){
+            view_V.transform.SetParent(hideViewParent);
+        }
+        base.HideFinish();
     }
 
     public override void Destroy(){
@@ -60,38 +64,48 @@ where T3 : BaseView_P
     }
 }
 
-public abstract class BaseView_P : BaseUI_P
+public abstract class BaseView_P : BaseUI_P, IBaseView_P
 {
+    protected readonly Transform hideViewParent = Hub.View.inactiveView;
+    protected readonly Transform showviewParent = Hub.View.activeView;
+    private Action<BaseView_P> hideFinishCallBack;
+    private BaseView_P nextShowView;
     private string viewName;
-    protected bool isPersistentView;
-    protected GameObject prefab;
     public string ViewName{get{return viewName; }}
-    public abstract void SetPrefabInfo();
 
-    protected void SetPrefabInfo(string viewName, bool isPersistentView = false){
-        this.viewName = viewName;
-        this.isPersistentView = isPersistentView;
-        if(!isPersistentView){
-            var prefabInfo = ViewManager.View.GetPrefabInfo(viewName);
-            prefab = prefabInfo.prefab;
-            isHideFinishDestroy = prefabInfo.isHideFinishDestroy;
-        }
-        else{
-            var prefabInfo = ViewManager.View.GetPersistentPrefabInfo(viewName);
-            prefab = prefabInfo.prefab;
-            isHideFinishDestroy = prefabInfo.isHideFinishDestroy;
-        }
+    /// <summary>
+    /// 显示
+    /// </summary>
+    void IBaseUI_P.Show(){
+        StartShow();
     }
 
+    /// <summary>
+    /// 隐藏
+    /// </summary>
+    void IBaseView_P.Hide(){
+        StartHide();
+    }
 
-    protected override void ShwoFinish()
+    /// <summary>
+    /// 隐藏
+    /// </summary>
+    void IBaseView_P.Hide(Action<BaseView_P> _hideFinishCallBack, BaseView_P _nextView){
+        hideFinishCallBack = _hideFinishCallBack;
+        nextShowView = _nextView;
+        StartHide();
+    }
+
+    /// <summary>
+    /// 显示完成
+    /// </summary>
+    protected override void ShowFinish()
     {
         if(isShowFinish){
             LogManager.LogError($"View界面：{ViewName}调用了多次打开完成方法，请检查");
         }
-        base.ShwoFinish();
+        base.ShowFinish();
     }
-
 
     /// <summary>
     /// 隐藏完成
@@ -100,6 +114,16 @@ public abstract class BaseView_P : BaseUI_P
         if(isCloseFinish){
             LogManager.LogError($"View界面：{ViewName}调用了多次隐藏完成方法，请检查");
         }
+        hideFinishCallBack?.Invoke(nextShowView);
+        nextShowView = null;
+        hideFinishCallBack = null;
         base.HideFinish();
+    }
+
+    protected override GameObject SetPrefabInfo(string _viewName){
+        var prefabInfo = ViewController.View.GetPrefabInfo(_viewName);
+        viewName = _viewName;
+        isHideFinishDestroy = prefabInfo.isHideFinishDestroy;
+        return prefabInfo.prefab;
     }
 }
