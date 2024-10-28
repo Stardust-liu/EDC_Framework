@@ -8,8 +8,7 @@ public class TweenRotation : BaseTween
     public bool isWorldPos;
     public Vector3 startRotation;
     public Vector3 targetRotation;
-    [SerializeField, HideInInspector]
-    private Transform objectTransform;
+    public Transform objectTransform;
 
     private void Reset()
     {
@@ -23,10 +22,6 @@ public class TweenRotation : BaseTween
                 startRotation = targetRotation = objectTransform.localRotation.eulerAngles;
             }
         }
-    }
-
-     private void Start() {
-        SetToStart();
     }
 
     protected override Tweener ForwardPlay(){
@@ -71,5 +66,11 @@ public class TweenRotation : BaseTween
         else{
             objectTransform.localRotation = Quaternion.Euler(targetRotation);
         }
+    }
+
+    public override void SwapStartAndTarget(){
+        var temp = startRotation;
+        startRotation = targetRotation;
+        targetRotation = temp;
     }
 }

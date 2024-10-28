@@ -10,7 +10,7 @@ public class TimeRefreshFixedManager : IUpdate
     private readonly HashSet<string> needRemoveTimeKey;
     private readonly HashSet<string> leftTimeManagerKey;
     private readonly Dictionary<string, float> leftTimeManager;
-    private readonly TimeRefreshFixedData data;
+    private TimeRefreshFixedData data;
     public static readonly EventCenter eventCenter = new EventCenter();
 
     public TimeRefreshFixedManager(){

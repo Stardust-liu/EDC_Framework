@@ -11,27 +11,15 @@ public class TweenColor : BaseTween
 {
     public Color startColor;
     public Color targetColor;
-    [SerializeField, HideInInspector]
-    private Graphic graphic;
-    [SerializeField, HideInInspector]
-    private SpriteRenderer sprite;
+    public Graphic graphic;
 
     private void Reset()
     {
         TryGetComponent(out Graphic _image);
-        TryGetComponent(out SpriteRenderer _sprite);
         if(_image != null){
             graphic = _image;
             startColor = targetColor = graphic.color;
         }
-        else{
-            sprite = _sprite;
-            startColor = targetColor = sprite.color;
-        }
-    }
-
-    private void Start() {
-        SetToStart();
     }
 
     protected override Tweener ForwardPlay(){
@@ -43,12 +31,7 @@ public class TweenColor : BaseTween
 
     private Tweener Play(Color targetColor){
         Tweener tweener;
-        if(graphic != null){
-            tweener = graphic.DOColor(targetColor, duration).SetEase(ease);
-        }
-        else{
-            tweener = sprite.DOColor(targetColor, duration).SetEase(ease);
-        }
+        tweener = graphic.DOColor(targetColor, duration).SetEase(ease);
         if(setUpdate){
             tweener.SetUpdate(true);
         }
@@ -60,21 +43,17 @@ public class TweenColor : BaseTween
 
     public override void SetToStart()
     { 
-        if(graphic != null){
-            graphic.color = startColor;
-        }
-        else{
-            sprite.color = startColor;
-        }
+        graphic.color = startColor;
     }
 
     public override void SetToTarget()
     {
-        if(graphic != null){
-            graphic.color = targetColor;
-        }
-        else{
-            sprite.color = targetColor;
-        }
+        graphic.color = targetColor;
+    }
+
+    public override void SwapStartAndTarget(){
+        var temp = startColor;
+        startColor = targetColor;
+        targetColor = temp;
     }
 }

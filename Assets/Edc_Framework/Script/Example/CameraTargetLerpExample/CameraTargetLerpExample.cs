@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraTargetLerpExample : MonoBehaviour
 {
@@ -8,10 +9,10 @@ public class CameraTargetLerpExample : MonoBehaviour
     public Transform b;
     public Transform c;
     public CameraTargetLerp cameraTargetLerp;
-    public CustomClickEffectsBtn followFirstTarget;
-    public CustomClickEffectsBtn followLastTarget;
-    public CustomClickEffectsBtn followFirstLastTarget;
-    public CustomClickEffectsBtn followLasttwoTarget;
+    public Button followFirstTarget;
+    public Button followLastTarget;
+    public Button followFirstLastTarget;
+    public Button followLasttwoTarget;
     
     void Start()
     {
@@ -19,10 +20,10 @@ public class CameraTargetLerpExample : MonoBehaviour
         cameraTargetLerp.AddTarget(b);
         cameraTargetLerp.AddTarget(c);
         cameraTargetLerp.EnableCamera();
-        followFirstTarget.onClickEvent.AddListener(FollowFirstTarget);
-        followLastTarget.onClickEvent.AddListener(FollowLastTarget);
-        followFirstLastTarget.onClickEvent.AddListener(FollowFirstLastTarget);
-        followLasttwoTarget.onClickEvent.AddListener(FollowLasttwoTarget);
+        followFirstTarget.onClick.AddListener(FollowFirstTarget);
+        followLastTarget.onClick.AddListener(FollowLastTarget);
+        followFirstLastTarget.onClick.AddListener(FollowFirstLastTarget);
+        followLasttwoTarget.onClick.AddListener(FollowLasttwoTarget);
     }
 
     private void FollowFirstTarget(){

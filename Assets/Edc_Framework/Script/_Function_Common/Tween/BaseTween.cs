@@ -8,9 +8,10 @@ using UnityEngine;
 public abstract class BaseTween : MonoBehaviour
 {
     [LabelText("Tween时间"), SerializeField]
-    protected float duration = WaitTime.slow;
+    protected float duration = WaitTime.fast;
     [LabelText("延迟时间"), SerializeField]
     protected float delay = 0;
+    
     public Ease ease = Ease.OutQuad;
     public bool setUpdate;
     private Tweener tweener;
@@ -35,6 +36,9 @@ public abstract class BaseTween : MonoBehaviour
     public abstract void SetToStart();
     [Button("SetToTarget")]
     public abstract void SetToTarget();
+    [Button("SwapStartAndTarget")]
+    public abstract void SwapStartAndTarget();
+
 
     public void SetDuration(float _duration){
         duration = _duration;

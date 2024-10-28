@@ -12,6 +12,7 @@ namespace ArchiveData{
         public static RedDotData RedDotData{get; private set;}
         public static TimeRefreshFixedData TimeRefreshFixedData{get; private set;}
         public static TimeRefreshScheduledData TimeRefreshScheduledData{get; private set;}
+        public static UIControllerData UIControllerData{get; private set;}
         #endregion
 
         #region 游戏数据 
@@ -27,6 +28,7 @@ namespace ArchiveData{
             RedDotData = RedDotData.ReadData();
             TimeRefreshFixedData = TimeRefreshFixedData.ReadData();
             TimeRefreshScheduledData = TimeRefreshScheduledData.ReadData();
+            UIControllerData = UIControllerData.ReadData();
         }
 
         /// <summary>
@@ -39,6 +41,7 @@ namespace ArchiveData{
             ((IGameArchive)RedDotData).CleanData();
             ((IGameArchive)TimeRefreshFixedData).CleanData();
             ((IGameArchive)TimeRefreshScheduledData).CleanData();
+            ((IGameArchive)UIControllerData).CleanData();
         }
     }
 }

@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
-using XNodeEditor;
 
 [NodeTint(0.4f, 0.25f, 0.25f)]
 [CreateNodeMenu("RedDotTree/RootNode")]

@@ -1,16 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Example
 {
-    public class Window2_V : BaseUI_V
+    public class Window2_V : BaseUI_V<Window2_P>
     {
-        public CustomClickEffectsBtn closeBtn;
+        public Button closeBtn;
 
         protected override void Start()
         {
-            closeBtn.onClickEvent.AddListener(Hub.Window.CloseWindow);
+            closeBtn.onClick.AddListener(presenter.Close);
         }
     }
 }

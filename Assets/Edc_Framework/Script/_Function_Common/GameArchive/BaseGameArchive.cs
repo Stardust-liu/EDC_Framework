@@ -35,6 +35,9 @@ namespace ArchiveData{
         /// </summary>
         public void SaveDataNow()
         {
+            if(FrameworkManager.IsSaveDisabled){
+                return;
+            }
             isInitSave = true;
             string json = JsonConvert.SerializeObject(data);
             File.WriteAllText(filePath, json);
@@ -44,6 +47,9 @@ namespace ArchiveData{
         /// 异步保存
         /// </summary>
         public void SaveDataAsync(){
+            if(FrameworkManager.IsSaveDisabled){
+                return;
+            }
             if(isSaveFinish){
                 isSaveFinish = false;
                 isInitSave = true;

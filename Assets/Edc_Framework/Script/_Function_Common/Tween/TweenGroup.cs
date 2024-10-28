@@ -9,13 +9,33 @@ using UnityEngine.UI;
 
 public class TweenGroup : MonoBehaviour
 {
-    public delegate void AllTweenComplete();
-    public event AllTweenComplete OnAllTweenComplete;
     [OnValueChanged(nameof(SetTweensCount))]
     public BaseTween[] baseTweens;
+
+    [LabelText("是否取反控制")]
+    public bool IsInvertedForwardPlay;
+
     [SerializeField, HideInInspector]
     private int tweensCount;
     private int completeTweenCount;
+    private Action OnAllTweenComplete;
+
+    [Button("SetAllTweenToStart")]
+    public void SetAllWtwweToStart(){
+        for (var i = 0; i < baseTweens.Length; i++)
+        {
+            baseTweens[i].SetToStart();
+        }
+    }
+
+    [Button("SetAllTweenToTarget")]
+    public void SetAllWtwweToTarget(){
+        for (var i = 0; i < baseTweens.Length; i++)
+        {
+            baseTweens[i].SetToTarget();
+        }
+    }
+
 
     private void SetTweensCount(){
         tweensCount = baseTweens.Length;
@@ -25,6 +45,9 @@ public class TweenGroup : MonoBehaviour
     /// 播放动画
     /// </summary>
     public void Play(bool isForwardPlay = true){
+        if(IsInvertedForwardPlay){
+            isForwardPlay = !isForwardPlay;
+        }
         completeTweenCount = 0;
         for (var i = 0; i < tweensCount; i++)
         {
@@ -40,6 +63,13 @@ public class TweenGroup : MonoBehaviour
         {
             baseTweens[i].Pause();
         }
+    }
+
+    /// <summary>
+    /// 添加动画播放结束事件
+    /// </summary>
+    public void AddListenerTween(Action callBack){
+        OnAllTweenComplete += callBack;
     }
 
     /// <summary>
@@ -72,6 +102,7 @@ public class TweenGroup : MonoBehaviour
     private void OnComplete(){
         if(++completeTweenCount == tweensCount){
             OnAllTweenComplete?.Invoke();
+            OnAllTweenComplete = null;
         }
     }
 }

@@ -6,6 +6,5 @@ public class DialogueExample : MonoBehaviour
 {
     void Start()
     {
-        DialogueView_C.InitDialogue("Text");
     }
 }

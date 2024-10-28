@@ -11,7 +11,7 @@ public class TimeRefreshSchedManager
 {
     private readonly TimeRefreshScheduledInfoCfg timeRefreshScheduledInfoCfg;
     private readonly Dictionary<string, ScheduledRefreshInfo> refreshTime;
-    private readonly TimeRefreshScheduledData data;
+    private TimeRefreshScheduledData data;
     public static readonly EventCenter eventCenter = new EventCenter();
 
     public TimeRefreshSchedManager(){

@@ -11,22 +11,19 @@ public class ScreenTransitionController : MonoBehaviour
     /// <summary>
     /// 淡入
     /// </summary>
-    public void FadeIn(Color color){
-        gameObject.layer = LayerMask.NameToLayer("UI");
-        fadeTween.startColor = color;
-        fadeTween.targetColor = color * transparentColor;
+    public Tweener FadeIn(Color color, float fadeInTime){
+        fadeTween.startColor = color * transparentColor;
+        fadeTween.targetColor = color;
+        fadeTween.SetDuration(fadeInTime);
         fadeTween.SetToStart();
-        fadeTween.Play();
+        return fadeTween.Play();
     }
 
     /// <summary>
     /// 淡出
     /// </summary>
-    public void FadeOut(){
-        fadeTween.Play(false).OnComplete(FadeOutFinish);
-    }
-
-    private void FadeOutFinish(){
-        gameObject.layer = LayerMask.NameToLayer("UI_Hide");
+    public Tweener FadeOut(float fadeInTime = -1){
+        fadeTween.SetDuration(fadeInTime);
+        return fadeTween.Play(false);
     }
 }

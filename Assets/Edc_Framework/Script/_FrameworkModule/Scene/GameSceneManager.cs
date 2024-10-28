@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 public class GameSceneEventName{
     public const string LoadSceneBegin = nameof(LoadSceneBegin);
-    public const string LoadSceneEnd = nameof(LoadSceneBegin);
+    public const string LoadSceneEnd = nameof(LoadSceneEnd);
 }
 
 public class GameSceneManager
@@ -18,19 +18,19 @@ public class GameSceneManager
     }
 
     public void LoadScene(string sceneName){
-        LoadSceneBegin();
+        LoadSceneBegin(sceneName);
         SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
     }   
     private void LoadSceneEnd(Scene scene, LoadSceneMode sceneMode){
         LoadSceneEnd(scene.name);
     }
 
-    private void LoadSceneBegin(){
-        eventCenter.OnEvent(GameSceneEventName.LoadSceneBegin);
+    private void LoadSceneBegin(string sceneName){
+        eventCenter.OnEvent(GameSceneEventName.LoadSceneBegin, sceneName);
     }
 
     private void LoadSceneEnd(string sceneName){
         currentSceneName = sceneName;
-        eventCenter.OnEvent(GameSceneEventName.LoadSceneEnd);
+        eventCenter.OnEvent(GameSceneEventName.LoadSceneEnd, sceneName);
     }
 }

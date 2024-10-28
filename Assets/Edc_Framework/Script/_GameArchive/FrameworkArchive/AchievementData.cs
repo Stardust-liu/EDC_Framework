@@ -11,7 +11,7 @@ namespace ArchiveData{
         /// <summary>
         /// 更新成就进度
         /// </summary>
-        public void UpdateAchivementProgress<T>(string achievementID, int addCount, float completeTime)where  T: BaseAchievement{
+        public void UpdateAchivementProgress<T>(string achievementID, int addCount, float completeTime = -1)where  T: BaseAchievement{
             if(!unlockAchievement.ContainsKey(achievementID)){
                 unlockAchievement.Add(achievementID, Activator.CreateInstance<T>());
                 unlockAchievement[achievementID].Init(achievementID);

@@ -5,29 +5,30 @@ using UnityEngine;
 
 public class ViewController : MonoBehaviour
 {
-    public RectTransform inactiveView;
-    public RectTransform activeView;
-    public TweenFade tweenFade;
+    public RectTransform inactiveView_3DUI;
+    public RectTransform activeView_3DUI;
+    public RectTransform inactiveView_UI;
+    public RectTransform activeView_UI;
     private static BaseView_P currentView;
+    private static HashSet<BaseView_P> openViewInfo;
+    private static Stack<BaseView_P> openViewStack;
     private static Dictionary<string, BaseView_P> viewInstanceDictionary;
     public static ViewPrefabSetting View{get; private set;}
 
     public void Init(){
-        View = Hub.Framework.view;
+        View = Hub.Resources.GetScriptableobject<ViewPrefabSetting>(nameof(ViewPrefabSetting));
+        openViewInfo = new HashSet<BaseView_P>();
+        openViewStack = new Stack<BaseView_P>();
         viewInstanceDictionary = new Dictionary<string, BaseView_P>();
-    }
-
-    /// <summary>
-    /// 切换至场景默认视图
-    /// </summary>
-    public void ChangeSceneDefaultView(string sceneName){
-        ChangeView(View.GetSceneDefaultView(sceneName));
     }
 
     /// <summary>
     /// 切换视图界面
     /// </summary>
-    public void ChangeView(BaseView_P baseView_P){
+    public void ChangeView(BaseView_P baseView_P, bool isBackLastView = false){
+        if(!isBackLastView){
+            UpdateViewStatic(baseView_P);
+        }
         if(baseView_P == currentView){
             LogManager.LogWarning($"切换的view {baseView_P.GetType().Name} 为当前正在显示的view");
         }
@@ -40,6 +41,7 @@ public class ViewController : MonoBehaviour
         else{
             OpenView(baseView_P);
         }
+        baseView_P.PreShowEffect();
     }
 
     /// <summary>
@@ -48,6 +50,19 @@ public class ViewController : MonoBehaviour
     public void CloseView(){
         ((IBaseView_P)currentView)?.Hide();
         currentView = null;
+    }
+
+    /// <summary>
+    /// 返回上一个视图页面
+    /// </summary>
+    public void BackLastView(){
+        if(openViewStack.Count > 1){
+            openViewInfo.Remove(openViewStack.Pop());
+            ChangeView(openViewStack.Peek(), false);
+        }
+        else{
+            LogManager.LogError("没有上一个页面");
+        }
     }
 
     /// <summary>
@@ -93,5 +108,17 @@ public class ViewController : MonoBehaviour
             currentView.CreateUiPrefab();
         }
         ((IBaseUI_P)currentView).Show();
+    }
+
+    private void UpdateViewStatic(BaseView_P baseView_P){
+        if(openViewInfo.Contains(baseView_P)){
+            while(openViewStack.Peek() != baseView_P){
+                openViewInfo.Remove(openViewStack.Pop());
+            }
+        }
+        else{
+            openViewStack.Push(baseView_P);
+            openViewInfo.Add(baseView_P);
+        }
     }
 }

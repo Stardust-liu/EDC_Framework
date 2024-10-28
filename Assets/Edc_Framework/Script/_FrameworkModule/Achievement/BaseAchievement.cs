@@ -8,10 +8,13 @@ public class BaseAchievement
     public AchievementProgressInfo progressInfo;
     public float targetTimeLimit;
     public bool isUnlockAchievement;
-    public virtual void Init(string achievementID){
+    public void Init(string _achievementID){
         progressInfo = new AchievementProgressInfo();
     }
 
+    /// <summary>
+    /// 更新成就进度
+    /// </summary>
     public void UpdateAchivementProgress(int addCount, float completeTime){
         if(completeTime <= targetTimeLimit){
             progressInfo.UpdateAchivementProgress(addCount);
@@ -25,6 +28,9 @@ public class AchievementProgressInfo{
     public int targetCount;
     public float progress;
 
+    /// <summary>
+    /// 更新成就进度
+    /// </summary>
     public void UpdateAchivementProgress(int addCount){
         completeCount = Mathf.Min(completeCount + addCount, targetCount);
     }

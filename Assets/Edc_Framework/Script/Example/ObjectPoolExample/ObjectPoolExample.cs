@@ -2,17 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Example
 {
     public class ObjectPoolExample : MonoBehaviour
     {
-        public CustomClickEffectsBtn addObject;
-        public CustomClickEffectsBtn recycleObject;
-        public CustomClickEffectsBtn destroyObject;
-        public CustomClickEffectsBtn recycleAllObject;
-        public CustomClickEffectsBtn destroyAllHideObject;
-        public CustomClickEffectsBtn destroyAllObject;
+        public Button addObject;
+        public Button recycleObject;
+        public Button destroyObject;
+        public Button recycleAllObject;
+        public Button destroyAllHideObject;
+        public Button destroyAllObject;
         public Transform objectPoolParent;
 
         [LabelText("是否预加载对象")]
@@ -33,12 +34,12 @@ namespace Example
             else{
                 TestPoolObj.InitPool(prefab, objectPoolParent);
             }
-            addObject.onClickEvent.AddListener(ClickAddObject);
-            recycleObject.onClickEvent.AddListener(ClickRecycleObject);
-            destroyObject.onClickEvent.AddListener(ClickDestroyObject);
-            recycleAllObject.onClickEvent.AddListener(ClickRecycleAllObject);
-            destroyAllHideObject.onClickEvent.AddListener(ClickDestroyAllHideObject);
-            destroyAllObject.onClickEvent.AddListener(ClickDestroyAllObject);
+            addObject.onClick.AddListener(ClickAddObject);
+            recycleObject.onClick.AddListener(ClickRecycleObject);
+            destroyObject.onClick.AddListener(ClickDestroyObject);
+            recycleAllObject.onClick.AddListener(ClickRecycleAllObject);
+            destroyAllHideObject.onClick.AddListener(ClickDestroyAllHideObject);
+            destroyAllObject.onClick.AddListener(ClickDestroyAllObject);
         }
 
         /// <summary>

@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputManagerExample : MonoBehaviour
 {
-    public CustomClickEffectsBtn UpdateShortcutKeyBtn;
-    public CustomClickEffectsBtn SwapShortcutKey;
-    public CustomClickEffectsBtn ResetShortcutKey;
+    public Button UpdateShortcutKeyBtn;
+    public Button SwapShortcutKey;
+    public Button ResetShortcutKey;
     public KeyCode updateKey;
     private Key pointA;
     private Key pointB;
@@ -20,9 +21,9 @@ public class InputManagerExample : MonoBehaviour
         pointA.SetAction(PrintAInformation);
         pointB.SetAction(PrintBInformation);
         pointC.SetAction(up:PrintCInformation);
-        UpdateShortcutKeyBtn.onClickEvent.AddListener(ClickUpdateShortcutKey);
-        SwapShortcutKey.onClickEvent.AddListener(ClickSwapShortcutKey);
-        ResetShortcutKey.onClickEvent.AddListener(ClickResetShortcutKey);
+        UpdateShortcutKeyBtn.onClick.AddListener(ClickUpdateShortcutKey);
+        SwapShortcutKey.onClick.AddListener(ClickSwapShortcutKey);
+        ResetShortcutKey.onClick.AddListener(ClickResetShortcutKey);
     }
 
     private void Update() {

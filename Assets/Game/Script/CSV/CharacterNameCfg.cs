@@ -18,7 +18,7 @@ public enum Character{
 public class CharacterNameCfg : ParsCsv<CharacterNameCfg>
 {
     private Dictionary<Character,string> characterNameData = new Dictionary<Character, string>();
-    public CharacterNameCfg() : base(Hub.SoFile.CharacterInfo.characterFile){}
+    public CharacterNameCfg() : base(Hub.Resources.GetCsvFile("Character")){}
 
     protected override void SetData()
     {

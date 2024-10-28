@@ -5,6 +5,7 @@ using UnityEngine;
 
 public abstract class BaseUI_P
 {
+    public bool is3DUI;
     protected bool isHideFinishDestroy;
     protected bool isCreate;
     protected bool isShowFinish;
@@ -18,6 +19,7 @@ public abstract class BaseUI_P
     public abstract void CreateUiPrefab();
     protected abstract void CreateUiPrefab(string uiName);
     protected abstract GameObject SetPrefabInfo(string uiName);
+
 
     /// <summary>
     /// 准备打开

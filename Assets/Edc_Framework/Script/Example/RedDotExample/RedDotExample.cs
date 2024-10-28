@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class RedDotExample : MonoBehaviour
 {
-    public CustomClickEffectsBtn resetRedDotBtn;
+    public Button resetRedDotBtn;
 
     void Awake() {
         if(FrameworkManager.isInitFinish){
@@ -17,7 +17,7 @@ public class RedDotExample : MonoBehaviour
 
     void Start()
     {
-        resetRedDotBtn.onClickEvent.AddListener(ResetRedDot);
+        resetRedDotBtn.onClick.AddListener(ResetRedDot);
     }
 
     /// <summary>

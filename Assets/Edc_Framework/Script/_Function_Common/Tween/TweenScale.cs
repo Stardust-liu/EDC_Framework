@@ -7,18 +7,15 @@ public class TweenScale : BaseTween
 {
     public Vector3 startScale;
     public Vector3 targetScale;
-    [SerializeField, HideInInspector]
-    private Transform objectTransform;
+    public Transform objectTransform;
 
     private void Reset()
     {
         TryGetComponent(out Transform _objectTransform);
-        objectTransform = _objectTransform;
-        startScale = targetScale = objectTransform.localScale;
-    }
-
-     private void Start() {
-        SetToStart();
+        if(_objectTransform != null){
+            objectTransform = _objectTransform;
+            startScale = targetScale = objectTransform.localScale;
+        }
     }
 
     protected override Tweener ForwardPlay(){
@@ -48,5 +45,11 @@ public class TweenScale : BaseTween
     public override void SetToTarget()
     {
         objectTransform.localScale = targetScale;
+    }
+
+    public override void SwapStartAndTarget(){
+        var temp = startScale;
+        startScale = targetScale;
+        targetScale = temp;
     }
 }

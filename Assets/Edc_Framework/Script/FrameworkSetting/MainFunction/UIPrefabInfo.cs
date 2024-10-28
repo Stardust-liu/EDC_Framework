@@ -8,4 +8,6 @@ public class UIPrefabInfo
     public GameObject prefab;
     [LabelText("在关闭完成后销毁对象")]
     public bool isHideFinishDestroy;
+    [LabelText("是否是3DUI")]
+    public bool is3DUI;
 }

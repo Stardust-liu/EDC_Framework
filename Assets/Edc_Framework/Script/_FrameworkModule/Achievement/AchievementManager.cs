@@ -10,10 +10,10 @@ public class AchievementEventName{
 public class AchievementManager
 {
     public static readonly EventCenter eventCenter = new EventCenter();
-    private readonly AchievementData achievementData;
+    private AchievementData data;
 
     public AchievementManager(){
-        achievementData = GameArchive.AchievementData;
+        data = GameArchive.AchievementData;
     }
 
     /// <summary>
@@ -21,7 +21,7 @@ public class AchievementManager
     /// </summary>
     public void UpdateAchivementProgress<T>(string achievementID, int addCount = 1, float completeTime = -1f)where T: BaseAchievement{
         if(!IsUnlockAchievement(achievementID)){
-            achievementData.UpdateAchivementProgress<T>(achievementID, addCount, completeTime);
+            data.UpdateAchivementProgress<T>(achievementID, addCount, completeTime);
             if(IsUnlockAchievement(achievementID)){
                 UnlockAchievement(achievementID);
             }
@@ -32,14 +32,14 @@ public class AchievementManager
     /// 是否解锁成就
     /// </summary>
     public bool IsUnlockAchievement(string achievement){
-        return achievementData.IsUnlockAchievement(achievement);
+        return data.IsUnlockAchievement(achievement);
     }
 
     /// <summary>
     /// 获取成就完成状态
     /// </summary>
     public AchievementProgressInfo GetAchievementProgress(string achievement){
-        return achievementData.GetAchievementProgress(achievement);
+        return data.GetAchievementProgress(achievement);
     }
 
     /// <summary>

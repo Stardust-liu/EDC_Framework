@@ -10,66 +10,51 @@ public class FrameworkManager : MonoBehaviour
 {
     public static bool isInitFinish;
 
+    [SerializeField]
     [LabelText("显示打印信息的种类")]
-    public LogLevel logDisplay;
+    private LogLevel logDisplay;
     
     [SerializeField]
     [LabelText("主摄像机")]
-    protected Camera mainCamera;
+    private Camera mainCamera;
 
     [SerializeField]
     [LabelText("UI像机")]
-    protected Camera uiCamera;
+    private Camera uiCamera;
+
+    [SerializeField]
+    [LabelText("是否禁用数据保存功能")]
+    private bool isSaveDisabled;
 
     [Title("交互管理")]
     [SerializeField]
-    protected GameObject eventSystem;
+    private GameObject eventSystem;
     [SerializeField]
-    protected PhysicsRaycaster eaycaster3D;
+    private PhysicsRaycaster eaycaster3D;
     [SerializeField]
-    protected Physics2DRaycaster eaycaster2D;
+    private Physics2DRaycaster eaycaster2D;
 
-    [Title("音频管理")]
-    public AudioSource bGM1;
-    public AudioSource bGM2;
-    public Transform sFXParent;
-    public Transform vOParent;
-    [SerializeField]
-    protected SoundBgSetting soundBgSetting;
-    [SerializeField]
-    protected SoundEffectSetting soundEffectSetting;
-    [SerializeField]
-    protected SoundDialogueSetting soundDialogueSetting;
+    [Title("UI模块组件")]
+    public UIController uiController;
+    public ViewController viewController;
+    public PersistentViewController persistentViewController;
+    public WindowController windowController;
+    public LoadingController loadingController;
+    public ScreenTransitionController screenTransitionController;
+    public NotificationController notificationController;
+    public CGController cgController;
 
-    [Title("按键输入管理")]
-    [SerializeField]
-    protected InputSetting inputSetting;
+    [Title("")]
+    public CoroutineRunner coroutineRunner;
+    public AudioController audioController;
+    public UpdateController updateController;
 
-    [Title("对象池管理")]
-    [SerializeField]
-    public ObjectPoolSetting objectPoolSetting;
-
-    [Title("UI管理")]
-    [LabelText("视图界面UI管理")]
-    public ViewPrefabSetting view;
-    
-    [LabelText("常驻视图界面UI管理")]
-    public PersistentViewPrefabSetting PersistentView;
-
-    [LabelText("窗口UI管理")]
-    public WindowPrefabSetting window;
-    [LabelText("红点系统管理")]
-    public RedDotTreeSetting redDotTreeSetting;
     private static FrameworkManager instance;
     private static string initFinishLoadScene;
     public static LogLevel LogDisplay {get {return instance.logDisplay;}}
     public static Camera MainCamera {get {return instance.mainCamera;}}
     public static Camera UiCamera{get {return instance.uiCamera;}}
-    public static SoundBgSetting SoundBgSetting{get {return instance.soundBgSetting;}}
-    public static SoundEffectSetting SoundEffectSetting{get {return instance.soundEffectSetting;}}
-    public static SoundDialogueSetting SoundDialogueSetting{get {return instance.soundDialogueSetting;}}
-    public static InputSetting InputSetting{get {return instance.inputSetting;}}
-    public static WindowPrefabSetting Window{get {return instance.window;}}
+    public static bool IsSaveDisabled{get {return instance.isSaveDisabled;}}
     private void Awake() {
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -88,12 +73,6 @@ public class FrameworkManager : MonoBehaviour
 
     private void FrameworkInitFinish(){
         isInitFinish = true;
-        if(initFinishLoadScene == null){
-            initFinishLoadScene = "MenuScene";
-        }
-        else{
-            Hub.View.ChangeSceneDefaultView(initFinishLoadScene);
-        }
         Hub.Scene.LoadScene(initFinishLoadScene);
     }
 

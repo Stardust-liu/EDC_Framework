@@ -5,15 +5,17 @@ using UnityEngine;
 
 public class PersistentViewController : MonoBehaviour
 {
-    public RectTransform inactivePersistentView;
-    public RectTransform activePersistentView;
+    public RectTransform inactivePersistentView_3DUI;
+    public RectTransform activePersistentView_3DUI;
+    public RectTransform inactivePersistentView_UI;
+    public RectTransform activePersistentView_UI;
     private static List<BasePersistentView_P> persistentViewList;
     public static Dictionary<string, BasePersistentView_P> viewInstanceDictionary;
     public static PersistentViewPrefabSetting PersistentView{get; private set;}
 
 
     public void Init(){
-        PersistentView = Hub.Framework.PersistentView;
+        PersistentView = Hub.Resources.GetScriptableobject<PersistentViewPrefabSetting>(nameof(PersistentViewPrefabSetting));
         persistentViewList = new List<BasePersistentView_P>();
         viewInstanceDictionary = new Dictionary<string, BasePersistentView_P>();
     }

@@ -1,21 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AudioExample : MonoBehaviour
 {
-    public CustomClickEffectsBtn playSoundBtn;
-    public CustomClickEffectsBtn stopAllSoundBtn;
-    public CustomClickEffectsBtn playMusic1Btn;
-    public CustomClickEffectsBtn playMusic2Btn;
-    public CustomClickEffectsBtn stopMusicBtn;
+    public Button playSoundBtn;
+    public Button stopAllSoundBtn;
+    public Button playMusic1Btn;
+    public Button playMusic2Btn;
+    public Button stopMusicBtn;
 
     private void Start() {
-        playSoundBtn.onClickEvent.AddListener(ClickPlaySoundBtn);
-        stopAllSoundBtn.onClickEvent.AddListener(ClickStopAllSoundBtn);
-        playMusic1Btn.onClickEvent.AddListener(ClickPlayMusic1Btn);
-        playMusic2Btn.onClickEvent.AddListener(ClickPlayMusic2Btn);
-        stopMusicBtn.onClickEvent.AddListener(ClickStopMusicBtn);
+        playSoundBtn.onClick.AddListener(ClickPlaySoundBtn);
+        stopAllSoundBtn.onClick.AddListener(ClickStopAllSoundBtn);
+        playMusic1Btn.onClick.AddListener(ClickPlayMusic1Btn);
+        playMusic2Btn.onClick.AddListener(ClickPlayMusic2Btn);
+        stopMusicBtn.onClick.AddListener(ClickStopMusicBtn);
     }
 
     /// <summary>

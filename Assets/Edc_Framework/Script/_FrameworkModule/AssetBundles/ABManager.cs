@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using JetBrains.Annotations;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -35,17 +36,24 @@ public class ABManager
             LogManager.LogWarning("重复加载");
             return;
         }
-        var ab = AssetBundle.LoadFromFile(Application.streamingAssetsPath+$"/{fileNmae}");
-        var dependencies = abManifest.GetAllDependencies(fileNmae);
-        AssetBundle dependenciesAb;
-        foreach (var item in dependencies)
+        var path = Application.streamingAssetsPath+$"/{fileNmae}";
+        if (!File.Exists(path))
         {
-            if(!abFile.ContainsKey(item)){
-                dependenciesAb = AssetBundle.LoadFromFile(Application.streamingAssetsPath+$"/{item}");
-                abFile.Add(fileNmae,dependenciesAb);
-            }
+            Debug.LogWarning($"没有AB包文件：{fileNmae}");
         }
-        abFile.Add(fileNmae,ab);
+        else{
+            var ab = AssetBundle.LoadFromFile(path);
+            var dependencies = abManifest.GetAllDependencies(fileNmae);
+            AssetBundle dependenciesAb;
+            foreach (var item in dependencies)
+            {
+                if(!abFile.ContainsKey(item)){
+                    dependenciesAb = AssetBundle.LoadFromFile(Application.streamingAssetsPath+$"/{item}");
+                    abFile.Add(fileNmae,dependenciesAb);
+                }
+            }
+            abFile.Add(fileNmae,ab);
+        }
     }
 
     /// <summary>
@@ -56,7 +64,7 @@ public class ABManager
             LogManager.LogWarning("重复加载");
             return;
         }
-        Hub.Framework.StartCoroutine(LoadAbFileAsyncCoroutine());
+        Hub.Coroutine.StartCoroutine(LoadAbFileAsyncCoroutine());
         IEnumerator LoadAbFileAsyncCoroutine(){
             var ab = AssetBundle.LoadFromFileAsync(Application.streamingAssetsPath+$"/{fileNmae}");
             var dependencies = abManifest.GetAllDependencies(fileNmae);
@@ -87,8 +95,7 @@ public class ABManager
     /// 异步加载ab包对象
     /// </summary>
     public void LoadAssetAsync<T>(string abName, string fileNmae, Action<T> callback = null) where T : class{
-        Hub.Framework.StartCoroutine(LoadAssetAsyncCoroutine());
-        
+        Hub.Coroutine.StartCoroutine(LoadAssetAsyncCoroutine());
         IEnumerator LoadAssetAsyncCoroutine(){
             var ab = abFile[abName].LoadAssetAsync<GameObject>(fileNmae).asset as T;
             yield return ab;
@@ -108,8 +115,7 @@ public class ABManager
     /// 异步卸载指定ab包
     /// </summary>
     public void UnloadAsync(string fileNmae, bool unloadAllLoadedObjects, Action callback = null){
-        Hub.Framework.StartCoroutine(UnloadAsyncCoroutine());
-        
+        Hub.Coroutine.StartCoroutine(UnloadAsyncCoroutine());
         IEnumerator UnloadAsyncCoroutine(){
             yield return abFile[fileNmae].UnloadAsync(unloadAllLoadedObjects);
             abFile.Remove(fileNmae);

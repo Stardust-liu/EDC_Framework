@@ -6,17 +6,19 @@ using UnityEngine.UI;
 
 public class WindowController : MonoBehaviour
 {
-    public Image windowDarkBG; 
-    public RectTransform inactiveWindow;
-    public RectTransform activeWindow;
-    public TweenFade tweenFade;
+    public Image windowDarkBG_3DUI; 
+    public Image windowDarkBG_UI; 
+    public RectTransform inactiveWindow_3DUI; 
+    public RectTransform activeWindow_3DUI; 
+    public RectTransform inactiveWindow_UI;
+    public RectTransform activeWindow_UI;
     public static Dictionary<string, BaseWindow_P> baseWindowDictionary;
     public static Stack<BaseWindow_P> openWindowStack;
     public static BaseWindow_P currentWindow;
     public static WindowPrefabSetting Window {get; private set;}
 
     public void Init(){
-        Window = Hub.Framework.window;
+        Window = Hub.Resources.GetScriptableobject<WindowPrefabSetting>(nameof(WindowPrefabSetting));
         baseWindowDictionary = new Dictionary<string, BaseWindow_P>();
         openWindowStack = new Stack<BaseWindow_P>();
     }
@@ -29,10 +31,15 @@ public class WindowController : MonoBehaviour
             LogManager.LogWarning($"打开的window {baseWindow_P.WindowName} 为当前正在显示的window");
         }
         currentWindow?.DownLaye();
-        windowDarkBG.enabled = true;
-        currentWindow = baseWindow_P;
         openWindowStack.Push(baseWindow_P);
+        currentWindow = baseWindow_P;
         OpenWindow();
+        if(currentWindow.is3DUI){
+            windowDarkBG_3DUI.enabled = true;
+        }
+        else{
+            windowDarkBG_UI.enabled = true;
+        }
     }
     
     /// <summary>
@@ -53,7 +60,8 @@ public class WindowController : MonoBehaviour
             currentWindow.SetToTopLayer();
         }
         else{
-            windowDarkBG.enabled = false;
+            windowDarkBG_3DUI.enabled = false;
+            windowDarkBG_UI.enabled = false;
             currentWindow = null;
         }
     }

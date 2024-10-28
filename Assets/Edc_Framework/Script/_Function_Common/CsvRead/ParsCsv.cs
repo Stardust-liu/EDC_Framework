@@ -21,6 +21,9 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
         ParseData(csv);
     }
 
+    /// <summary>
+    /// 解析数据
+    /// </summary>
     public virtual void ParseData(TextAsset csv){
         titleData = new Dictionary<string, int>();
         originalData = new Dictionary<int, List<string>>();
@@ -110,6 +113,25 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
 
     protected string GetString(string columnsKey){
         return GetData(columnsKey);
+    }
+
+    protected string[] GetStringArray(string columnsKey){
+        return CommonTool.StringSplit(columnsKey, ";");
+    }
+
+    protected T1[] GetClassArray<T1>(string columnsKey) where T1 : BaseStringParser{
+        var dataArray = CommonTool.StringSplit(columnsKey, ";");
+        var count = dataArray.Length;
+        var array = new T1 [dataArray.Length];
+        for (var i = 0; i < count; i++)
+        {
+            array[i] = CommonTool.StringToClass<T1>(dataArray[i]);
+        }
+        return array;
+    }
+
+    protected T1 GetClass<T1>(string columnsKey) where T1 : BaseStringParser{
+        return CommonTool.StringToClass<T1>(columnsKey);
     }
 
     protected T3 GetEnum<T3>(string columnsKey){

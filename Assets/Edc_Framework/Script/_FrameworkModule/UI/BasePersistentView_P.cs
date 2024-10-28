@@ -1,15 +1,16 @@
 using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
-public abstract class PersistentView_MVP<T1, T2, T3>: PersistentView_VP<T2, T3>
-where T1 : class, new()
-where T2 : BaseUI_V
-where T3 : BasePersistentView_P
+public abstract class PersistentView_MVP<Model, View, Presenter>: PersistentView_VP<View, Presenter>
+where Model : class, new()
+where View : BaseUI_V<Presenter>
+where Presenter : BasePersistentView_P
 {
-    protected static T1 view_M;
+    protected static Model view_M;
     protected override void CreateUiPrefab(string name){
-        view_M = Activator.CreateInstance<T1>();
+        view_M = Activator.CreateInstance<Model>();
         base.CreateUiPrefab(name);
     }
 
@@ -19,60 +20,90 @@ where T3 : BasePersistentView_P
     }
 }
 
-public abstract class PersistentView_VP<T2,T3>:BasePersistentView_P
-where T2 : BaseUI_V
-where T3 : BasePersistentView_P
+public abstract class PersistentView_VP<View,Presenter>:BasePersistentView_P
+where View : BaseUI_V<Presenter>
+where Presenter : BasePersistentView_P
 {
-    protected static T2 view_V;
-    private static T3 instance;
-    public static T3 Instance 
+    protected static View view_V;
+    private static Presenter instance;
+    public static Presenter Instance 
     {
         get 
         {
-            instance ??= PersistentViewController.GetView<T3>(typeof(T3).Name);
+            instance ??= PersistentViewController.GetView<Presenter>(typeof(Presenter).Name);
             return instance;
         }
     }
-    private readonly Transform hideViewParent = Hub.View.inactiveView;
-    private readonly Transform showviewParent = Hub.View.activeView;
-    private readonly Transform persistentViewParent = Hub.PersistentView.activePersistentView;
-
 
     /// <summary>
     /// 创建UI
     /// </summary>
     protected override void CreateUiPrefab(string name){
-        var prefab = GameObject.Instantiate(SetPrefabInfo(name), persistentViewParent);
+        var prefab = GameObject.Instantiate(SetPrefabInfo(name));
         isCreate = true;
-        view_V =  prefab.GetComponent<T2>();
+        view_V =  prefab.GetComponent<View>();
+        view_V.tweenGroupIn.SetAllTweenToStart();
         ((IBaseUI_V)view_V).Init(Instance);
-    }
-
-    protected override void StartShow()
-    {
-        base.StartShow();
-        view_V.transform.SetParent(showviewParent);
-    }
-
-    protected override void HideFinish()
-    {
-        if(!isHideFinishDestroy){
-            view_V.transform.SetParent(hideViewParent);
-        }
-        base.HideFinish();
     }
 
     public override void Destroy(){
         base.Destroy();
         ((IBaseUI_V)view_V).Destroy();
-        Hub.View.DestroyView(typeof(T3).Name);
+        view_V = null;
+        Hub.View.DestroyView(typeof(Presenter).Name);
+    }
+
+    protected override void StartShow()
+    {
+        base.StartShow();
+        if(is3DUI){
+            view_V.transform.SetParent(showViewParent_3DUI, false);
+        }
+        else{
+            view_V.transform.SetParent(showViewParent_UI, false);
+        }
+        view_V.tweenGroupIn.Play();
+        view_V.tweenGroupIn.AddListenerTween(ShowFinish);
+        view_V.StartShow();
+    }
+
+    protected override void StartHide()
+    {
+        base.StartHide();
+        view_V.tweenGroupOut.Play();
+        view_V.tweenGroupOut.AddListenerTween(HideFinish);
+        view_V.StartHide();
+    }
+
+    protected override void ShowFinish()
+    {
+        base.ShowFinish();
+        view_V.ShowFinish();
+        view_V.tweenGroupIn.ClearAllTweenCompleteListener();
+    }
+
+    protected override void HideFinish()
+    {
+        view_V.HideFinish();
+        view_V.tweenGroupOut.ClearAllTweenCompleteListener();
+        if(!isHideFinishDestroy){
+            if(is3DUI){
+                view_V.transform.SetParent(hideViewParent_3DUI, false);
+            }
+            else{
+                view_V.transform.SetParent(hideViewParent_UI, false);
+            }
+        }
+        base.HideFinish();
     }
 }
 
 public abstract class BasePersistentView_P : BaseUI_P, IBasePersistentView_P
 {
-    protected readonly Transform hidePersistentViewParent = Hub.PersistentView.inactivePersistentView;
-    protected readonly Transform showPersistentViewParent = Hub.PersistentView.activePersistentView;
+    protected readonly Transform hideViewParent_3DUI = Hub.PersistentView.inactivePersistentView_3DUI;
+    protected readonly Transform showViewParent_3DUI = Hub.PersistentView.activePersistentView_3DUI;
+    protected readonly Transform hideViewParent_UI = Hub.PersistentView.inactivePersistentView_UI;
+    protected readonly Transform showViewParent_UI = Hub.PersistentView.activePersistentView_UI;
     private string persistentViewName;
     public string PersistentViewName{get{return persistentViewName; }}
 
@@ -115,6 +146,7 @@ public abstract class BasePersistentView_P : BaseUI_P, IBasePersistentView_P
         var prefabInfo = PersistentViewController.PersistentView.GetPersistentPrefabInfo(_viewName);
         persistentViewName = _viewName;
         isHideFinishDestroy = prefabInfo.isHideFinishDestroy;
+        is3DUI = prefabInfo.isHideFinishDestroy;
         return prefabInfo.prefab;
     }
 }

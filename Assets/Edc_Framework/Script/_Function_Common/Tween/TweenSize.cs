@@ -7,14 +7,15 @@ public class TweenSize : BaseTween
 {
     public Vector2 startSize;
     public Vector2 targetSize;
-    [SerializeField, HideInInspector]
-    private RectTransform rectTransform;
+    public RectTransform rectTransform;
 
     private void Reset()
     {
         TryGetComponent(out RectTransform _rectTransform);
-        rectTransform = _rectTransform;
-        startSize = targetSize = rectTransform.sizeDelta;
+        if(_rectTransform != null){
+            rectTransform = _rectTransform;
+            startSize = targetSize = rectTransform.sizeDelta;
+        }
     }
 
      private void Start() {
@@ -48,5 +49,11 @@ public class TweenSize : BaseTween
     public override void SetToTarget()
     {
         rectTransform.sizeDelta = targetSize;
+    }
+
+    public override void SwapStartAndTarget(){
+        var temp = startSize;
+        startSize = targetSize;
+        targetSize = temp;
     }
 }

@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using XNode;
+#if UNITY_EDITOR
 using XNodeEditor;
+#endif
 
 [CreateAssetMenu(fileName = "RedDotTreeSetting", menuName = "创建.Assets文件/RedDotTreeSetting")]
 public class RedDotTreeSetting : SerializedScriptableObject
