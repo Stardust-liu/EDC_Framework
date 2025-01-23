@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b71202a9e2179d498665b651b959419, type: 3}
+  m_Name: ChangeMaterialTool
+  m_EditorClassIdentifier: 
+  serializationData:
+    SerializedFormat: 2
+    SerializedBytes: 
+    ReferencedUnityObjects: []
+    SerializedBytesString: 
+    Prefab: {fileID: 0}
+    PrefabModificationsReferencedUnityObjects: []
+    PrefabModifications: []
+    SerializationNodes: []
+  prefabs: []
+  targetComponent: 0
+  needReplacedMaterial: {fileID: 0}
+  targetMaterial: {fileID: 0}
+  prefabsPath:
+  - targetComponent: 0
+    path: 
+    bindComponent: 
+    needReplacedMaterial: {fileID: 0}
+    targetMaterial: {fileID: 0}

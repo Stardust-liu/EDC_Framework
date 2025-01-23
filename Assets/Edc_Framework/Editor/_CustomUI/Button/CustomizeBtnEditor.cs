@@ -5,9 +5,9 @@ using UnityEditor;
 using UnityEditor.UI;
 
 namespace CustomizeUI{
-    [CustomEditor(typeof(CustomizeBtn), true)]
+    [CustomEditor(typeof(CustomizeTweenBtn), true)]
     [CanEditMultipleObjects]
-    public class CustomizeBtnEditor : ButtonEditor
+    public class CustomizeTweenBtnEditor : ButtonEditor
     {
         public override void OnInspectorGUI()
         {
@@ -26,7 +26,7 @@ namespace CustomizeUI{
 
                 if (GUILayout.Button("查找滚动视图"))
                 {
-                    CustomizeBtn customizeBtn = (CustomizeBtn)target;
+                    CustomizeTweenBtn customizeBtn = (CustomizeTweenBtn)target;
                     customizeBtn.TryGetScrollRect();
                 }
                 GUILayout.Space(6);

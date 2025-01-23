@@ -25,8 +25,8 @@ public class DialogueView_V : BaseUI_V<DialogueView_P>
 
     public RectTransform skipBtnRectTransform;
     public CanvasGroup skipBtnCanvasGroup;
-    public CustomizeBtn skipBtn;
-    public CustomizeBtn clickDialogueBtn;
+    public CustomizeTweenBtn skipBtn;
+    public CustomizeTweenBtn clickDialogueBtn;
     public Image[] dialogueCharacter;
 
     protected override void Start()

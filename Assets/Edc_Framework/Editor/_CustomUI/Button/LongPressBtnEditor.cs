@@ -6,7 +6,7 @@ using UnityEngine;
 namespace CustomizeUI{
     [CustomEditor(typeof(LongPressBtn), true)]
     [CanEditMultipleObjects]
-    public class LongPressBtnEditor : CustomizeBtnEditor
+    public class LongPressBtnEditor : CustomizeTweenBtnEditor
     {
         public override void OnInspectorGUI()
         {

@@ -22,6 +22,8 @@ public class FrameworkSetting : OdinMenuEditorWindow
         tree.AddAssetAtPath("输入键位设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Input/InputSetting.asset");
         tree.AddAssetAtPath("本地化字体设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationFontSetting.asset");
         tree.AddAssetAtPath("红点树设置","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/RedDotTree/RedDotTreeSetting.asset");
+        tree.AddAssetAtPath("打包设置工具", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Build/BuildSettingTool.asset");
+        tree.AddAssetAtPath("AB包打包设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Build/AssetBundlesTool.asset");
         return tree;
     }
 }

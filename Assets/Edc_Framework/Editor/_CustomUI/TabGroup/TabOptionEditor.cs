@@ -31,7 +31,7 @@ namespace CustomizeUI{
 
                 if (GUILayout.Button("查找滚动视图"))
                 {
-                    CustomizeBtn customizeBtn = (CustomizeBtn)target;
+                    CustomizeTweenBtn customizeBtn = (CustomizeTweenBtn)target;
                     customizeBtn.TryGetScrollRect();
                 }
                 GUILayout.Space(6);

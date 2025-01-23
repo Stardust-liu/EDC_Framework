@@ -8,9 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/MainScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
-    path: Assets/Edc_Framework/Scenes/EventCenterlExample.unity
-    guid: 22c5492c13e039f44a02c51f9924271a
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/Edc_Framework/Scenes/ObjectPoolExample.unity
     guid: 2a4f9c571299a1f4cb883df00ec23883

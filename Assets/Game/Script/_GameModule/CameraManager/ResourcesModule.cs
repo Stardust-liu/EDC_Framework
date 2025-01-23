@@ -15,13 +15,12 @@ public class ResourcesModule
         aBManager.LoadAbFile("csv");
         aBManager.LoadAbFile("sprite");
         aBManager.LoadAbFile("prefab");
-        GameSceneManager.eventCenter.AddListener<string>(GameSceneEventName.LoadSceneBegin, UnloadResources);
     }
 
     /// <summary>
     /// 卸载资源
     /// </summary>
-    private void UnloadResources(string sceneName){
+    private void UnloadResources(){
         Resources.UnloadUnusedAssets();
     }
 #region 脚本化对象

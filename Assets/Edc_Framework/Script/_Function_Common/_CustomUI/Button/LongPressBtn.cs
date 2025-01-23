@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-public class LongPressBtn : CustomizeBtn
+public class LongPressBtn : CustomizeTweenBtn
 {   
     [SerializeField]
     private float m_EnterContinuousPressStateTime = 0.5f;
