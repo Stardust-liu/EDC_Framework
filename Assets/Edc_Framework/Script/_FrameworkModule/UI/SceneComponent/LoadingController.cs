@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class LoadingController : MonoBehaviour
+public class LoadingController : BaseMonoIOCComponent
 {
     [SerializeField]
     private RectTransform thisRectTransform;

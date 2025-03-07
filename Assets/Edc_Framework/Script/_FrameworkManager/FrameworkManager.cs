@@ -62,11 +62,14 @@ public class FrameworkManager : MonoBehaviour
         FrameworkInitFinish();
     }
 
+    public static void SetInitFinishLoadScene(string initFinishLoadScene){
+        FrameworkManager.initFinishLoadScene = initFinishLoadScene;
+    }
+
     private void InitInfo(){
         GameArchive.Init();
-        Hub.Init(this);
+        Hub.Init();
         GameModule.Init();
-        GC.Collect();
         // Hub.EventCenter.AddListener(EventName.enterRestriction, EnterRestriction);
         // Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);
     }
@@ -74,10 +77,6 @@ public class FrameworkManager : MonoBehaviour
     private void FrameworkInitFinish(){
         isInitFinish = true;
         Hub.Scene.LoadScene(initFinishLoadScene);
-    }
-
-    public static void SetInitFinishLoadScene(string initFinishLoadScene){
-        FrameworkManager.initFinishLoadScene = initFinishLoadScene;
     }
 
     private void EnterRestriction(){

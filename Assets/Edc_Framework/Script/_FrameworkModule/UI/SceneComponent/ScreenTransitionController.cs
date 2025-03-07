@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
 
-public class ScreenTransitionController : MonoBehaviour
+public class ScreenTransitionController : BaseMonoIOCComponent
 {
     public TweenColor fadeTween;
     private static Color transparentColor = new Color(1, 1, 1, 0);

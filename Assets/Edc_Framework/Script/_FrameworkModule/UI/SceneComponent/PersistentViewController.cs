@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PersistentViewController : MonoBehaviour
+public class PersistentViewController : BaseMonoIOCComponent
 {
     public RectTransform inactivePersistentView_3DUI;
     public RectTransform activePersistentView_3DUI;
@@ -14,7 +14,7 @@ public class PersistentViewController : MonoBehaviour
     public static PersistentViewPrefabSetting PersistentView{get; private set;}
 
 
-    public void Init(){
+    protected override void Init(){
         PersistentView = Hub.Resources.GetScriptableobject<PersistentViewPrefabSetting>(nameof(PersistentViewPrefabSetting));
         persistentViewList = new List<BasePersistentView_P>();
         viewInstanceDictionary = new Dictionary<string, BasePersistentView_P>();

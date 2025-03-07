@@ -8,12 +8,13 @@ public class GameSceneEventName{
     public const string LoadSceneEnd = nameof(LoadSceneEnd);
 }
 
-public class GameSceneManager
+public class GameSceneManager : BaseIOCComponent
 {
     public string currentSceneName;
     public static readonly EventCenter eventCenter = new EventCenter();
 
-    public GameSceneManager(){
+    protected override void Init()
+    {
         SceneManager.sceneLoaded += LoadSceneEnd;
     }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoroutineRunner : MonoBehaviour
+public class CoroutineRunner : BaseMonoIOCComponent
 {
     //启动协程
     public new Coroutine StartCoroutine(IEnumerator coroutine)

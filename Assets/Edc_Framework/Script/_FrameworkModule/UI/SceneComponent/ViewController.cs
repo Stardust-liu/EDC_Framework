@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ViewController : MonoBehaviour
+public class ViewController : BaseMonoIOCComponent
 {
     public RectTransform inactiveView_3DUI;
     public RectTransform activeView_3DUI;
@@ -15,7 +15,7 @@ public class ViewController : MonoBehaviour
     private static Dictionary<string, BaseView_P> viewInstanceDictionary;
     public static ViewPrefabSetting View{get; private set;}
 
-    public void Init(){
+    protected override void Init(){
         View = Hub.Resources.GetScriptableobject<ViewPrefabSetting>(nameof(ViewPrefabSetting));
         openViewInfo = new HashSet<BaseView_P>();
         openViewStack = new Stack<BaseView_P>();

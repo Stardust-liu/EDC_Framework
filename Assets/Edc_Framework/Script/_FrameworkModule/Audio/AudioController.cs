@@ -10,7 +10,7 @@ public enum AudioType{
     SoundDialogue,//对话声音
 }
 
-public class AudioController : MonoBehaviour
+public class AudioController : BaseMonoIOCComponent
 {
     [SerializeField]
     private AudioSource bGM1;
@@ -33,7 +33,7 @@ public class AudioController : MonoBehaviour
     private AudioData data;
     private ResourcesModule resourcesModule;
     
-    public void Init(){
+    protected override void Init(){
         data = GameArchive.AudioData;
         resourcesModule = Hub.Resources;
         SFXPool.InitPool(BasePool.GetFrameworkPool("SFX"), sFXParent, 5, true);

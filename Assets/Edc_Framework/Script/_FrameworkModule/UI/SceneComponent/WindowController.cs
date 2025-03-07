@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class WindowController : MonoBehaviour
+public class WindowController : BaseMonoIOCComponent
 {
     public Image windowDarkBG_3DUI; 
     public Image windowDarkBG_UI; 
@@ -17,7 +17,7 @@ public class WindowController : MonoBehaviour
     public static BaseWindow_P currentWindow;
     public static WindowPrefabSetting Window {get; private set;}
 
-    public void Init(){
+    protected override void Init(){
         Window = Hub.Resources.GetScriptableobject<WindowPrefabSetting>(nameof(WindowPrefabSetting));
         baseWindowDictionary = new Dictionary<string, BaseWindow_P>();
         openWindowStack = new Stack<BaseWindow_P>();

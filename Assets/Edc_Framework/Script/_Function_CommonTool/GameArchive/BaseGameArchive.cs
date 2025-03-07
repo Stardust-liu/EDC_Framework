@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
 namespace ArchiveData{
-    public class BaseGameArchive<T> : IGameArchive
+    public class BaseGameArchive<T> : BaseIOCComponent, IGameArchive
     where T : new()
     {
         protected static T data;
@@ -101,6 +101,8 @@ namespace ArchiveData{
         private void CleanFinish(){
             isCleanFinish = true;
         }
+
+        protected override void Init(){}
     }
 }
 

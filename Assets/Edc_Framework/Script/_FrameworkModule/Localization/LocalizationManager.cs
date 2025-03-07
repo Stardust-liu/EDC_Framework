@@ -16,7 +16,7 @@ public class LocalizationEventName{
     public const string changeLanguage = nameof(changeLanguage);
 }
 
-public class LocalizationManager
+public class LocalizationManager : BaseIOCComponent
 {
     public LanguageId CurrentLanguage{get{ return data.currentLanguage;}}
     public LanguageId[] LanguageId{get; private set;}
@@ -28,14 +28,15 @@ public class LocalizationManager
     private static ResourcesModule resourcesModule = Hub.Resources;
     private LanguageData data;
     public static readonly EventCenter eventCenter = new EventCenter();
-    
-    public LocalizationManager(){
+
+    protected override void Init()
+    {
         data = GameArchive.LanguageData;
         LanguageId = (LanguageId[])Enum.GetValues(typeof(LanguageId));
         localizationFontSetting = Hub.Resources.GetScriptableobject<LocalizationFontSetting>(nameof(LocalizationFontSetting));
         InitInfoCfg();
-        SetInitLanguage();
-	}
+        SetInitLanguage();    
+    }
 
     private void InitInfoCfg(){
         var supportLanguageCount = LanguageId.Length;

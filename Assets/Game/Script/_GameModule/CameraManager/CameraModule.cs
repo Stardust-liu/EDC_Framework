@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CameraModule
+public class CameraModule : BaseIOCComponent
 {
     private ICameraControl currentControlCamera;
     private CameraFollow cameraFollow = CameraFollow.Instance;
@@ -26,4 +26,6 @@ public class CameraModule
         currentControlCamera = cameraNarrative;
         currentControlCamera.EnableCamera();
     }
+
+    protected override void Init(){}
 }

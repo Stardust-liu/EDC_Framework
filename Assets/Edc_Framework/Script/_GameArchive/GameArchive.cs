@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ArchiveData{
-    public static class GameArchive
+
+    public class GameArchive : IOCContainer<GameArchive>
     {
+        //需要在整个游戏声明周期内都使用的数据使用对象的方式声明
         #region 框架数据
         public static AudioData AudioData{get; private set;}
         public static AchievementData AchievementData{get; private set;}
@@ -14,21 +16,19 @@ namespace ArchiveData{
         public static TimeRefreshScheduledData TimeRefreshScheduledData{get; private set;}
         public static UIControllerData UIControllerData{get; private set;}
         #endregion
-
+        
         #region 游戏数据 
         #endregion
 
-        /// <summary>
-        /// 初始化数据
-        /// </summary>
-        public static void Init(){
-            AudioData = AudioData.ReadData();
-            AchievementData = AchievementData.ReadData();
-            LanguageData = LanguageData.ReadData();
-            RedDotData = RedDotData.ReadData();
-            TimeRefreshFixedData = TimeRefreshFixedData.ReadData();
-            TimeRefreshScheduledData = TimeRefreshScheduledData.ReadData();
-            UIControllerData = UIControllerData.ReadData();
+        protected override void InitContainer()
+        {
+            AudioData = ((IContainer)this).Register(AudioData.ReadData());
+            AchievementData = ((IContainer)this).Register(AchievementData.ReadData());
+            LanguageData = ((IContainer)this).Register(LanguageData.ReadData());
+            RedDotData = ((IContainer)this).Register(RedDotData.ReadData());
+            TimeRefreshFixedData = ((IContainer)this).Register(TimeRefreshFixedData.ReadData());
+            TimeRefreshScheduledData = ((IContainer)this).Register(TimeRefreshScheduledData.ReadData());
+            UIControllerData = ((IContainer)this).Register(UIControllerData.ReadData());
         }
 
         /// <summary>

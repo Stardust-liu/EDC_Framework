@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourcesModule
+public class ResourcesModule : BaseIOCComponent
 {
-    private readonly ABManager aBManager;
-    public ResourcesModule(){
+    private ABManager aBManager;
+    
+    protected override void Init()
+    {
         aBManager = new ABManager();
         aBManager.LoadAbFile("scriptableobject");
         aBManager.LoadAbFile("soundBg");
@@ -76,5 +78,5 @@ public class ResourcesModule
     public GameObject GetPrefab(string fileNmae){
         return aBManager.LoadAsset<GameObject>("prefab", fileNmae);
     }
-#endregion
+    #endregion
 }

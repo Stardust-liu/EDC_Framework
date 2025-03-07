@@ -9,7 +9,7 @@ public class UIControllerEventName{
     public const string UpdateMargins = nameof(UpdateMargins);
 }
 
-public class UIController : MonoBehaviour
+public class UIController : BaseMonoIOCComponent
 {
     [LabelText("标记勾选RaycastTarget的UI")]
     [SerializeField]
@@ -29,7 +29,7 @@ public class UIController : MonoBehaviour
     private UIControllerData data;
     public static readonly EventCenter eventCenter = new EventCenter();
 
-    public void Init(){
+    protected override void Init(){
         data = GameArchive.UIControllerData;
         SetAdaptation();
     }

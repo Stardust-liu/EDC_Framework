@@ -1,9 +1,9 @@
-public class GameModule
+public class GameModule : IOCContainer<GameModule>
 {
-    private static CameraModule camera;
-    public static CameraModule Camera{get{return camera; }}
+    public static CameraModule Camera{get; private set;}
 
-    public static void Init(){
-        camera = new CameraModule();
+    protected override void InitContainer()
+    {
+        Camera = ((IContainer)Instance).Register<CameraModule>();
     }
 }

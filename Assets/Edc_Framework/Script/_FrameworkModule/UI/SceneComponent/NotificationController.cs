@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NotificationController : MonoBehaviour
+public class NotificationController : BaseMonoIOCComponent
 {
     /// <summary>
     /// 一般信息提示

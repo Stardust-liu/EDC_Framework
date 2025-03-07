@@ -14,7 +14,7 @@ public interface ILateUpdate{
     void OnLateUpdate();
 }
 
-public class UpdateController : MonoBehaviour
+public class UpdateController : BaseMonoIOCComponent
 {
     private static readonly List<IFixedUpdate> fixedUpdates = new List<IFixedUpdate>();
     private static readonly List<IUpdate> updates = new List<IUpdate>();

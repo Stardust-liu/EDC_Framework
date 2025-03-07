@@ -7,12 +7,12 @@ public class AchievementEventName{
     public const string unlockAchievement = nameof(unlockAchievement);
 }
 
-public class AchievementManager
+public class AchievementManager : BaseIOCComponent
 {
     public static readonly EventCenter eventCenter = new EventCenter();
     private AchievementData data;
-
-    public AchievementManager(){
+    
+    protected override void Init(){
         data = GameArchive.AchievementData;
     }
 

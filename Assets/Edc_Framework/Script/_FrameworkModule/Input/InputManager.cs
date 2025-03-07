@@ -11,21 +11,22 @@ public enum KeyUpdateResultType{
     SameDefinition,             //定义的快捷键与原来一样
 }
 
-public class InputManager
+public class InputManager : BaseIOCComponent
 {
     private static bool isRestriction;
     private static HashSet<KeyCode> immutableKey;
     private static Dictionary<KeyCode, Key> changeableKey;
     private static Dictionary<InputEnum, Key> changeableKeyInfo;
     private static InputSetting inputSetting;
-    
-    public InputManager(){
+
+    protected override void Init()
+    {
         immutableKey = new HashSet<KeyCode>();
         changeableKey = new Dictionary<KeyCode, Key>();
         changeableKeyInfo = new Dictionary<InputEnum, Key>();//如果数据持久化功能做好，则需要判断是否有这个保存数据，没有的话再创建
         inputSetting = Hub.Resources.GetScriptableobject<InputSetting>(nameof(InputSetting));
         // Hub.EventCenter.AddListener(EventName.enterRestriction, EnterRestriction);
-        // Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);
+        // Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);    
     }
 
     /// <summary>

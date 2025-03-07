@@ -5,14 +5,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
 
-public class CGController : MonoBehaviour
+public class CGController : BaseMonoIOCComponent
 {
     public Image bg;
     public Image Image_CG;
     public VideoPlayer Video_CG;
     private Action vidoPlayEndCallBack;
 
-    public void Init(){
+    protected override void Init(){
         Video_CG.loopPointReached += VidoPlayEnd;
     }
 

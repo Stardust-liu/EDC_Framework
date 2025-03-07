@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using ArchiveData;
 
-public class TimeRefreshFixedManager : IUpdate
+public class TimeRefreshFixedManager : BaseIOCComponent, IUpdate
 {   
-    private readonly DateTime timeNow;
-    private readonly HashSet<string> needRemoveTimeKey;
-    private readonly HashSet<string> leftTimeManagerKey;
-    private readonly Dictionary<string, float> leftTimeManager;
+    private DateTime timeNow;
+    private HashSet<string> needRemoveTimeKey;
+    private HashSet<string> leftTimeManagerKey;
+    private Dictionary<string, float> leftTimeManager;
     private TimeRefreshFixedData data;
     public static readonly EventCenter eventCenter = new EventCenter();
 
-    public TimeRefreshFixedManager(){
+    protected override void Init()
+    {
         timeNow = DateTime.Now;
         data = GameArchive.TimeRefreshFixedData;
         needRemoveTimeKey = new HashSet<string>();

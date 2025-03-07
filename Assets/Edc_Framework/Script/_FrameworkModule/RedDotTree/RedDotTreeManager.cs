@@ -7,14 +7,14 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-public class RedDotTreeManager
+public class RedDotTreeManager : BaseIOCComponent
 {
     private RedDotTreeSetting redDotTreeSetting;
     private static bool isSendNotification;
     private RedDotData data;
     public static readonly EventCenter eventCenter = new EventCenter();
 
-    public RedDotTreeManager(){
+    protected override void Init(){
         data = GameArchive.RedDotData;
         redDotTreeSetting = Hub.Resources.GetScriptableobject<RedDotTreeSetting>(nameof(RedDotTreeSetting));
         isSendNotification = true;
