@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseUI_P
+public abstract class BaseUI_P : ISendCommand, ISendQuery
 {
     public bool is3DUI;
     protected bool isHideFinishDestroy;
