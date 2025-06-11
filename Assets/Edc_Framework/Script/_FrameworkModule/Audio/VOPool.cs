@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using UnityEngine;
-
+[ResourceKey("VO")]
 public class VOPool : BaseSoundPool<VOPool>
 {
     public override void Create()

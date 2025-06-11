@@ -2,48 +2,44 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArchiveData;
-using JetBrains.Annotations;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering;
 
-public class RedDotTreeManager : BaseIOCComponent
+public class RedDotTreeManager : BaseIOCComponent<RedDotData>, ISendEvent
 {
     private RedDotTreeSetting redDotTreeSetting;
     private static bool isSendNotification;
-    private RedDotData data;
-    public static readonly EventCenter eventCenter = new EventCenter();
 
     protected override void Init(){
-        data = GameArchive.RedDotData;
-        redDotTreeSetting = Hub.Resources.GetScriptableobject<RedDotTreeSetting>(nameof(RedDotTreeSetting));
+        base.Init();
+        var resourcePath = new ResourcePath("RedDotTreeSetting","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/RedDotTree/RedDotTreeSetting.asset");
+        redDotTreeSetting = Hub.Resources.GetScriptableobject<RedDotTreeSetting>(resourcePath);
         isSendNotification = true;
         SetInitRedDotTree();
     }
 
     private void SetInitRedDotTree(){
-        if(!data.isInitSave){
+        if(!Data.isInitSave){
             var redDotLeafNodeArray = Enum.GetValues(typeof(RedDotLeafNode));
             var redDotNodeArray = Enum.GetValues(typeof(RedDotNode));
             foreach (RedDotLeafNode item in redDotLeafNodeArray)
             {
-                data.leafRedDotState.Add(item, false);
+                Data.leafRedDotState.Add(item, false);
             }
             foreach (RedDotNode item in redDotNodeArray)
             {
-                data.nonLeafRedDotState.Add(item, false);
+                Data.nonLeafRedDotState.Add(item, false);
             }
         }
-        data.SaveDataNow();
+        //data.SaveDataNow();
     }
     
     /// <summary>
     /// 更新起点或分支节点状态
     /// </summary>
     public void UpdateRedDotState(RedDotNode redDotNode, bool isActive){
-        data.UpdateRedDotState(redDotNode, isActive);
+        Data.UpdateRedDotState(redDotNode, isActive);
         if(isSendNotification){
-            eventCenter.OnEvent(redDotNode.ToString());
+            this.SendEvent(new UpdateRedDotNodeState(redDotNode));
         }
     }
 
@@ -52,9 +48,9 @@ public class RedDotTreeManager : BaseIOCComponent
     /// </summary>
     public void ActiveRedDot(RedDotLeafNode redDotLeafNode){
         redDotTreeSetting.ActiveRedDot(redDotLeafNode);
-        data.ActiveRedDot(redDotLeafNode);
+        Data.ActiveRedDot(redDotLeafNode);
         if(isSendNotification){
-            eventCenter.OnEvent(redDotLeafNode.ToString());
+            this.SendEvent(new UpdateRedDotLeafNodeState(redDotLeafNode));
         }
     }
 
@@ -63,9 +59,9 @@ public class RedDotTreeManager : BaseIOCComponent
     /// </summary>
     public void DisableRedDot(RedDotLeafNode redDotLeafNode){
         redDotTreeSetting.DisableRedDot(redDotLeafNode);
-        data.DisableRedDot(redDotLeafNode);
+        Data.DisableRedDot(redDotLeafNode);
         if(isSendNotification){
-            eventCenter.OnEvent(redDotLeafNode.ToString());
+            this.SendEvent(new UpdateRedDotLeafNodeState(redDotLeafNode));
         }
     }
 
@@ -73,13 +69,13 @@ public class RedDotTreeManager : BaseIOCComponent
     /// 检查起点与分支红点状态
     /// </summary>
     public bool CheckRedDotState(RedDotNode redDotNode){
-        return data.nonLeafRedDotState[redDotNode];
+        return Data.nonLeafRedDotState[redDotNode];
     }
 
     /// <summary>
     /// 检查末端红点状态
     /// </summary>
     public bool CheckRedDotState(RedDotLeafNode redDotLeafNode){
-        return data.leafRedDotState[redDotLeafNode];
+        return Data.leafRedDotState[redDotLeafNode];
     }
 }

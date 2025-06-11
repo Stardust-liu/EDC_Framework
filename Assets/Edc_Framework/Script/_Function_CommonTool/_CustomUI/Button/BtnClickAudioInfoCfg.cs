@@ -11,16 +11,16 @@ public enum BtnClickAudioType{
 
 public class BtnClickAudioInfoCfg : ParsCsv<BtnClickAudioInfoCfg>
 {
-    private readonly Dictionary<BtnClickAudioType, string> audioInfo = new();
+    private readonly Dictionary<BtnClickAudioType, ResourcePath> audioInfo = new();
     protected override void SetData()
     {
-        audioInfo.Add(GetEnum<BtnClickAudioType>("audioID"), GetString("audioPath"));
+        //audioInfo.Add(GetEnum<BtnClickAudioType>("audioID"), GetString("audioPath"));
     }
 
     /// <summary>
     /// 获取音频路径
     /// </summary>
-    public string GetPath(BtnClickAudioType btnClickAudioType){
+    public ResourcePath GetPath(BtnClickAudioType btnClickAudioType){
         return audioInfo[btnClickAudioType];
     }
 }

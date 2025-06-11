@@ -1,0 +1,10 @@
+ID,SystemLanguage,LocalizationType,AB_FileNmae,AssetsPath
+#ID(占位符),对应语言,本地化类型,,
+#简体中文,,,,
+0,ChineseSimplified,Text,,Assets/Edc_Framework/Example/Sources_Example/CSV_Example/LocalizationText_CNExample.csv
+1,ChineseSimplified,Size,,Assets/Edc_Framework/Example/Sources_Example/CSV_Example/LocalizationSize_CNExample.csv
+2,ChineseSimplified,Asset,,Assets/Edc_Framework/Example/Sources_Example/CSV_Example/LocalizationImage_CNExample.csv
+#英文,,,,
+3,English,Text,,Assets/Edc_Framework/Example/Sources_Example/CSV_Example/LocalizationText_ENExample.csv
+4,English,Size,,Assets/Edc_Framework/Example/Sources_Example/CSV_Example/LocalizationSize_ENExample.csv
+5,English,Asset,,Assets/Edc_Framework/Example/Sources_Example/CSV_Example/LocalizationImage_ENExample.csv

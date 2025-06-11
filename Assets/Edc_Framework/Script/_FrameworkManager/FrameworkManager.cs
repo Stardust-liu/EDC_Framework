@@ -4,15 +4,11 @@ using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using ArchiveData;
+
 
 public class FrameworkManager : MonoBehaviour
 {
     public static bool isInitFinish;
-
-    [SerializeField]
-    [LabelText("显示打印信息的种类")]
-    private LogLevel logDisplay;
     
     [SerializeField]
     [LabelText("主摄像机")]
@@ -21,10 +17,6 @@ public class FrameworkManager : MonoBehaviour
     [SerializeField]
     [LabelText("UI像机")]
     private Camera uiCamera;
-
-    [SerializeField]
-    [LabelText("是否禁用数据保存功能")]
-    private bool isSaveDisabled;
 
     [Title("交互管理")]
     [SerializeField]
@@ -35,26 +27,31 @@ public class FrameworkManager : MonoBehaviour
     private Physics2DRaycaster eaycaster2D;
 
     [Title("UI模块组件")]
-    public UIController uiController;
-    public ViewController viewController;
-    public PersistentViewController persistentViewController;
-    public WindowController windowController;
-    public LoadingController loadingController;
-    public ScreenTransitionController screenTransitionController;
-    public NotificationController notificationController;
-    public CGController cgController;
+    public UIManager uiController;
+    public ViewManager viewController;
+    public PersistentViewManager persistentViewController;
+    public WindowManager windowController;
+    public LoadingManager loadingController;
+    public ScreenTransitionManager screenTransitionController;
+    public NotificationManager notificationController;
+    public CGManager cgController;
 
     [Title("")]
     public CoroutineRunner coroutineRunner;
-    public AudioController audioController;
-    public UpdateController updateController;
-
+    public AudioManager audioController;
+    public UpdateManager updateController;
+    
+    [Title("")]
+    [SerializeField, LabelText("框架运行时设置")]
+    private FrameworkRuntimeSetting runtimeSetting;
     private static FrameworkManager instance;
     private static string initFinishLoadScene;
-    public static LogLevel LogDisplay {get {return instance.logDisplay;}}
     public static Camera MainCamera {get {return instance.mainCamera;}}
     public static Camera UiCamera{get {return instance.uiCamera;}}
-    public static bool IsSaveDisabled{get {return instance.isSaveDisabled;}}
+    public static FrameworkRuntimeSetting FrameworkSetting {get {return instance.runtimeSetting;}}
+    public static LogLevel LogDisplay {get {return instance.runtimeSetting.logDisplay;}}
+    public static bool IsSaveDisabled{get {return instance.runtimeSetting.isSaveDisabled;}}
+    public static bool IsEditorUsingAssetBundle{get {return instance.runtimeSetting.isEditorUsingAssetBundle;}}
     private void Awake() {
         instance = this;
         DontDestroyOnLoad(gameObject);
@@ -67,16 +64,22 @@ public class FrameworkManager : MonoBehaviour
     }
 
     private void InitInfo(){
-        GameArchive.Init();
         Hub.Init();
         GameModule.Init();
         // Hub.EventCenter.AddListener(EventName.enterRestriction, EnterRestriction);
         // Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);
     }
 
-    private void FrameworkInitFinish(){
+    private void FrameworkInitFinish()
+    {
         isInitFinish = true;
-        Hub.Scene.LoadScene(initFinishLoadScene);
+        LogManager.Log("框架初始化完成");
+        if(string.IsNullOrEmpty(initFinishLoadScene)){
+            LogManager.Log("未定义框架初始化完成后进入的场景");
+        }
+        else {
+            Hub.Scene.LoadScene(initFinishLoadScene);   
+        }
     }
 
     private void EnterRestriction(){

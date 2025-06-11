@@ -3,15 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class GameSceneEventName{
-    public const string LoadSceneBegin = nameof(LoadSceneBegin);
-    public const string LoadSceneEnd = nameof(LoadSceneEnd);
-}
 
-public class GameSceneManager : BaseIOCComponent
+public class GameSceneManager : BaseIOCComponent, ISendEvent
 {
     public string currentSceneName;
-    public static readonly EventCenter eventCenter = new EventCenter();
 
     protected override void Init()
     {
@@ -27,11 +22,11 @@ public class GameSceneManager : BaseIOCComponent
     }
 
     private void LoadSceneBegin(string sceneName){
-        eventCenter.OnEvent(GameSceneEventName.LoadSceneBegin, sceneName);
+        this.SendEvent(new LoadSceneBegin(sceneName));
     }
 
     private void LoadSceneEnd(string sceneName){
         currentSceneName = sceneName;
-        eventCenter.OnEvent(GameSceneEventName.LoadSceneEnd, sceneName);
+        this.SendEvent(new LoadSceneEnd(sceneName));
     }
 }

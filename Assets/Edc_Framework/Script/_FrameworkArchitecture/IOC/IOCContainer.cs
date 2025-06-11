@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public interface IContainer{
     T Register<T>() where T : class, IIOCComponent; 
     T Register<T>(T instance) where T : class, IIOCComponent; 
-    void Remove<T>() where T : class, IIOCComponent; 
+    void Unregister<T>() where T : class, IIOCComponent; 
 }
 public abstract class IOCContainer<TSingle> : IContainer
 where TSingle : IOCContainer<TSingle>, new()
@@ -53,9 +53,9 @@ where TSingle : IOCContainer<TSingle>, new()
     /// <summary>
     /// 移除
     /// </summary>
-    void IContainer.Remove<T>()
+    void IContainer.Unregister<T>()
     { 
-        Instance.RemoveValue<T>();
+        Instance.UnregisterValue<T>();
     }
 
     protected abstract void InitContainer();
@@ -77,7 +77,7 @@ where TSingle : IOCContainer<TSingle>, new()
     private T RegisterValue<T>(T instance)where T : class, IIOCComponent
     {
         var type = typeof(T);
-        if(iocDictionary.ContainsKey(type)){
+        if(iocDictionary.TryGetValue(type, out var value)){
             LogManager.LogError($"对象：{type.Name} 被重复注册");
         }
         else{
@@ -87,22 +87,24 @@ where TSingle : IOCContainer<TSingle>, new()
         return (T)iocDictionary[type];
     }
 
+    private void UnregisterValue<T>()where T : class, IIOCComponent
+    {
+        var type = typeof(T);
+        if(iocDictionary.TryGetValue(type, out var value)){
+            ((T)value).Uninstall();
+            iocDictionary.Remove(type);
+        }
+        else{
+            LogManager.LogWarning($"对象：{type.Name} 未被注册");
+        }
+    }
+
     private T GetValue<T>() where T : class, IIOCComponent
     {
         var type = typeof(T);
-        if(iocDictionary.ContainsKey(type)){
-            return (T)iocDictionary[type];
+        if(iocDictionary.TryGetValue(type, out var value)){
+            return (T)value;
         }
         return null;
-    }
-
-    private void RemoveValue<T>(){
-        var type = typeof(T);
-        if(iocDictionary.ContainsKey(type)){
-            LogManager.LogWarning($"对象：{type.Name} 未被注册");
-        }
-        else{
-            iocDictionary.Remove(type);
-        }
     }
 }

@@ -5,21 +5,22 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class RedDotLeafNodeBtn : MonoBehaviour, IPointerClickHandler
+public class RedDotLeafNodeBtn : MonoBehaviour, IPointerClickHandler, IAutoBindEvent
 {
     public RedDotLeafNode redDotNode;
     public Image redDotIcon;
     protected bool IsActive{ get {return Hub.RedDotTree.CheckRedDotState(redDotNode); }}
-    private static readonly EventCenter eventCenter = RedDotTreeManager.eventCenter;
 
     protected virtual void Start()
     {
         UpdateState();
-        eventCenter.AddListener(redDotNode.ToString(), UpdateState);
+        this.AddListener_StartDestroy<UpdateRedDotLeafNodeState>(UpdateRedDotLeafNodeState, gameObject);
     }
 
-    protected virtual void OnDestroy() {
-        eventCenter.RemoveListener(redDotNode.ToString(), UpdateState);
+    private void UpdateRedDotLeafNodeState(UpdateRedDotLeafNodeState updateRedDotLeafNodeState){
+        if(redDotNode == updateRedDotLeafNodeState.redDotLeafNode){
+            UpdateState();
+        }
     }
 
     protected virtual void UpdateState(){

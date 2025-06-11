@@ -5,55 +5,53 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 public enum LocalizationType{
     Text,
+    Asset,
     Size,
-    Image,
-    Audio,
 }
 
-public class LocalizationGroup : MonoBehaviour
+public interface IEditorChangeLange{
+    void ChangeLanguage(SystemLanguage languageId);
+}
+
+public class LocalizationGroup : MonoBehaviour, IEditorChangeLange, IAutoBindEvent
 {
     [LabelText("本地化Item列表")]
     public BaseLocalization[] localizationItem;
-    private bool isAddDataFinish;
-    private LanguageId showLanguage = LanguageId.zh_Hans;
-    private static LocalizationManager localization;
-    protected static LocalizationManager Localization{
-        get{
-            localization ??= Hub.Localization;
-            return localization;
-        }
-    }
-   
-    private void OnEnable() {
-        if(FrameworkManager.isInitFinish){
-            if(isAddDataFinish){
-                SetLanguage(Localization.CurrentLanguage);
-            }
-            LocalizationManager.eventCenter.AddListener<LanguageId>(LocalizationEventName.changeLanguage, SetLanguage);
+    private bool init;
+    private void OnEnable()
+    {
+        if (FrameworkManager.isInitFinish && init)
+        {
+            RefreshContent();
         }
     }
 
     private void Start()
     {
-        SetLanguage(Localization.CurrentLanguage);
-        isAddDataFinish = true;
+        this.AddListener_StartDestroy<ChangeLanguage>(ChangeLanguage, gameObject);
+        RefreshContent();
+        init = true;
     }
 
-    private void OnDisable()
-    {   
-        if(FrameworkManager.isInitFinish){
-            LocalizationManager.eventCenter.RemoveListener<LanguageId>(LocalizationEventName.changeLanguage, SetLanguage);
+    public void ChangeLanguage(ChangeLanguage changeLanguage)
+    {
+        if (gameObject.activeInHierarchy) {
+            RefreshContent();
         }
     }
 
+    /// <summary>
+    /// 通过编辑器工具修改语言
+    /// </summary>
+    void IEditorChangeLange.ChangeLanguage(SystemLanguage languageId)
+    {
+        RefreshContent();
+    }
 
-    private void SetLanguage(LanguageId languageId){
-        if(showLanguage != languageId){
-            foreach (var item in localizationItem)
-            {
-                item.RefreshContent();
-            }
-            showLanguage = languageId;
+    private void RefreshContent(){
+        foreach (var item in localizationItem)
+        {
+            item.RefreshContent();
         }
     }
 }

@@ -14,7 +14,6 @@ public class SpecificFunctionSetting : OdinMenuEditorWindow
     protected override OdinMenuTree BuildMenuTree()
     {
         var tree = new OdinMenuTree();
-        tree.AddAssetAtPath("角色信息及文本设置","Assets/Edc_Framework/Sources/Resources/AssetFile/CharacterTextSetting.asset");
         return tree;
     }
 }

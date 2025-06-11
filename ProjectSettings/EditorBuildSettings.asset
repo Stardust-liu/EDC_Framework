@@ -8,10 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Game/Scenes/MainScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Edc_Framework/Scenes/ObjectPoolExample.unity
+    path: Assets/Edc_Framework/Example/Scenes_Example/Function_CommonToolExample/ObjectPoolExample.unity
     guid: 2a4f9c571299a1f4cb883df00ec23883
   m_configObjects: {}

@@ -35,28 +35,28 @@ public class CommonTool
     /// <summary>
     /// 获取触摸点的世界空间位置
     /// </summary>
-    public static Vector3 GetMouseWorldPos(Camera camera, float depth){
+    public static Vector3 GetMouseWorldPos(float depth){
         var mousePonit = GetMousePonit();
         mousePonit.z = depth;
-        return camera.ScreenToWorldPoint(mousePonit);
+        return ScreenToWorld(mousePonit);
     }
 
     /// <summary>
     /// 获取第一根手指的世界空间位置
     /// </summary>
-    public static Vector3 Touch0WorldPos(Camera camera, float depth){
+    public static Vector3 Touch0WorldPos(float depth = 0){
         var mousePonit = (Vector3)Input.GetTouch(0).position;
         mousePonit.z = depth;
-        return camera.ScreenToWorldPoint(mousePonit);
+        return ScreenToWorld(mousePonit);
     }
 
     /// <summary>
     /// 获取第二根手指的世界空间位置
     /// </summary>
-    public static Vector3 Touch1WorldPos(Camera camera, float depth){
-        var mousePonit = (Vector3)Input.GetTouch(0).position;
+    public static Vector3 Touch1WorldPos(float depth = 0){
+        var mousePonit = (Vector3)Input.GetTouch(1).position;
         mousePonit.z = depth;
-        return camera.ScreenToWorldPoint(mousePonit);
+        return ScreenToWorld(mousePonit);
     }
 
     /// <summary>
@@ -131,5 +131,38 @@ public class CommonTool
     /// </summary>
     public static bool IsZoom(){
         return Input.touchCount >= 2;
+    }
+
+    /// <summary>
+    /// 屏幕坐标转世界坐标
+    /// </summary>
+    public static Vector3 ScreenToWorld(Vector3 ScreenPos, float depth = 0){
+        ScreenPos.z = depth;
+        return FrameworkManager.MainCamera.ScreenToWorldPoint(ScreenPos);
+    }
+
+    /// <summary>
+    /// 屏幕坐标转UI坐标
+    /// </summary>
+    public static Vector3 ScreenToUI(Vector3 ScreenPos, RectTransform rectParent){
+        var camera = FrameworkManager.UiCamera;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(rectParent, ScreenPos, camera, out Vector3 anchoredPos);
+        return anchoredPos;
+    }
+
+    /// <summary>
+    /// 世界坐标转UI坐标
+    /// </summary>
+    public static Vector3 WorldToUI(Vector3 worldPos, RectTransform rectParent){
+        var screenPos = FrameworkManager.MainCamera.WorldToScreenPoint(worldPos);
+        return ScreenToUI(screenPos, rectParent);
+    }
+
+    /// <summary>
+    /// UI坐标转世界坐标
+    /// </summary>
+    public static Vector3 UIToWorld(Vector3 uiPos, float depth = 0){
+        Vector2 screenPos = RectTransformUtility.WorldToScreenPoint(FrameworkManager.UiCamera, uiPos);
+        return ScreenToWorld(screenPos, depth);
     }
 }

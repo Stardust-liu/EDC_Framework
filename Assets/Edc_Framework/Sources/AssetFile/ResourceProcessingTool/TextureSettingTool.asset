@@ -89,9 +89,8 @@ MonoBehaviour:
   middleQualityPath: []
   lowQualityPath:
   - isOn: 1
-    isIgnoreAlphaSetting: 0
     isForcedSettingSize: 0
-    path: 
+    path: Assets/Game
     textureSize: 1024
     SizeReduceGrade: 0
   whitelist: []

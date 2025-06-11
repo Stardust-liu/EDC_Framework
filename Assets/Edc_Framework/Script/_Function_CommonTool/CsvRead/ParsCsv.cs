@@ -1,8 +1,10 @@
 using System;
-using System.Collections;
+using CsvHelper;
+using CsvHelper.Configuration;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
 using System.Text;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
@@ -10,12 +12,10 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     /// <summary>
     /// CSV文件第一行标签
     /// </summary>
+    private string csvName;
     private Dictionary<string, int> titleData;
     private Dictionary<int, List<string>> originalData;
     protected int CurrentReadRow {get; private set;}
-    protected int CurrentReadDataRow {get {return CurrentReadRow - 3;}}
-    protected string FirstColumnInfo {get; private set;}
-    protected TextAsset textAsset;
     protected ParsCsv(){}
     protected ParsCsv(TextAsset csv){
         ParseData(csv);
@@ -24,56 +24,78 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     /// <summary>
     /// 解析数据
     /// </summary>
-    public virtual void ParseData(TextAsset csv){
+    public virtual void ParseData(TextAsset csv) {
+        csvName = csv.name;
+        CurrentReadRow = 0;
         titleData = new Dictionary<string, int>();
         originalData = new Dictionary<int, List<string>>();
-        textAsset = csv;
-        CurrentReadRow = 1;
-        var isIgnore = false;
-        var allData = csv.text;
-        var data = new StringBuilder();
-        var everyLineData = new List<string>();
-        foreach (var item in allData)
-        {
-            if(item == '"'){
-                //当单元格内出现特殊符号时会自动用"号在头尾标记（如,号或换行）
-                //因此当isIgnore为false时就表示标记结束
-                isIgnore = !isIgnore;
-            }
-            if((item == ','||item =='\n')&&!isIgnore){
-                if(CurrentReadRow != 2){
-                    everyLineData.Add(data.ToString());
-                }
-                if(item =='\n'){
-                    if(CurrentReadRow == 1){//读取完了第一行的数据
-                        var count = everyLineData.Count;
-                        for (int i = 0; i < count; i++)
-                        {
-                            titleData.Add(everyLineData[i], i);
-                        }
-                    }
-                    else if(CurrentReadRow != 2){
-                        originalData.Add(CurrentReadRow, new List<string>(everyLineData));
-                    }
-                    everyLineData.Clear();
-                    CurrentReadRow++;
-                }
-                data.Clear();
-                continue;
-            }
-            if(item != '\r'&& CurrentReadRow != 2){//CSV每行末尾都会自动生成一个换行符，这样做可以防止数据末尾有不应该出现的空格
-                data.Append(item);
-            }
-        }
+        ParseData(csv.text);
+
         foreach (var item in originalData.Keys)
         {
             CurrentReadRow = item;
-            FirstColumnInfo = originalData[item][0];
             SetData();
         }
-        textAsset = null;
         titleData = null;
         originalData = null;
+        csvName = null;
+    }
+
+    private void ParseData(string Text)
+    {
+        using var reader = new StringReader(Text);
+        var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+        {
+            HasHeaderRecord = false,
+            Delimiter = ","
+        };
+
+        using var csv = new CsvReader(reader, config);
+        HashSet<int> ignoreColumns = new HashSet<int>();
+
+        while (csv.Read())
+        {
+            var isIgnoreLine = false;
+            for (int i = 0, j = 0; csv.TryGetField<string>(i, out var desc); i++)
+            {
+                if (i == 0 && desc.StartsWith("#"))
+                {
+                    isIgnoreLine = true;
+                    break;
+                }
+
+                if (CurrentReadRow == 0)
+                {
+                    if (desc.StartsWith("#"))
+                    {
+                        ignoreColumns.Add(i);
+                    }
+                    else
+                    {
+                        titleData.Add(desc, j++);
+                    }
+                }
+                else
+                {
+                    if (ignoreColumns.Contains(i))
+                    {
+                        continue;
+                    }
+                    if (!originalData.ContainsKey(CurrentReadRow))
+                    {
+                        originalData.Add(CurrentReadRow, new List<string>() { desc });
+                    }
+                    else
+                    {
+                        originalData[CurrentReadRow].Add(desc);
+                    }
+                }
+            }
+            if (isIgnoreLine) {
+                continue;
+            }
+            CurrentReadRow++;
+        }
     }
 
     /// <summary>
@@ -139,6 +161,9 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     }
 
     private string GetData(string columnsKey){
+        if(!titleData.ContainsKey(columnsKey)){
+            LogManager.LogError($"csv文件：{csvName} 中，不存在 {columnsKey} 数据");
+        }
         return originalData[CurrentReadRow][titleData[columnsKey]];
     }
 }

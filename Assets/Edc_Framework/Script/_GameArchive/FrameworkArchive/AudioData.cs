@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ArchiveData{
-    public class AudioData : BaseGameArchive<AudioData>
+    public class AudioData : BaseGameArchive
     {
         public float soundMainVolume = 1f;
         public float soundBgVolume = 1f;
@@ -15,7 +15,6 @@ namespace ArchiveData{
         /// </summary>
         public void UpdtaeSoundMainVolume(float volume){
             soundMainVolume = volume;
-            SaveDataNow();
         }
 
         /// <summary>
@@ -23,7 +22,6 @@ namespace ArchiveData{
         /// </summary>
         public void UpdateSoundBgVolume(float volume){
             soundBgVolume = volume;
-            SaveDataNow();
         }
 
         /// <summary>
@@ -31,7 +29,6 @@ namespace ArchiveData{
         /// </summary>
         public void UpdateSoundEffectVolume(float volume){
             soundEffectVolume = volume;
-            SaveDataNow();
         }
 
         /// <summary>
@@ -39,7 +36,6 @@ namespace ArchiveData{
         /// </summary>
         public void UpdateSoundDialogueVolume(float volume){
             soundDialogueVolume = volume;
-            SaveDataNow();
         }
     }
 }

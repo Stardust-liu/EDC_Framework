@@ -1,5 +1,6 @@
 using UnityEngine;
-
+using Sirenix.OdinInspector;
+[InlineEditor]
 public class LocalizationSize : BaseLocalization
 {
     public RectTransform rectTransform;

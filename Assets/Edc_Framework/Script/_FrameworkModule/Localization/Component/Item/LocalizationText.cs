@@ -1,18 +1,26 @@
 using Sirenix.OdinInspector;
 using TMPro;
 
+public enum FontMaterialType{
+    UI,
+    UI_BlackOutline,
+    Scene,
+    Scene_BlackOutline,
+}
+
 [InlineEditor]
 public class LocalizationText : BaseLocalization
 {
+    public FontMaterialType fontMaterialType;
     public TMP_Text contentText;
 
     public override void RefreshContent(){
-        if(id != "-1"){
+        if(!string.IsNullOrEmpty(id)){
             contentText.text = Localization.GetLocalizationText(id);
         }
         var fontSetting = Localization.GetFontSetting();
         contentText.font = fontSetting.font;
-        contentText.material =  fontSetting.material;
+        contentText.fontSharedMaterial = fontSetting.fontMaterial[fontMaterialType];
     }
     
     public override void RefreshContent(string _id, bool isOverrideID = false){

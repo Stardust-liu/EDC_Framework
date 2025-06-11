@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,19 +10,15 @@ public abstract class BasePool : MonoBehaviour{
     public virtual void Recycle(){}//回收对象
     public abstract void Destroy();//销毁对象
     private static ObjectPoolSetting objectPool;
-    protected static ObjectPoolSetting ObjectPool{
+    private static ObjectPoolSetting ObjectPool{
         get{
-           
-            objectPool ??= Hub.Resources.GetScriptableobject<ObjectPoolSetting>(nameof(ObjectPoolSetting));
+            var resourcePath = new ResourcePath("ObjectPoolSetting","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/ObjectPool/ObjectPoolSetting.asset");
+            objectPool ??= Hub.Resources.GetScriptableobject<ObjectPoolSetting>(resourcePath);
             return objectPool;
         }
     }
 
-    public static GameObject GetFrameworkPool(string poolName){
-        return ObjectPool.GetFrameworkPool(poolName);
-    }
-
-    public static GameObject GetPool(string poolName, string sceneName = null){
+    protected static GameObject GetPool(string poolName, string sceneName = null){
         return ObjectPool.GetPool(poolName, sceneName);
     }
 }
@@ -38,30 +35,41 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     protected static int ActiveObjectCount{ get{return activeObject.Count;}}
     protected static int CreateCount{ get{return createCount;}}
 
-    public static void InitPool(GameObject prefabObj, Transform parentTransform = null, int count = 0, bool isPreloading = false){
-        if(count != 0){
-            hideObject = new List<T>(count);
-            activeObject = new List<T>(count);
-        }
-        else{
-            hideObject = new List<T>();
-            activeObject = new List<T>();
-        }
-        prefab = prefabObj;
-        parent = parentTransform;
-        isInit = true;
-        if(isPreloading){
-            for (int i = 0; i < count; i++)
+    public static void InitPool(Transform parentTransform = null, int count = 0, bool isPreloading = false){
+        if (!isInit)
+        {
+            var prefabName = (ResourceKeyAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(ResourceKeyAttribute));
+            prefab = GetPool(prefabName.Key); 
+            parent = parentTransform;
+            isInit = true;
+            if (count != 0)
             {
-                PreloadingObject();
+                hideObject = new List<T>(count);
+                activeObject = new List<T>(count);
             }
+            else
+            {
+                hideObject = new List<T>();
+                activeObject = new List<T>();
+            }
+            if(isPreloading){
+                for (int i = 0; i < count; i++)
+                {
+                    PreloadingObject();
+                }
+            }
+        }
+        else
+        {
+            LogManager.LogWarning($"对象池{typeof(T).Name} 已经初始化过");
         }
     }
 
     /// <summary>
     /// 获取对象
     /// </summary>
-    public static T GetItem(){
+    public static T GetItem()
+    {
         T item;
         if (hideObject.Count > 0)
         {
@@ -215,20 +223,8 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     /// </summary>
     public static void DestroyPool()
     {
-        if(!isInit){
-            LogManager.LogError("对象池已销毁");
-            return;
-        }
-        T endItem;
-        if(hideObject.Count > 0){
-            endItem = hideObject[0];
-            hideObject.RemoveAt(0);
-        }
-        else{
-            endItem = activeObject[0];
-            activeObject.RemoveAt(0);
-        }
-        if(endItem != null){
+        if (isInit)
+        {
             foreach (var item in hideObject)
             {
                 item.Destroy();
@@ -242,15 +238,10 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
             hideObject = null;
             activeObject = null;
             isInit = false;
-            endItem.Destroy();
         }
-        else{
-            prefab = null;
-            parent = null;
-            hideObject = null;
-            activeObject = null;
-            isInit = false;
-            LogManager.LogError("销毁了一个完全未创建过对象的对象池");
+        else
+        {
+            LogManager.LogWarning("销毁了一个完全未初始化过对象的对象池");
         }
     }
 #endregion   

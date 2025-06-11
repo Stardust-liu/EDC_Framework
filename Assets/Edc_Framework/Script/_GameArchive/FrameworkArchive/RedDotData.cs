@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 namespace ArchiveData{
-    public class RedDotData : BaseGameArchive<RedDotData>
+    public class RedDotData : BaseGameArchive
     {
         public Dictionary<RedDotLeafNode, bool> leafRedDotState = new();
         public Dictionary<RedDotNode, bool> nonLeafRedDotState = new();
@@ -20,7 +20,6 @@ namespace ArchiveData{
         /// </summary>
         public void ActiveRedDot(RedDotLeafNode redDotLeafNode){
             leafRedDotState[redDotLeafNode] = true;
-            SaveDataNow();
         }
         
         /// <summary>
@@ -28,7 +27,6 @@ namespace ArchiveData{
         /// </summary>
         public void DisableRedDot(RedDotLeafNode redDotLeafNode){
             leafRedDotState[redDotLeafNode] = false;
-            SaveDataNow();
         }
     }
 }

@@ -39,7 +39,7 @@ public enum InputType{
     AxisRaw,
 }
 
-[CreateAssetMenu(fileName = "InputSetting", menuName = "创建.Assets文件/InputSetting")]
+[CreateAssetMenu(fileName = "InputSetting", menuName = "创建.Assets文件/FrameworkTool/InputSetting")]
 public class InputSetting : SerializedScriptableObject
 {
    [LabelText("按键信息")]

@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RedDotNonLeafNodeBtn : MonoBehaviour
+public class RedDotNonLeafNodeBtn : MonoBehaviour, IAutoBindEvent
 {
     public RedDotNode redDotNode;
     public Image redDotIcon;
     protected bool IsActive{ get {return Hub.RedDotTree.CheckRedDotState(redDotNode); }}
-    private static readonly EventCenter eventCenter = RedDotTreeManager.eventCenter;
 
     protected virtual void Start()
     {
         UpdateState();
-        eventCenter.AddListener(redDotNode.ToString(), UpdateState);
+        this.AddListener_StartDestroy<UpdateRedDotNodeState>(UpdateRedDotNodeState, gameObject);
     }
 
-    protected virtual void OnDestroy() {
-       eventCenter.RemoveListener(redDotNode.ToString(), UpdateState);
+    private void UpdateRedDotNodeState(UpdateRedDotNodeState updateRedDotNodeState){
+        if(redDotNode == updateRedDotNodeState.redDotNode){
+            UpdateState();
+        }
     }
-
     protected virtual void UpdateState(){
         if(IsActive){
             ShowRedDot();

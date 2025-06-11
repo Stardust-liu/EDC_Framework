@@ -1,7 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using CustomOdinAttribute;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -30,10 +30,9 @@ public enum SizeReduceGrade{
 public class CompressionInfo{
     [LabelText("是否进行压缩")]
     public bool isOn = true;
-    [LabelText("禁止修改透明通道设置")]
-    public bool isIgnoreAlphaSetting;
     [LabelText("强制设置图像尺寸")]
     public bool isForcedSettingSize;
+    [DragPath]
     public string path;
     [ShowIf("isForcedSettingSize"), LabelText("图像尺寸")]
     public TextureSize textureSize = TextureSize._1024;
@@ -63,7 +62,7 @@ public class TexturePlatformSetting{
     public TextureQualitySetting lowQuality;
 }
 
-[CreateAssetMenu(fileName = "TextureSettingTool", menuName = "OS/素材设置工具/TextureSettingTool")]
+[CreateAssetMenu(fileName = "TextureSettingTool", menuName = "创建.Assets文件/素材设置工具/TextureSettingTool")]
 public class TextureSettingTool : SerializedScriptableObject
 {
     [TabGroup("PC",TextColor ="blue"),HideLabel]
@@ -87,7 +86,7 @@ public class TextureSettingTool : SerializedScriptableObject
     [LabelText("使用备选格式的素材列表"),HideLabel, ReadOnly, GUIColor(1, 0.7f, 0.7f)]
     public List<Texture2D> settingFailList;
     private static List<Texture2D> staticSettingFailList;
-
+    private static ProgressBar progressBar = new ProgressBar();
     private readonly static HashSet<TextureImporterFormat> multiplesOf4Format = new (){
         TextureImporterFormat.BC7,
         TextureImporterFormat.BC5,
@@ -141,10 +140,12 @@ public class TextureSettingTool : SerializedScriptableObject
         staticSettingFailList ??= new List<Texture2D>();
         staticSettingFailList.Clear();
         settingFailList = staticSettingFailList;
+        progressBar.ResetProgress();
+        progressBar.SetNeedProcesCount(GetAllSpriteCount());
         FindTexture("压缩高质量图像中", highQualityPath, HighQualitySetting);
         FindTexture("压缩中等质量图像中", middleQualityPath, MiddleQualitySetting);
         FindTexture("压缩低等质量图像中", lowQualityPath, LowQualitySetting);
-        EditorUtility.ClearProgressBar();
+        progressBar.CloseProgressBar();
         Debug.Log("压缩完成");
     }
 
@@ -156,46 +157,39 @@ public class TextureSettingTool : SerializedScriptableObject
         staticSettingFailList?.Clear();
         Debug.Log("已清空");
     }
+
     private static void FindTexture(string title, CompressionInfo[] compressionInfo, Action<Texture2D, TextureImporter, string, int> setting){
         if(compressionInfo == null)
             return;
-        
         foreach (var item in compressionInfo)
         {
+            var path = item.path;
             if(item.isOn){
-                FindTexture(title, item, setting);
+                if(AssetDatabase.IsValidFolder(path)){
+                    FindTexture(title, path, item, setting);
+                }
             }
         }
 
-        static void FindTexture(string title, CompressionInfo compressionInfo, Action<Texture2D, TextureImporter, string, int> setting){
-            var path = compressionInfo.path;
-            if(AssetDatabase.IsValidFolder(path)){
-                string[] imagePaths = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories);
-                var count = imagePaths.Length;
-                var index = 0f;
-                foreach (string item in imagePaths)
+        static void FindTexture(string title, string path, CompressionInfo compressionInfo, Action<Texture2D, TextureImporter, string, int> setting){
+            string[] imagePaths = Directory.GetFiles(path, "*.png", SearchOption.AllDirectories);
+            var count = imagePaths.Length;
+            foreach (string item in imagePaths)
+            {
+                progressBar.UpdateProgress(title, item);
+                try
                 {
-                    index++;
-                    EditorUtility.DisplayProgressBar(title, item, index/count);
-                    try
-                    {
-                        Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(item);
-                        if(staticSettingFailList.Contains(texture))continue;
-                        TextureImporter textureImporter = (TextureImporter)AssetImporter.GetAtPath(item);
-                        int maxTextureSize = GetTextureSize(compressionInfo, texture);
-                        if(!compressionInfo.isIgnoreAlphaSetting){
-                            CheckIsHaveAlpha(textureImporter);
-                        }
-                        setting.Invoke(texture, textureImporter, item, maxTextureSize);
-                    }
-                    catch{
-                        Debug.LogError($"{item}加载失败，可能图片已经损坏");
-                    }
-                    
+                    Texture2D texture = AssetDatabase.LoadAssetAtPath<Texture2D>(item);
+                    if(staticSettingFailList.Contains(texture))continue;
+                    TextureImporter textureImporter = (TextureImporter)AssetImporter.GetAtPath(item);
+                    int maxTextureSize = GetTextureSize(compressionInfo, texture);
+                    CheckIsHaveAlpha(textureImporter);
+                    setting.Invoke(texture, textureImporter, item, maxTextureSize);
                 }
-            }
-            else{
-                Debug.LogError($"不存在 {path} 路径");
+                catch{
+                    Debug.LogError($"{item}加载失败，可能图片已经损坏");
+                }
+                progressBar.AddProgress();
             }
         }
     }
@@ -210,6 +204,24 @@ public class TextureSettingTool : SerializedScriptableObject
 
     private static void LowQualitySetting(Texture2D texture, TextureImporter textureImporter, string path, int maxTextureSize){
         SetTextureSetting(textureImporter, GetSuitableFormat(texture, textureSetting.lowQuality), path, maxTextureSize);
+    }
+
+    private static void SetTextureSetting(TextureImporter textureImporter, TextureImporterFormat format, string path, int maxTextureSize){        
+        TextureImporterPlatformSettings settings = new TextureImporterPlatformSettings();
+        settings.overridden = true;
+        settings.format = format;
+#if UNITY_STANDALONE
+        settings.name = "Standalone";
+#elif UNITY_ANDROID
+        settings.name = "Android";
+#elif UNITY_IOS
+        settings.name = "iOS";
+#elif UNITY_SWITCH
+        settings.name = "Switch";
+#endif
+        settings.maxTextureSize = maxTextureSize;
+        textureImporter.SetPlatformTextureSettings(settings);
+        AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
     }
 
     /// <summary>
@@ -266,24 +278,6 @@ public class TextureSettingTool : SerializedScriptableObject
         }
     }
 
-    private static void SetTextureSetting(TextureImporter textureImporter, TextureImporterFormat format, string path, int maxTextureSize){        
-        TextureImporterPlatformSettings settings = new TextureImporterPlatformSettings();
-        settings.overridden = true;
-        settings.format = format;
-#if UNITY_STANDALONE
-        settings.name = "Standalone";
-#elif UNITY_ANDROID
-        settings.name = "Android";
-#elif UNITY_IOS
-        settings.name = "iOS";
-#elif UNITY_SWITCH
-        settings.name = "Switch";
-#endif
-        settings.maxTextureSize = maxTextureSize;
-        textureImporter.SetPlatformTextureSettings(settings);
-        AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
-    }
-
     /// <summary>
     /// 检查是否满足指定格式的尺寸
     /// </summary>
@@ -328,6 +322,30 @@ public class TextureSettingTool : SerializedScriptableObject
         }
         static bool IsPot(int vale){
             return (vale & (vale - 1)) == 0;
+        }
+    }
+
+    private int GetAllSpriteCount(){
+        var count = 0;
+        count += GetSpriteCount(highQualityPath);
+        count += GetSpriteCount(middleQualityPath);
+        count += GetSpriteCount(lowQualityPath);
+        return count;
+        int GetSpriteCount(CompressionInfo[] compressionInfos){
+            var count = 0;
+            foreach (var item in compressionInfos)
+            {
+                if(item.isOn){
+                    var path = item.path;
+                    if(AssetDatabase.IsValidFolder(path)){
+                        count += Directory.GetFiles(path, "*.png", SearchOption.AllDirectories).Length;
+                    }
+                    else{
+                        Debug.LogError($"不存在 {path} 路径");
+                    }
+                }
+            }
+            return count;
         }
     }
 }

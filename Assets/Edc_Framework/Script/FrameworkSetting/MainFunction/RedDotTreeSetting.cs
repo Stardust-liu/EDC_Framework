@@ -8,7 +8,7 @@ using XNode;
 using XNodeEditor;
 #endif
 
-[CreateAssetMenu(fileName = "RedDotTreeSetting", menuName = "创建.Assets文件/RedDotTreeSetting")]
+[CreateAssetMenu(fileName = "RedDotTreeSetting", menuName = "创建.Assets文件/FrameworkTool/RedDotTreeSetting")]
 public class RedDotTreeSetting : SerializedScriptableObject
 {
     public RedDotTreeGraph[] redDotTreeSetting;

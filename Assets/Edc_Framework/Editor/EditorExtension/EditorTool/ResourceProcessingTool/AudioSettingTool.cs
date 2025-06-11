@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -22,6 +21,7 @@ public class AudioSettingTool : SerializedScriptableObject
     [LabelText("双声道音频")]
     public AudioClip[] stereoList;
     private static HashSet<string> stereoListPath;
+    private static ProgressBar progressBar = new ProgressBar();
 
     private void SetStereoListPath(){
         if(stereoList != null){
@@ -44,29 +44,34 @@ public class AudioSettingTool : SerializedScriptableObject
     [Button("设置音频为指定格式", ButtonSizes.Large), GUIColor(0.5f, 0.8f, 1f)]
     private void ApplicationSetting(){
         SetStereoListPath();
-        FindAudio(highQualityPath_LL, true, false);
-        FindAudio(highQualityPath_HL, true, true);
-        FindAudio(lowQualityPath_LL, false, false);
-        FindAudio(lowQualityPath_HL, false, true);
+        progressBar.ResetProgress();
+        progressBar.SetNeedProcesCount(GetAllAudioCount());
+        FindAudio("压缩高质量音频中", highQualityPath_LL, true, false);
+        FindAudio("压缩高质量音频中", highQualityPath_HL, true, true);
+        FindAudio("压缩低质量音频中", lowQualityPath_LL, false, false);
+        FindAudio("压缩低质量音频中", lowQualityPath_HL, false, true);
+        progressBar.CloseProgressBar();
     }
 
-    private void FindAudio(List<string> pathList, bool ishighQuality, bool isAllowPlaybackLatency){
+    private void FindAudio(string title, List<string> pathList, bool ishighQuality, bool isAllowPlaybackLatency){
         if(pathList == null)
             return;
         var count = pathList.Count;
         for (var i = 0; i < count; i++)
         {
-            FindAudio(pathList[i], ishighQuality, isAllowPlaybackLatency);
+            FindAudio(title, pathList[i], ishighQuality, isAllowPlaybackLatency);
         }
 
-        static void FindAudio(string path, bool ishighQuality, bool isAllowPlaybackLatency){
+        static void FindAudio(string title, string path, bool ishighQuality, bool isAllowPlaybackLatency){
             if(AssetDatabase.IsValidFolder(path)){
                 var mp3Paths = Directory.GetFiles(path, "*.mp3", SearchOption.AllDirectories);
                 var wavPaths = Directory.GetFiles(path, "*.wav", SearchOption.AllDirectories);
                 var allAudioPaths = mp3Paths.Concat(wavPaths).ToArray();
                 foreach (string item in allAudioPaths)
                 {
+                    progressBar.UpdateProgress(title, item);
                     SetTextureSetting(ishighQuality, isAllowPlaybackLatency, item, AssetDatabase.LoadAssetAtPath<AudioClip>(item));
+                    progressBar.AddProgress();
                 }
             }
             else{
@@ -123,5 +128,29 @@ public class AudioSettingTool : SerializedScriptableObject
             setting.compressionFormat = AudioCompressionFormat.ADPCM;           
         }
         return setting;
+    }
+
+    private int GetAllAudioCount(){
+        var count = 0;
+        count += GetAudioCount(highQualityPath_LL);
+        count += GetAudioCount(highQualityPath_HL);
+        count += GetAudioCount(lowQualityPath_LL);
+        count += GetAudioCount(lowQualityPath_HL);
+        return count;
+        int GetAudioCount(List<string> paths){
+            var count = 0;
+            foreach (var path in paths)
+            {
+                if(AssetDatabase.IsValidFolder(path)){
+                    var mp3Paths = Directory.GetFiles(path, "*.mp3", SearchOption.AllDirectories);
+                    var wavPaths = Directory.GetFiles(path, "*.wav", SearchOption.AllDirectories);
+                    count += mp3Paths.Length + wavPaths.Length;
+                }
+                else{
+                    Debug.LogError($"不存在 {path} 路径");
+                }
+            }
+            return count;
+        }
     }
 }

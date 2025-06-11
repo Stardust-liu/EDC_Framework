@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DG.Tweening;
 using Unity.VisualScripting;
 using UnityEngine;
-
+[ResourceKey("SFX")]
 public class SFXPool : BaseSoundPool<SFXPool>
 {
     public override void Create()

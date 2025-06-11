@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ArchiveData{
-    public class AchievementData : BaseGameArchive<AchievementData>
+    public class AchievementData : BaseGameArchive
     {
         public Dictionary<string, BaseAchievement> unlockAchievement = new();
 
@@ -20,7 +20,6 @@ namespace ArchiveData{
             else{
                 unlockAchievement[achievementID].UpdateAchivementProgress(addCount, completeTime);
             }
-            SaveDataNow();
         }
 
         /// <summary>
