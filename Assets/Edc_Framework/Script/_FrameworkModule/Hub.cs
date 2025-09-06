@@ -11,8 +11,10 @@ public class Hub : IOCContainer<Hub>
     public static AchievementManager Achievement{get; private set;}
     public static RedDotTreeManager RedDotTree{get; private set;}
     public static LocalizationManager Localization{get; private set;}
+    public static InteractionManager Interaction{get; private set;}
+    
 #region UI相关
-    public static UIManager UI{get; private set;}
+    public static UIManager UI { get; private set; }
     public static ViewManager View{get; private set;}
     public static PersistentViewManager PersistentView{get; private set;}
     public static WindowManager Window{get; private set;}
@@ -31,6 +33,7 @@ public class Hub : IOCContainer<Hub>
         Audio = ((IContainer)this).Register(framework.audioController);
         Update = ((IContainer)this).Register(framework.updateController);
 
+        Interaction = ((IContainer)this).Register(framework.interactionController);
         UI = ((IContainer)this).Register(framework.uiController);
         View = ((IContainer)this).Register(framework.viewController);
         PersistentView = ((IContainer)this).Register(framework.persistentViewController);

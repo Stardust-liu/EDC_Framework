@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sirenix.OdinInspector;
+using UnityEngine;
+#if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
-using UnityEngine;
 namespace CustomOdinAttribute{
     public class ClampStringAttributeDraw : OdinAttributeDrawer<ClampStringAttribute, string>
     {
@@ -22,3 +23,4 @@ namespace CustomOdinAttribute{
         }
     }
 }
+#endif

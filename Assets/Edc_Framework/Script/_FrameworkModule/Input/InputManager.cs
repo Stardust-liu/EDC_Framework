@@ -11,9 +11,8 @@ public enum KeyUpdateResultType{
     SameDefinition,             //定义的快捷键与原来一样
 }
 
-public class InputManager : BaseIOCComponent
+public class InputManager : BaseIOCComponent, IBindEvent
 {
-    private static bool isRestriction;
     private static HashSet<KeyCode> immutableKey;
     private static Dictionary<KeyCode, Key> changeableKey;
     private static Dictionary<InputEnum, Key> changeableKeyInfo;
@@ -26,8 +25,6 @@ public class InputManager : BaseIOCComponent
         immutableKey = new HashSet<KeyCode>();
         changeableKey = new Dictionary<KeyCode, Key>();
         changeableKeyInfo = new Dictionary<InputEnum, Key>();//如果数据持久化功能做好，则需要判断是否有这个保存数据，没有的话再创建
-        // Hub.EventCenter.AddListener(EventName.enterRestriction, EnterRestriction);
-        // Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);    
     }
 
     /// <summary>
@@ -132,21 +129,6 @@ public class InputManager : BaseIOCComponent
         changeableKey.Add(newKey, index);
     }
 
-    /// <summary>
-    /// 进入输入限制模式
-    /// </summary>
-    private void EnterRestriction(){
-        isRestriction = true;
-    }
-
-    /// <summary>
-    /// 退出输入限制模式
-    /// </summary>
-    private void ExitRestriction(){
-        isRestriction = false;
-    }
-
-
     public Key GetKey(InputEnum inputEnum){
         var inputInfo = inputSetting.GetInputInfo(inputEnum);
         if(inputInfo.isRemappable){
@@ -177,34 +159,34 @@ public class InputManager : BaseIOCComponent
     }
     
     public bool GetKey(KeyCode keyCode){
-        return isRestriction ? false : Input.GetKey(keyCode);
+        return Hub.Interaction.InteractionState ? Input.GetKey(keyCode) : false;
     }
 
     public bool GetKeyDown(KeyCode keyCode){
-        return isRestriction ? false : Input.GetKeyDown(keyCode);
+        return Hub.Interaction.InteractionState ? Input.GetKeyDown(keyCode) : false;
     }
 
     public bool GetKeyUp(KeyCode keyCode){
-        return isRestriction ? false : Input.GetKeyUp(keyCode);
+        return Hub.Interaction.InteractionState ? Input.GetKeyUp(keyCode) : false;
     }
 
     public bool GetMouseButton(int button){
-        return isRestriction ? false : Input.GetMouseButton(button);
+        return Hub.Interaction.InteractionState ? Input.GetMouseButton(button) : false;
     }
 
     public bool GetMouseButtonDown(int button){
-        return isRestriction ? false : Input.GetMouseButtonDown(button);
+        return Hub.Interaction.InteractionState ? Input.GetMouseButtonDown(button) : false;
     }
 
     public bool GetMouseButtonUp(int button){
-        return isRestriction ? false : Input.GetMouseButtonUp(button);
+        return Hub.Interaction.InteractionState ? Input.GetMouseButtonUp(button) : false;
     }
 
     public float GetAxisRaw(string axisName){
-        return isRestriction ? 0 :  Input.GetAxisRaw(axisName);
+        return Hub.Interaction.InteractionState ? Input.GetAxisRaw(axisName) : 0;
     }
 
     public float GetAxis(string axisName){
-        return isRestriction ? 0 :  Input.GetAxis(axisName);
+        return Hub.Interaction.InteractionState ? Input.GetAxis(axisName) : 0;
     }
 }

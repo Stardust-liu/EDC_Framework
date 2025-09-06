@@ -16,15 +16,21 @@ public class Localization_FileDataVO
 
 public class Localization_FileData : ParsCsv<Localization_FileData>
 {
-    private Dictionary<SystemLanguage, List<Localization_FileDataVO>> localizationInfo = new();
+    private Dictionary<SystemLanguage, List<Localization_FileDataVO>> localizationInfo;
 
-    public override void ParseData(TextAsset csv)
+    protected override void InitData()
     {
-        foreach (var item in localizationInfo)
+        if (localizationInfo == null)
         {
-            item.Value.Clear();
+            localizationInfo = new(RowCount);
         }
-        base.ParseData(csv);
+        else
+        {
+            foreach (var item in localizationInfo)
+            {
+                item.Value.Clear();
+            }
+        }
     }
 
     protected override void SetData()

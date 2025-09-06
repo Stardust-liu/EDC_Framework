@@ -1,0 +1,9 @@
+ID,Desc
+#本地化ID,翻译内容
+SettingView_Language,Language
+SettingView_Language_Desc,Set text language.
+SettingView_SFX,SFX Volume
+SettingView_SFX_Desc,Adjust the volume of sound effects.
+SettingView_BGM,BGM Volume
+SettingView_BGM_Desc,Adjust the volume of the background music.
+SettingView_Back,Back

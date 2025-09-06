@@ -20,7 +20,7 @@ public class CGManager : BaseMonoIOCComponent
     /// 显示CG图片
     /// </summary>
     public void ShowImage(Sprite sprite){
-        gameObject.layer = LayerMask.NameToLayer("UI");
+        gameObject.SetActive(true);
         bg.enabled = true;
         Image_CG.sprite = sprite;
     }
@@ -29,7 +29,7 @@ public class CGManager : BaseMonoIOCComponent
     /// 显示CG视频
     /// </summary>
     public void ShowVido(VideoClip videoClip, Action _vidoPlayEndCallBack = null){
-        gameObject.layer = LayerMask.NameToLayer("UI");
+        gameObject.SetActive(true);
         vidoPlayEndCallBack = _vidoPlayEndCallBack;
         Video_CG.SetDirectAudioVolume(0, Hub.Audio.SoundMainVolume);
         Video_CG.clip = videoClip;
@@ -40,7 +40,7 @@ public class CGManager : BaseMonoIOCComponent
     /// 隐藏Cg面板
     /// </summary>
     public void HideCgCanvas(){
-        gameObject.layer = LayerMask.NameToLayer("UI_Hide");
+        gameObject.SetActive(false);
     }
 
     private void VidoPlayEnd(VideoPlayer vp){

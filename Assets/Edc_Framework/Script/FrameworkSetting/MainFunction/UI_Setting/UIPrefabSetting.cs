@@ -3,12 +3,12 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 public class UIPrefabInfo
 {
-    [LabelText("预制体")]
-    public GameObject prefab;
+    [LabelText("预制体_2DUI")]
+    public GameObject prefab_2DUI;
+    [LabelText("预制体_3DUI")]
+    public GameObject prefab_3DUI;
     [LabelText("在关闭完成后销毁对象")]
     public bool isHideFinishDestroy;
-    [LabelText("是否是3DUI")]
-    public bool is3DUI;
 }
 
 public class UIPrefabSetting : SerializedScriptableObject

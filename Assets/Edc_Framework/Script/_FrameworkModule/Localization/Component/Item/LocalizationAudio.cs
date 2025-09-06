@@ -48,10 +48,10 @@ public class LocalizationAudio : BaseLocalization
         switch (audioType)
         {
             case AudioType.SoundBg:
-                audioManager.PlaysoundBg(audioClip);
+                audioManager.PlaySoundBg(audioClip);
                 break;
             case AudioType.SoundEffect:
-                audioManager.PlaysoundBg(audioClip);
+                audioManager.PlaySoundBg(audioClip);
                 break;
             case AudioType.SoundDialogue:
                 audioManager.PlaySoundDialogue(audioClip);

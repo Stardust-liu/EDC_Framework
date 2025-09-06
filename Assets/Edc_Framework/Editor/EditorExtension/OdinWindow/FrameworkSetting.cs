@@ -15,7 +15,7 @@ public class FrameworkSetting : OdinMenuEditorWindow
     protected override OdinMenuTree BuildMenuTree()
     {
         var tree = new OdinMenuTree();
-        tree.Add("常用颜色管理", CommonColorsSetting.Instance);
+        tree.Add("常用颜色管理", CommonColorSetting.Instance);
         tree.AddAssetAtPath("对象池管理", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/ObjectPool/ObjectPoolSetting.asset");
         tree.AddAllAssetsAtPath("UI面板设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI",typeof(ViewSetting));
         tree.AddAllAssetsAtPath("UI面板设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI",typeof(PersistentViewSetting));
@@ -106,7 +106,7 @@ public class FrameworkSetting : OdinMenuEditorWindow
         }
         else{
             if(FrameworkManager.isInitFinish){
-                Hub.Localization.ChangeLange(selectedLanguage);
+                Hub.Localization.ChangeLanguage(selectedLanguage);
             }
             else{
                 Debug.LogWarning("等待框架初始化完成再切换语言");

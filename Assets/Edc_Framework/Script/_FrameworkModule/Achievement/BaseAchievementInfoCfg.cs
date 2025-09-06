@@ -12,9 +12,15 @@ public class AchievementValueInfoVO{
 
 public class BaseAchievementInfoCfg<T> : ParsCsv<T> where T : class, new()
 {
-    protected static Dictionary<string, AchievementValueInfoVO> valueInfo = new ();
-    public ReadOnlyDictionary<string, AchievementValueInfoVO> ValueInfo = new(valueInfo);
+    protected static Dictionary<string, AchievementValueInfoVO> valueInfo;
 
+    protected override void InitData()
+    {
+        if (valueInfo == null)
+        {
+            valueInfo = new(RowCount);
+        }
+    }
 
     protected override void SetData()
     {

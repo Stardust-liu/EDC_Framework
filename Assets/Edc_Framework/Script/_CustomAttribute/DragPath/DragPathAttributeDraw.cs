@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using UnityEngine;
+#if UNITY_EDITOR
 using Sirenix.OdinInspector.Editor;
 using Sirenix.Utilities.Editor;
 using UnityEditor;
-using UnityEngine;
 
 namespace CustomOdinAttribute{
     public class DragPathAttributeDraw : OdinAttributeDrawer<DragPathAttribute, string>
@@ -50,3 +51,4 @@ namespace CustomOdinAttribute{
         }
     }
 }
+#endif

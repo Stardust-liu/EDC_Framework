@@ -21,4 +21,5 @@ MonoBehaviour:
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
     SerializationNodes: []
-  SpriteAtlasList: []
+  SpriteAtlasList:
+  - {fileID: 0}

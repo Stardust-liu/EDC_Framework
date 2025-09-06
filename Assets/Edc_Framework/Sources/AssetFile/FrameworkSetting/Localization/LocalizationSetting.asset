@@ -17,7 +17,7 @@ MonoBehaviour:
     SerializedBytes: 
     ReferencedUnityObjects:
     - {fileID: 11400000, guid: 5e1bf3151e80a99479e47d925e233d2f, type: 2}
-    - {fileID: 3312100653975095698, guid: 5e1bf3151e80a99479e47d925e233d2f, type: 2}
+    - {fileID: 2100000, guid: ffb4c18a8c082d1429963267171c9fed, type: 2}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -42,7 +42,7 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 3
+      Data: 2
     - Name: 
       Entry: 7
       Data: 
@@ -104,7 +104,7 @@ MonoBehaviour:
       Data: 
     - Name: $k
       Entry: 3
-      Data: 41
+      Data: 10
     - Name: $v
       Entry: 7
       Data: 5|FontSetting, Assembly-CSharp
@@ -146,54 +146,9 @@ MonoBehaviour:
       Entry: 8
       Data: 
     - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 10
-    - Name: $v
-      Entry: 7
-      Data: 7|FontSetting, Assembly-CSharp
-    - Name: font
-      Entry: 10
-      Data: 0
-    - Name: fontMaterial
-      Entry: 7
-      Data: 8|System.Collections.Generic.Dictionary`2[[FontMaterialType, Assembly-CSharp],[UnityEngine.Material,
-        UnityEngine.CoreModule]], mscorlib
-    - Name: comparer
-      Entry: 9
-      Data: 4
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 3
-      Data: 0
-    - Name: $v
-      Entry: 10
-      Data: 1
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
       Entry: 13
       Data: 
     - Name: 
       Entry: 8
       Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+  languageList: {fileID: 4900000, guid: a16f61e2231ea5a48a0aa2fd211e3aa5, type: 3}

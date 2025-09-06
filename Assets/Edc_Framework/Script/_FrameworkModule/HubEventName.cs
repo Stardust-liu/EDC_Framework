@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 
 /// <summary>
@@ -79,9 +80,20 @@ public struct UpdateRedDotNodeState{
 /// <summary>
 /// 更新红点状态（末端节点）
 /// </summary>
-public struct UpdateRedDotLeafNodeState{
+public struct UpdateRedDotLeafNodeState
+{
     public RedDotLeafNode redDotLeafNode;
-    public UpdateRedDotLeafNodeState(RedDotLeafNode _redDotLeafNode){
+    public UpdateRedDotLeafNodeState(RedDotLeafNode _redDotLeafNode)
+    {
         redDotLeafNode = _redDotLeafNode;
+    }
+}
+
+public struct ChangeInteractionState
+{
+    public bool interactionState;
+    public ChangeInteractionState(bool _interactionState)
+    {
+        interactionState = _interactionState;
     }
 }

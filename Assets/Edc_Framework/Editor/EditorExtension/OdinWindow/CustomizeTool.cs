@@ -18,7 +18,7 @@ public class CustomizeTool : OdinMenuEditorWindow
         tree.AddAssetAtPath("替换材质球", "Assets/Edc_Framework/Sources/AssetFile/CustomizeTool/ChangeMaterialTool.asset");
         tree.AddAllAssetsAtPath("图集设置", "Assets/Edc_Framework/Sources/AssetFile/CustomizeTool/SpriteAtlasTool",typeof(CreateAtlasSetting));
         tree.AddAllAssetsAtPath("图集设置", "Assets/Edc_Framework/Sources/AssetFile/CustomizeTool/SpriteAtlasTool",typeof(AtlasManager));
-        tree.AddAllAssetsAtPath("图集设置", "Assets/Edc_Framework/Sources/AssetFile/CustomizeTool/SpriteAtlasTool",typeof(RepeatSpriteCheck));
+        //tree.AddAllAssetsAtPath("图集设置", "Assets/Edc_Framework/Sources/AssetFile/CustomizeTool/SpriteAtlasTool",typeof(RepeatSpriteCheck));
         return tree;
     }
 }

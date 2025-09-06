@@ -8,6 +8,14 @@ public class Localization_TextInfoCfg : BaseLocalizationInfoCfg<Localization_Tex
 {
     private static Dictionary<string, string> localizationInfo = new();
 
+    protected override void InitData()
+    {
+        if (localizationInfo == null)
+        {
+            localizationInfo = new(RowCount);
+        }
+    }
+
     protected override void SetData()
     {
         if (isAddInfo)
@@ -30,6 +38,6 @@ public class Localization_TextInfoCfg : BaseLocalizationInfoCfg<Localization_Tex
     
     public override void CleanLocalizationData()
     {
-        localizationInfo.Clear();
+        localizationInfo?.Clear();
     }
 }

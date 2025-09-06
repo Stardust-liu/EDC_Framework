@@ -10,8 +10,8 @@ public interface IBaseUI_Model{
 
 public abstract class BaseUI_Model : IBaseUI_Model
 {
-    private Dictionary<Type, BaseIOCComponent> component = new ();
-    private Dictionary<Type, BaseMonoIOCComponent> monoComponent = new ();
+    private readonly Dictionary<Type, BaseIOCComponent> component = new();
+    private readonly Dictionary<Type, BaseMonoIOCComponent> monoComponent = new();
     
     void IBaseUI_Model.Init(){
         Init();

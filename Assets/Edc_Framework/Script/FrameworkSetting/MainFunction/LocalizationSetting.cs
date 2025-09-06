@@ -14,11 +14,13 @@ public class LocalizationSetting : SerializedScriptableObject
 {
     [DictionaryDrawerSettings(KeyLabel ="支持的语言", ValueLabel ="字体信息")]
     public Dictionary<SystemLanguage, FontSetting> LanguageSupport;
-
+    public TextAsset languageList;
+    
     /// <summary>
     /// 获取字体设置
     /// </summary>
-    public FontSetting GetFontSetting(SystemLanguage language){
+    public FontSetting GetFontSetting(SystemLanguage language)
+    {
         return LanguageSupport[language];
     }
 

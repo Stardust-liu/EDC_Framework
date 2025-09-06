@@ -11,7 +11,9 @@ public class ScreenTransitionManager : BaseMonoIOCComponent
     /// <summary>
     /// 淡入
     /// </summary>
-    public Tweener FadeIn(Color color, float fadeInTime){
+    public Tweener FadeIn(Color color, float fadeInTime)
+    {
+        Hub.Interaction.DisableInteraction();
         fadeTween.startColor = color * transparentColor;
         fadeTween.targetColor = color;
         fadeTween.SetDuration(fadeInTime);
@@ -24,6 +26,6 @@ public class ScreenTransitionManager : BaseMonoIOCComponent
     /// </summary>
     public Tweener FadeOut(float fadeInTime = -1){
         fadeTween.SetDuration(fadeInTime);
-        return fadeTween.Play(false);
+        return fadeTween.Play(false).OnComplete(Hub.Interaction.EnableInteraction);
     }
 }

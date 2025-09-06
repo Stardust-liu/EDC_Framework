@@ -16,8 +16,7 @@ MonoBehaviour:
     SerializedFormat: 2
     SerializedBytes: 
     ReferencedUnityObjects:
-    - {fileID: 7160493854348915908, guid: 7aac03bf8784b3343b13b82d9452c68e, type: 3}
-    - {fileID: 3387966562717050544, guid: 5fb12c74909f98e41a4fd78bf1048b28, type: 3}
+    - {fileID: 796173816122870943, guid: 32b4eab3efe2fe74ca27ff5b0d088fa3, type: 3}
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
@@ -36,49 +35,25 @@ MonoBehaviour:
       Data: 
     - Name: 
       Entry: 12
-      Data: 2
+      Data: 1
     - Name: 
       Entry: 7
       Data: 
     - Name: $k
       Entry: 1
-      Data: WindowExample_A
+      Data: ConfirmWindow
     - Name: $v
       Entry: 7
       Data: 2|UIPrefabInfo, Assembly-CSharp
-    - Name: prefab
+    - Name: prefab_2DUI
       Entry: 10
       Data: 0
+    - Name: prefab_3DUI
+      Entry: 6
+      Data: 
     - Name: isHideFinishDestroy
       Entry: 5
-      Data: false
-    - Name: is3DUI
-      Entry: 5
-      Data: false
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: WindowExample_B
-    - Name: $v
-      Entry: 7
-      Data: 3|UIPrefabInfo, Assembly-CSharp
-    - Name: prefab
-      Entry: 10
-      Data: 1
-    - Name: isHideFinishDestroy
-      Entry: 5
-      Data: false
-    - Name: is3DUI
-      Entry: 5
-      Data: false
+      Data: true
     - Name: 
       Entry: 8
       Data: 

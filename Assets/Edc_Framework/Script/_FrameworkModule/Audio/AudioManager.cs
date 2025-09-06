@@ -31,8 +31,9 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     public float SoundDialogueOffsetVolume {get{return SoundDialogueVolume * SoundMainVolume;}}
 
     private ResourcesModule resourcesModule;
+    private AudioClip audioClip;
     
-    protected override void Init(){
+    protected override void Init() {
         base.Init();
         resourcesModule = Hub.Resources;
         SFXPool.InitPool(sFXParent, 5, true);
@@ -54,7 +55,7 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// <summary>
     /// 设置背景音乐音量
     /// </summary>
-    public void SetsoundBgVolume(float volume){
+    public void SetSoundBgVolume(float volume){
         Data.UpdateSoundBgVolume(volume);
         bGM1.volume = SoundBgOffsetVolume;
         bGM2.volume = SoundBgOffsetVolume;
@@ -64,33 +65,28 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// 播放背景音
     /// </summary>
     public void PlaysoundBg(ResourcePath resourcePath){
-        if(bGM1.isPlaying){
-            StopSoundBg(bGM1);
-            PlaySoundBg(bGM2);
-        }
-        else{
-            StopSoundBg(bGM2);
-            PlaySoundBg(bGM1);
-        }
-        void PlaySoundBg(AudioSource audioSource){
-            audioSource.volume = 0;
-            audioSource.clip = resourcesModule.GetSoundBg(resourcePath);
-            audioSource.Play();
-            audioSource.DOKill();
-            audioSource.DOFade(SoundBgVolume, WaitTime.fast)
-            .SetEase(Ease.OutQuad);
-        }
+        PlaySoundBg(resourcesModule.GetSoundBg(resourcePath));
     }
 
     /// <summary>
     /// 播放背景音
     /// </summary>
-    public void PlaysoundBg(AudioClip audio){
-        if(bGM1.isPlaying){
+    public void PlaySoundBg(AudioClip audio){
+        if (audioClip != null && audioClip == audio)
+        {
+            return;
+        }
+        else
+        {
+            audioClip = audio;
+        }
+        if (bGM1.isPlaying)
+        {
             StopSoundBg(bGM1);
             PlaySoundBg(bGM2);
         }
-        else{
+        else
+        {
             StopSoundBg(bGM2);
             PlaySoundBg(bGM1);
         }

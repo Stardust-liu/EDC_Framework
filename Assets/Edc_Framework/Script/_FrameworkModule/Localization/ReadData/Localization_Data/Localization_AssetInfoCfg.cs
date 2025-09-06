@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_AssetInfoCfg>
 {
-    private static Dictionary<string, ResourcePath> localizationInfo = new();
+    private static Dictionary<string, ResourcePath> localizationInfo;
+
+    protected override void InitData()
+    {
+        localizationInfo = new(RowCount);
+    }
 
     protected override void SetData()
     {
@@ -29,6 +34,6 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
 
     public override void CleanLocalizationData()
     {
-        localizationInfo.Clear();
+        localizationInfo?.Clear();
     }
 }

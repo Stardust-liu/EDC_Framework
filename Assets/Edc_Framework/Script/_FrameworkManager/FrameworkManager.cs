@@ -19,12 +19,8 @@ public class FrameworkManager : MonoBehaviour
     private Camera uiCamera;
 
     [Title("交互管理")]
-    [SerializeField]
-    private GameObject eventSystem;
-    [SerializeField]
-    private PhysicsRaycaster eaycaster3D;
-    [SerializeField]
-    private Physics2DRaycaster eaycaster2D;
+    public InteractionManager interactionController;
+
 
     [Title("UI模块组件")]
     public UIManager uiController;
@@ -59,38 +55,30 @@ public class FrameworkManager : MonoBehaviour
         FrameworkInitFinish();
     }
 
-    public static void SetInitFinishLoadScene(string initFinishLoadScene){
+    /// <summary>
+    /// 设置降价加载完成后跳转的场景
+    /// </summary>
+    public static void SetInitFinishLoadScene(string initFinishLoadScene)
+    {
         FrameworkManager.initFinishLoadScene = initFinishLoadScene;
     }
 
     private void InitInfo(){
         Hub.Init();
         GameModule.Init();
-        // Hub.EventCenter.AddListener(EventName.enterRestriction, EnterRestriction);
-        // Hub.EventCenter.AddListener(EventName.exitRestriction, ExitRestriction);
     }
 
     private void FrameworkInitFinish()
     {
         isInitFinish = true;
         LogManager.Log("框架初始化完成");
-        if(string.IsNullOrEmpty(initFinishLoadScene)){
-            LogManager.Log("未定义框架初始化完成后进入的场景");
+        if (string.IsNullOrEmpty(initFinishLoadScene))
+        {
+            Hub.View.ChangeView<MenuView_C>();
         }
-        else {
-            Hub.Scene.LoadScene(initFinishLoadScene);   
+        else
+        {
+            Hub.Scene.LoadScene(initFinishLoadScene);
         }
-    }
-
-    private void EnterRestriction(){
-        eventSystem.SetActive(false);
-        eaycaster3D.enabled = false;
-        eaycaster2D.enabled = false;
-    }
-
-    private void ExitRestriction(){
-        eventSystem.SetActive(true);
-        eaycaster3D.enabled = true;
-        eaycaster2D.enabled = true;
     }
 }

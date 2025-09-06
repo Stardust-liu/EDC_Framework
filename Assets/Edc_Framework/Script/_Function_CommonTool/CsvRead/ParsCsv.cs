@@ -15,22 +15,22 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     private string csvName;
     private Dictionary<string, int> titleData;
     private Dictionary<int, List<string>> originalData;
+    protected int RowCount {get; private set;}
     protected int CurrentReadRow {get; private set;}
-    protected ParsCsv(){}
-    protected ParsCsv(TextAsset csv){
-        ParseData(csv);
-    }
+    protected int CurrentReadIndex { get { return CurrentReadRow - 1; } }
 
     /// <summary>
     /// 解析数据
     /// </summary>
-    public virtual void ParseData(TextAsset csv) {
+    public T ParseData(TextAsset csv)
+    {
         csvName = csv.name;
         CurrentReadRow = 0;
         titleData = new Dictionary<string, int>();
         originalData = new Dictionary<int, List<string>>();
         ParseData(csv.text);
-
+        RowCount = originalData.Count;
+        InitData();
         foreach (var item in originalData.Keys)
         {
             CurrentReadRow = item;
@@ -39,6 +39,7 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
         titleData = null;
         originalData = null;
         csvName = null;
+        return Instance;
     }
 
     private void ParseData(string Text)
@@ -102,6 +103,11 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     /// 设置数据
     /// </summary>
     protected abstract void SetData();
+
+    /// <summary>
+    /// 初始化数据
+    /// </summary>
+    protected abstract void InitData();
 
     protected int GetInt(string columnsKey){
         var data = GetData(columnsKey);

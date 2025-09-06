@@ -6,22 +6,40 @@ using UnityEditor;
 using UnityEngine;
 
 public class TextureResources : AssetPostprocessor
-{   
-    private const string postprocessorRangePath = "Assets/Game/Sources";    
+{
+    private HashSet<string> postprocessorRangePath = new()
+    {
+        "Assets/Game/Sources",
+        "Assets/DemoExample/Sources"
+    };
+
 
     public void OnPostprocessTexture(Texture2D texture)
     {
-        if (!assetPath.StartsWith(postprocessorRangePath)){
+        var isCanPostprocess = false;
+        foreach (var item in postprocessorRangePath)
+        {
+            if (assetPath.StartsWith(item))
+            {
+                isCanPostprocess = true;
+                break;
+            }
+        }
+        if (!isCanPostprocess)
+        {
             return;
         }
         var assetNameCutEnd = assetPath.LastIndexOf('/') + 1;
         var assetName = assetPath.Substring(assetNameCutEnd, assetPath.LastIndexOf('.') - assetNameCutEnd);
         var suffixNameCutEnd = assetName.LastIndexOf('_');
-        if(suffixNameCutEnd != -1){
-            var identifierName = assetName.Substring(suffixNameCutEnd);
-            var textureImporter = (TextureImporter)assetImporter;
-            textureImporter.textureType = SetTextureType(identifierName);
+        var identifierName = "";
+        if (suffixNameCutEnd != -1)
+        {
+            identifierName = assetName.Substring(suffixNameCutEnd);
+
         }
+        var textureImporter = (TextureImporter)assetImporter;
+        textureImporter.textureType = SetTextureType(identifierName);
     }
 
     /// <summary>

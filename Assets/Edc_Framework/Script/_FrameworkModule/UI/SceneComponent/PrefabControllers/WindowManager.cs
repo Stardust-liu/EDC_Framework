@@ -8,62 +8,64 @@ public class WindowManager : PanelManager
 {
     public Image windowMaskPanel; 
     public Image windowMaskPanel_3D; 
-    public Stack<BaseWindow> openWindowStack;
-    public Stack<BaseWindow> openWindowStack_3D;
+    private IBaseWindowControl currentWindow;
+    private Stack<IBaseWindowControl> openWindowStack;
     public WindowSetting WindowSetting {get; private set;}
 
     protected override void Init(){
         base.Init();
         var resourcePath = new ResourcePath("WindowSetting","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/WindowSetting.asset");
         WindowSetting = Hub.Resources.GetScriptableobject<WindowSetting>(resourcePath);
-        openWindowStack = new Stack<BaseWindow>();
-        openWindowStack_3D = new Stack<BaseWindow>();
+        openWindowStack = new Stack<IBaseWindowControl>();
     }
 
     /// <summary>
     /// 打开窗口
     /// </summary>
-    public void OpenWindow<T>() where T : BaseWindow
+    public void OpenWindow<T>(Action<T> onOpenInit = null)
+    where T : BaseUIControl, IBaseWindowControl
     {
-        OpenPanel<T>();
+        OpenPanel(onOpenInit);
         var newWindow = GetPanel<T>();
-        if(!newWindow.Is3DUI){
-            OpenWindow(newWindow, openWindowStack, windowMaskPanel);
-        }
-        else{
-            OpenWindow(newWindow, openWindowStack_3D, windowMaskPanel_3D);
-        }
+        OpenWindow(newWindow, openWindowStack, windowMaskPanel);
     }
 
     /// <summary>
     /// 关闭最上层窗口
     /// </summary>
-    public void CloseWindow(Action hideFinishCallBack = null){
-        CloseWindow(openWindowStack, windowMaskPanel, hideFinishCallBack);
+    public void CloseWindow()
+    {
+        CloseWindow(openWindowStack, windowMaskPanel);
     }
 
     /// <summary>
-    /// 关闭最上层窗口
+    /// 检查当前打开的窗口是否是指定类型
     /// </summary>
-    public void CloseWindow_3D(Action hideFinishCallBack = null){
-        CloseWindow(openWindowStack_3D, windowMaskPanel_3D, hideFinishCallBack);
+    public bool CheckCurrentWindow<T>() where T : IBaseWindowControl
+    {
+        return currentWindow is T;
     }
 
-
-    private void OpenWindow(BaseWindow window, Stack<BaseWindow> windowStack, Image windowMask){
+    private void OpenWindow(IBaseWindowControl window, Stack<IBaseWindowControl> windowStack, Image windowMask)
+    {
         windowStack.Push(window);
+        currentWindow = windowStack.Peek();
         windowMask.enabled = true;
-        windowMask.transform.SetSiblingIndex(windowStack.Count-1);
+        windowMask.transform.SetSiblingIndex(windowStack.Count - 1);
     }
 
-    private void CloseWindow(Stack<BaseWindow> windowStack, Image windowMask ,Action hideFinishCallBack){
-        ClosePanel(windowStack.Pop().GetType(), hideFinishCallBack);
+    private void CloseWindow(Stack<IBaseWindowControl> windowStack, Image windowMask)
+    {
+        //如果关闭后要做什么操作直接重写面板自身的HideFinish就行
+        ClosePanel(windowStack.Pop().GetType(), null);
         if (windowStack.Count == 0)
         {
+            currentWindow = null;
             windowMask.enabled = false;
         }
         else
         {
+            currentWindow = windowStack.Peek();
             windowMask.transform.SetSiblingIndex(windowStack.Count - 1);
         }
     }

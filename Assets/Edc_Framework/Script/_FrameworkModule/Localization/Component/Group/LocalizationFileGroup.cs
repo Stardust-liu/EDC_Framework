@@ -7,10 +7,11 @@ public class LocalizationFileGroup : MonoBehaviour, IAutoBindEvent
 {
     [LabelText("本地化文件列表")]
     public TextAsset[] localizationCsvFiles;
+    public bool isAutoLoadData;
 
     private void Awake()
     {
-        if (FrameworkManager.isInitFinish)
+        if (FrameworkManager.isInitFinish && isAutoLoadData)
         {
             this.AddListener_EnableDisable<ReadyChangeLanguage>(ChangeLanguage, gameObject);
             AddLocalizationData(Hub.Localization.GetCurrentLanguage());
@@ -19,12 +20,16 @@ public class LocalizationFileGroup : MonoBehaviour, IAutoBindEvent
 
     private void OnDestroy()
     {
-#if !UNITY_EDITOR
         if (FrameworkManager.isInitFinish)
         {
             RemoveLocalizationData(Hub.Localization.GetCurrentLanguage());
         }
-#endif
+    }
+
+    public void Loadnfo()
+    {
+        this.AddListener_EnableDisable<ReadyChangeLanguage>(ChangeLanguage, gameObject);
+        AddLocalizationData(Hub.Localization.GetCurrentLanguage());
     }
 
     private void ChangeLanguage(ReadyChangeLanguage readyChangeLanguage)

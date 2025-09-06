@@ -11,7 +11,12 @@ public enum BtnClickAudioType{
 
 public class BtnClickAudioInfoCfg : ParsCsv<BtnClickAudioInfoCfg>
 {
-    private readonly Dictionary<BtnClickAudioType, ResourcePath> audioInfo = new();
+    private Dictionary<BtnClickAudioType, ResourcePath> audioInfo;
+    protected override void InitData()
+    {
+        audioInfo = new(RowCount);
+    }
+
     protected override void SetData()
     {
         //audioInfo.Add(GetEnum<BtnClickAudioType>("audioID"), GetString("audioPath"));

@@ -16,17 +16,19 @@ public class PersistentViewManager : PanelManager
     /// <summary>
     /// 打开常驻视图
     /// </summary>
-    public void OpenPersistentView<T>() where T : BasePersistentView
+    public void OpenPersistentView<T>(Action<T> onOpenInit = null)
+    where T : BaseUIControl, IBasePersistentViewControl
     {
-        OpenPanel<T>();
+        OpenPanel(onOpenInit);
     }
 
     /// <summary>
     /// 关闭常驻视图
     /// </summary>
-    public void ClosePersistentView<T>(Action hideFinishCallBack = null) where T : BasePersistentView
+    public void ClosePersistentView<T>()
+    where T : BaseUIControl, IBasePersistentViewControl
     {
-        ClosePanel<T>(hideFinishCallBack);
+        ClosePanel<T>(null);
     }
    
     protected override UIPrefabInfo GetPanelInfo(string panelName)

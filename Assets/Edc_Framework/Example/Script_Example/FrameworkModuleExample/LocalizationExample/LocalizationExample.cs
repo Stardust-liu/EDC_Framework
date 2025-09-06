@@ -19,11 +19,11 @@ public class LocalizationExample : MonoBehaviour
 
     private void ClickChange_zh_Hans()
     {
-        localization.ChangeLange(SystemLanguage.ChineseSimplified);
+        localization.ChangeLanguage(SystemLanguage.ChineseSimplified);
         SetMarkParent(set_zh_Hans);
     }
     private void ClickChange_en(){
-        localization.ChangeLange(SystemLanguage.English);
+        localization.ChangeLanguage(SystemLanguage.English);
         SetMarkParent(set_en);
     }
 

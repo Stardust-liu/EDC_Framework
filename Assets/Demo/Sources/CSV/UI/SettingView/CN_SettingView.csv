@@ -1,0 +1,9 @@
+ID,Desc
+#本地化ID,翻译内容
+SettingView_Language,语言
+SettingView_Language_Desc,设置游戏文本语言
+SettingView_SFX,SFX音量
+SettingView_SFX_Desc,调整音效音量
+SettingView_BGM,BGM音量
+SettingView_BGM_Desc,调整背景音乐的音量
+SettingView_Back,返回

@@ -1,5 +1,6 @@
 using Sirenix.OdinInspector;
 using TMPro;
+using UnityEngine;
 
 public enum FontMaterialType{
     UI,
@@ -15,7 +16,8 @@ public class LocalizationText : BaseLocalization
     public TMP_Text contentText;
 
     public override void RefreshContent(){
-        if(!string.IsNullOrEmpty(id)){
+        if (!string.IsNullOrEmpty(id))
+        {
             contentText.text = Localization.GetLocalizationText(id);
         }
         var fontSetting = Localization.GetFontSetting();
@@ -32,6 +34,7 @@ public class LocalizationText : BaseLocalization
     /// 清空文字内容
     /// </summary>
     public void CleanTextContent(){
+        ChangeID(null);
         contentText.text = null;
     }
 }

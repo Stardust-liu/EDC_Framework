@@ -141,58 +141,6 @@ MonoBehaviour:
   startPos: {x: 0, y: 150, z: 0}
   targetPos: {x: 0, y: 0, z: 0}
   rectTransform: {fileID: 3594950471840124441}
---- !u!1 &2082304663106495408
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8760738985918068150}
-  - component: {fileID: 7382723983181251392}
-  m_Layer: 0
-  m_Name: TweenIn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8760738985918068150
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082304663106495408}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7866802084045998074}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7382723983181251392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2082304663106495408}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3368cbf59dbe72244b26569b500c8e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTweens:
-  - {fileID: 3530183334400140070}
-  - {fileID: 1075439925516090524}
-  - {fileID: 5535038651483162492}
-  - {fileID: 3775931331804847046}
-  - {fileID: 2714993684399873127}
-  IsInvertedForwardPlay: 0
-  tweensCount: 5
 --- !u!1 &2263075159302777019
 GameObject:
   m_ObjectHideFlags: 0
@@ -327,39 +275,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &2444871792597462487
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7866802084045998074}
-  m_Layer: 0
-  m_Name: TweenSetting
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7866802084045998074
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2444871792597462487}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -131.40662, y: 115.863464, z: 4.0855136}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 8760738985918068150}
-  - {fileID: 6473399406670173061}
-  m_Father: {fileID: 3226419445193433306}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3508557456131047476
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,58 +961,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &7446427947780679826
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 6473399406670173061}
-  - component: {fileID: 2089540630998142784}
-  m_Layer: 0
-  m_Name: TweenOut
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6473399406670173061
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7446427947780679826}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7866802084045998074}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2089540630998142784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7446427947780679826}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3368cbf59dbe72244b26569b500c8e23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTweens:
-  - {fileID: 3530183334400140070}
-  - {fileID: 1075439925516090524}
-  - {fileID: 5535038651483162492}
-  - {fileID: 3775931331804847046}
-  - {fileID: 2714993684399873127}
-  IsInvertedForwardPlay: 1
-  tweensCount: 5
 --- !u!1 &7448506220881713683
 GameObject:
   m_ObjectHideFlags: 0
@@ -1257,6 +1120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3226419445193433306}
   - component: {fileID: 8590992489787708464}
+  - component: {fileID: 4836440095788505313}
   m_Layer: 5
   m_Name: ViewExample_A
   m_TagString: Untagged
@@ -1276,7 +1140,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7866802084045998074}
   - {fileID: 6415723070392555386}
   - {fileID: 3594950471840124441}
   - {fileID: 3335419699331038058}
@@ -1302,9 +1165,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3f3bf0a276aaab40bb60f54e1551b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tweenGroupIn: {fileID: 7382723983181251392}
-  tweenGroupOut: {fileID: 2089540630998142784}
+  uiAnimator: {fileID: 0}
   changeView_BBtn: {fileID: 2170222652712809952}
+--- !u!95 &4836440095788505313
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7695956704649411891}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7969163123879513571
 GameObject:
   m_ObjectHideFlags: 0

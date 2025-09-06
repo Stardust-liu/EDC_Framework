@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -28,14 +29,17 @@ public class AtlasManager : SerializedScriptableObject
         }
         foreach (var item in result)
         {
-            if(item.Value.Count > 1){
-                string atlasName = "";
+            string atlasName = null;
+            if (item.Value.Count > 1)
+            {
+                Debug.Log("重复文件" + item.Key.name + "路径" + AssetDatabase.GetAssetPath(item.Key));
                 foreach (var name in item.Value)
                 {
-                    atlasName +=name+"  ";
+                    atlasName += name + "  ";
                 }
-                Debug.Log(atlasName);
-                //Debug.Log(item.Key.name);
+            }
+            if(!string.IsNullOrEmpty(atlasName)){
+                Debug.Log("重复图集" + atlasName);
             }
         }
     }

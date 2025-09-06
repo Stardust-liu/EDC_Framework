@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEditor.U2D;
 using UnityEngine;
 using UnityEngine.U2D;
+using UnityEngine.UI;
 
 [CreateAssetMenu(fileName = "CreateAtlas", menuName = "创建.Assets文件/CustomizeTool/图集工具/CreateAtlas")]
 public class CreateAtlasSetting : SerializedScriptableObject
@@ -29,21 +30,25 @@ public class CreateAtlasSetting : SerializedScriptableObject
 
     [HorizontalGroup("split/left")]
     [Button("创建图集", ButtonSizes.Large), GUIColor(0.5f, 0.8f, 1f)]
-    private void ClickCreateAtlas(){
+    private void ClickCreateAtlas()
+    {
         foreach (var item in prefabs)
         {
             var prefabInstance = (GameObject)PrefabUtility.InstantiatePrefab(item.Value);
             GetPrefabSprite(prefabInstance.GetComponentsInChildren<SpriteRenderer>(), item.Key);
+            GetPrefabSprite(prefabInstance.GetComponentsInChildren<Image>(), item.Key);
             DestroyImmediate(prefabInstance);
-        }
-        foreach (var item in mergeAtlasDictionary)
-        {
-            MergeAtlas(item.Value, item.Key);
         }
         foreach (var item in apriteAtlasDictionary)
         {
             SetSpriteList(item.Value, item.Key);
         }
+        foreach (var item in mergeAtlasDictionary)
+        {
+            MergeAtlas(item.Value, item.Key);
+        }
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh(); 
     }
 
     [HorizontalGroup("split", 0.5f)]
@@ -54,18 +59,58 @@ public class CreateAtlasSetting : SerializedScriptableObject
         apriteAtlasDictionary.Clear();
     }
 
-    private void GetPrefabSprite(SpriteRenderer[] sprirerenderArray, string prefabName){
+    private void GetPrefabSprite(SpriteRenderer[] sprirerenderArray, string prefabName)
+    {
+        if(sprirerenderArray.Length <= 1){
+            return;
+        }
+
         var addAtlasSprite = new List<Sprite>();
         foreach (var item in sprirerenderArray)
         {
-            if(!addAtlasSprite.Contains(item.sprite)){
+            if (!addAtlasSprite.Contains(item.sprite))
+            {
+                addAtlasSprite.Add(item.sprite);
+            }
+        }
+        CreateAtlas(addAtlasSprite, prefabName);
+    }
+    
+    private void GetPrefabSprite(Image[] sprirerenderArray, string prefabName)
+    {
+        if(sprirerenderArray.Length <= 1){
+            return;
+        }
+
+        var addAtlasSprite = new List<Sprite>();
+        foreach (var item in sprirerenderArray)
+        {
+            if (!addAtlasSprite.Contains(item.sprite))
+            {
                 addAtlasSprite.Add(item.sprite);
             }
         }
         CreateAtlas(addAtlasSprite, prefabName);
     }
 
+    private void SetSpriteList(Sprite[] sprites, string spriteAtlas)
+    {
+        var addAtlasSprite = new List<Sprite>();
+        foreach (var item in sprites)
+        {
+            if (!addAtlasSprite.Contains(item))
+            {
+                addAtlasSprite.Add(item);
+            }
+        }
+        CreateAtlas(addAtlasSprite, spriteAtlas);
+    }
+    
     private void MergeAtlas(SpriteAtlas[] spriteAtlasArray, string spriteAtlasName){
+        if(spriteAtlasArray.Length <= 1){
+            return;
+        }
+
         var addAtlasSprite = new List<Sprite>();
         foreach (var item in spriteAtlasArray)
         {
@@ -82,28 +127,19 @@ public class CreateAtlasSetting : SerializedScriptableObject
         CreateAtlas(addAtlasSprite, spriteAtlasName);
     }
 
-    private void SetSpriteList(Sprite[] sprites, string spriteAtlas){
-        var addAtlasSprite = new List<Sprite>();
-        foreach (var item in sprites)
+    private void CreateAtlas(List<Sprite> addAtlasSprite, string spriteAtlas)
+    {
+        if (addAtlasSprite.Count <= 1)
         {
-            if(!addAtlasSprite.Contains(item)){
-                addAtlasSprite.Add(item);
-            }
-        }
-        CreateAtlas(addAtlasSprite, spriteAtlas);
-    }
-
-
-    private void CreateAtlas(List<Sprite> addAtlasSprite, string spriteAtlas){
-        if(addAtlasSprite.Count <= 1){
             return;
         }
+
         var atlas = new SpriteAtlas();
         var packingSettings = new SpriteAtlasPackingSettings()
         {
             enableTightPacking = false,
             padding = 2
-    
+
         };
         var textureSettings = new SpriteAtlasTextureSettings()
         {
@@ -111,29 +147,30 @@ public class CreateAtlasSetting : SerializedScriptableObject
             generateMipMaps = false,
             filterMode = FilterMode.Bilinear
         };
-        
+
         atlas.SetPackingSettings(packingSettings);
         atlas.SetTextureSettings(textureSettings);
-        
+
 
         atlas.Add(new List<Object>(addAtlasSprite).ToArray());
         SaveAtlas(atlas, spriteAtlas);
     }
-    
-    private void SaveAtlas(SpriteAtlas atlas, string spriteAtlasName){
-        var folderPath = generalpath;
-        var atlasPath = $"{folderPath}/{spriteAtlasName}.spriteatlas";
 
+    private void SaveAtlas(SpriteAtlas atlas, string spriteAtlasName)
+    {
+        var folderPath = generalpath;
+        var atlasPath = $"{folderPath}{spriteAtlasName}.spriteatlas";
+        Debug.Log(atlasPath);
         if (!Directory.Exists(folderPath))
         {
             Directory.CreateDirectory(folderPath);
         }
-        if(File.Exists(atlasPath)){
+        if (File.Exists(atlasPath))
+        {
             AssetDatabase.DeleteAsset(atlasPath);
         }
         AssetDatabase.CreateAsset(atlas, atlasPath);
-        AssetDatabase.SaveAssets();
         BuildTarget currentBuildTarget = EditorUserBuildSettings.activeBuildTarget;
-        SpriteAtlasUtility.PackAtlases(new SpriteAtlas[]{atlas}, currentBuildTarget);
+        SpriteAtlasUtility.PackAtlases(new SpriteAtlas[] { atlas }, currentBuildTarget);
     }
 }

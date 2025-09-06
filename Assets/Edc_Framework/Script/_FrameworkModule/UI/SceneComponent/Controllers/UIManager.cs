@@ -60,13 +60,6 @@ public class UIManager : BaseMonoIOCComponent<UIManagerData>, ISendEvent
     }
 
     /// <summary>
-    /// 设置3DUI的PlaneDisTance
-    /// </summary>
-    public void SetPlaneDisTance(int planeDisTance){
-        canvas_3DUI.planeDistance = planeDisTance;
-    }
-
-    /// <summary>
     /// 设置UI适配
     /// </summary>
     private void SetAdaptation(){
