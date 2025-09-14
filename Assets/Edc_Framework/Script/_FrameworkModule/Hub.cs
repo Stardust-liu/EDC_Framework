@@ -22,9 +22,10 @@ public class Hub : IOCContainer<Hub>
     public static ScreenTransitionManager ScreenTransition{get; private set;}
     public static NotificationManager Notification{get; private set;}
     public static CGManager CG{get; private set;}
-#endregion
-    
-    protected override void InitContainer(){
+    #endregion
+
+    protected override void InitContainer()
+    {
         var framework = GameObject.Find("MainObject").GetComponent<FrameworkManager>();
 
         Resources = ((IContainer)this).Register<ResourcesModule>();
@@ -39,7 +40,7 @@ public class Hub : IOCContainer<Hub>
         PersistentView = ((IContainer)this).Register(framework.persistentViewController);
         Window = ((IContainer)this).Register(framework.windowController);
         Loading = ((IContainer)this).Register(framework.loadingController);
-        ScreenTransition =  ((IContainer)this).Register(framework.screenTransitionController);
+        ScreenTransition = ((IContainer)this).Register(framework.screenTransitionController);
         Notification = ((IContainer)this).Register(framework.notificationController);
         CG = ((IContainer)this).Register(framework.cgController);
 

@@ -1,3 +1,6 @@
+using Sirenix.OdinInspector;
+using UnityEngine;
+
 public interface IBasePersistentView{}
 public class BasePersistentView<Model> : BaseUI<Model>, IBasePersistentView where Model : BaseUI_Model, new()
 {

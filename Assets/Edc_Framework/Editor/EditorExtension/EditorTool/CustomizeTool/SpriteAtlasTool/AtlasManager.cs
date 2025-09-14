@@ -12,7 +12,7 @@ public class AtlasManager : SerializedScriptableObject
     public SpriteAtlas[] SpriteAtlasList;
 
     [HorizontalGroup("split/left")]
-    [Button("检查包含重复素材的图集", ButtonSizes.Large), GUIColor(0.5f, 0.8f, 1f)]
+    [Button("检查图集间的重复素材", ButtonSizes.Large), GUIColor(0.5f, 0.8f, 1f)]
     private void CheckAtlasforDuplicateAssets(){
         var result = new Dictionary<Sprite, List<string>>();
         foreach (var item in SpriteAtlasList)

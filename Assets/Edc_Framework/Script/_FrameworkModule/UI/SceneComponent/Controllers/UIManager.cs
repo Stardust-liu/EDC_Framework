@@ -18,81 +18,75 @@ public class UIManager : BaseMonoIOCComponent<UIManagerData>, ISendEvent
     private CanvasScaler canvasScaler_3DUI;
     [SerializeField]
     private CanvasScaler canvasScaler_CG;
-    public int LeftMargin {get{return Data.leftMargin;}}
-    public int RightMargin {get{return Data.rightMargin;}}
-    public int BottomMargin {get{return Data.bottomMargin;}}
-    public int TopMargin {get{return Data.topMargin;}}
+    public float HorizontalMargin { get { return Data.horizontalMargin; } }
+    public float VerticalMargin { get { return Data.verticalMargin; } }
 
-    protected override void Init(){
+    protected override void Init()
+    {
+        base.Init();
         SetAdaptation();
     }
 
     /// <summary>
-    /// 设置左边距
+    /// 设置水平边距
     /// </summary>
-    public void SetLeftMargin(int value){
-        Data.SetLeftMargin(value);
+    public void SetHorizontalMargin(float value)
+    {
+        Data.SetHorizontalMargin(value);
         this.SendEvent<UpdateMargins>();
     }
 
     /// <summary>
-    /// 设置右边距
+    /// 设置垂直边距
     /// </summary>
-    public void SetRightMargin(int value){
-        Data.SetRightMargin(value);
-        this.SendEvent<UpdateMargins>();
-    }
-
-    /// <summary>
-    /// 设置下边距
-    /// </summary>
-    public void SetBottomMargin(int value){
-        Data.SetBottomMargin(value);
-        this.SendEvent<UpdateMargins>();
-    }
-
-    /// <summary>
-    /// 设置上边距
-    /// </summary>
-    public void SetTopMargin(int value){
-        Data.SetTopMargin(value);
+    public void SetVerticalMargin(float value)
+    {
+        Data.SetVerticalMargin(value);
         this.SendEvent<UpdateMargins>();
     }
 
     /// <summary>
     /// 设置UI适配
     /// </summary>
-    private void SetAdaptation(){
-        if(Screen.width > Screen.height){
+    public void SetAdaptation()
+    {
+        int width = Screen.width;
+        int height = Screen.height;
+
+        if (width > height)
+        {
             canvasScaler_UI.referenceResolution = canvasScaler_3DUI.referenceResolution = canvasScaler_CG.referenceResolution = new Vector2(1920, 1080);
-            canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight =  0;
+            if (width / (float)height > 1920 / 1080f)
+            {
+                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 1;
+
+            }
+            else
+            {
+                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 0;
+            }
             canvasScaler_CG.matchWidthOrHeight = 1;
-            // if(!data.isInitSave){
-            //     SetLeftMargin(150);
-            //     SetRightMargin(150);
-            // }
         }
-        else{
+        else
+        {
             canvasScaler_UI.referenceResolution = canvasScaler_3DUI.referenceResolution = canvasScaler_CG.referenceResolution = new Vector2(1080, 1920);
+            if (height / (float)width > 1920 / 1080f)
+            {
+                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 0;
+
+            }
+            else
+            {
+                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 1;
+            }
             canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 1;
             canvasScaler_CG.matchWidthOrHeight = 0;
-            // if(!data.isInitSave){
-            //     SetBottomMargin(150);
-            //     SetTopMargin(150);
-            // }
         }
-    }
-
-    /// <summary>
-    /// 设置页边距
-    /// </summary>
-    private void SetMargins(RectTransform rectTransform){
-        rectTransform.offsetMin = new Vector2(Data.leftMargin, Data.bottomMargin);
-        rectTransform.offsetMax = new Vector2(-Data.rightMargin, -Data.topMargin);
     }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos(){
+    private void OnDrawGizmos()
+    {
         if (isMarkRaycastTargetUI)
         {
             Vector3[] boxSize = new Vector3[4];

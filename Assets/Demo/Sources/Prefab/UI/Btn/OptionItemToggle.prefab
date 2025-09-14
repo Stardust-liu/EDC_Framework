@@ -178,6 +178,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1870904723508472419}
   - component: {fileID: 5157506702927015511}
+  - component: {fileID: 8174399921556302780}
   m_Layer: 5
   m_Name: OptionItemToggle
   m_TagString: Untagged
@@ -227,6 +228,20 @@ MonoBehaviour:
   rightBtn: {fileID: 7115339516097815862}
   LeftBtn: {fileID: 18819797434995986}
   isLoopToggle: 0
+--- !u!114 &8174399921556302780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972137993310973893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e0b390e9b17bf41bbe9831581af289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
 --- !u!1 &2110232313969724890
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,6 +367,7 @@ GameObject:
   - component: {fileID: 3394753771718800471}
   - component: {fileID: 2924026443046417274}
   - component: {fileID: 18819797434995986}
+  - component: {fileID: 1810085228474357274}
   m_Layer: 5
   m_Name: Btn_L
   m_TagString: Untagged
@@ -461,6 +477,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1810085228474357274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5378911379918212321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71781cf57caa0df49b6f644048b09720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
+  button: {fileID: 18819797434995986}
 --- !u!1 &6503280488257531402
 GameObject:
   m_ObjectHideFlags: 0
@@ -508,6 +539,7 @@ GameObject:
   - component: {fileID: 2647276400688418966}
   - component: {fileID: 394791732473071202}
   - component: {fileID: 7115339516097815862}
+  - component: {fileID: 6734985908813386290}
   m_Layer: 5
   m_Name: Btn_R
   m_TagString: Untagged
@@ -617,6 +649,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6734985908813386290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6593144589600873728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71781cf57caa0df49b6f644048b09720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
+  button: {fileID: 7115339516097815862}
 --- !u!1 &8247962642390911448
 GameObject:
   m_ObjectHideFlags: 0

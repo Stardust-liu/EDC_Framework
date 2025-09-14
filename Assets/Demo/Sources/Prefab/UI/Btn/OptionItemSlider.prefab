@@ -139,6 +139,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1870904723508472419}
   - component: {fileID: 6616515480287794060}
+  - component: {fileID: 8073120854742357101}
   m_Layer: 5
   m_Name: OptionItemSlider
   m_TagString: Untagged
@@ -184,6 +185,22 @@ MonoBehaviour:
   selectEffectParent: {fileID: 6456358353546122607}
   localizationID: []
   slider: {fileID: 8378656358408571866}
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
+--- !u!114 &8073120854742357101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972137993310973893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e0b390e9b17bf41bbe9831581af289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
 --- !u!1 &2110232313969724890
 GameObject:
   m_ObjectHideFlags: 0

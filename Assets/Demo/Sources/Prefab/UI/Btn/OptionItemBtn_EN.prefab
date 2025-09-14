@@ -103,6 +103,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1870904723508472419}
   - component: {fileID: 3035203850417339879}
+  - component: {fileID: 1889142833681010923}
+  - component: {fileID: 4064122111053910835}
   - component: {fileID: 5382644130936740013}
   m_Layer: 5
   m_Name: OptionItemBtn_EN
@@ -148,6 +150,35 @@ MonoBehaviour:
   selectEffectParent: {fileID: 6456358353546122607}
   localizationID: []
   btn: {fileID: 5382644130936740013}
+--- !u!114 &1889142833681010923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972137993310973893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71781cf57caa0df49b6f644048b09720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/click.wav
+  button: {fileID: 5382644130936740013}
+--- !u!114 &4064122111053910835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972137993310973893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e0b390e9b17bf41bbe9831581af289, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
 --- !u!114 &5382644130936740013
 MonoBehaviour:
   m_ObjectHideFlags: 0

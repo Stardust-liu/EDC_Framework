@@ -145,6 +145,8 @@ GameObject:
   - component: {fileID: 7194962943018737880}
   - component: {fileID: 6957065591842773039}
   - component: {fileID: 490944322291438509}
+  - component: {fileID: 9169381255623420924}
+  - component: {fileID: 921521950082172668}
   - component: {fileID: 1581751987846787185}
   m_Layer: 5
   m_Name: DefaultBtn
@@ -211,6 +213,35 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &9169381255623420924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8611769978632345246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71781cf57caa0df49b6f644048b09720, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/Click.wav
+  button: {fileID: 1581751987846787185}
+--- !u!114 &921521950082172668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8611769978632345246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b1226ff980d8e444a2eefb1a4574e9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fileNmae_AB: 
+  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
 --- !u!114 &1581751987846787185
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,7 @@
 
+using Sirenix.OdinInspector;
+using UnityEngine;
+
 public interface IBaseView : IBaseUI { }
 public class BaseView<Model> : BaseUI<Model>, IBaseView where Model : BaseUI_Model, new()
 {

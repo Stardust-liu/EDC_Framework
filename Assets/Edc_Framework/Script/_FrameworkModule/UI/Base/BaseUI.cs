@@ -68,8 +68,6 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     {
         MoveToShowParent();
         PLayShowAnimator();
-        UpdateMargins();
-        this.AddListener<UpdateMargins>(UpdateMargins);
     }
 
     /// <summary>
@@ -78,7 +76,6 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     protected virtual void StartHide()
     {
         PLayHideAnimator();
-        this.RemoveListener<UpdateMargins>(UpdateMargins);
     }
 
     /// <summary>
@@ -107,6 +104,9 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
         }
     }
 
+    /// <summary>
+    /// 移动到指定父物体
+    /// </summary>
     protected void MoveToParent(PanelManager panelManager, bool isShow)
     {
         if (isShow)
@@ -132,7 +132,6 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
         Destroy(gameObject);
     }
 
-    protected virtual void UpdateMargins() {}
     protected abstract void MoveToShowParent();
     protected abstract void MoveToHideParent();
 

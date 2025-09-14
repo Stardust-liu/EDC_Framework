@@ -8,6 +8,7 @@ public class SettingView_2D_M : BaseUI_Model
     {
         RegisterData<LocalizationManager>(Hub.Localization);
         RegisterData<AudioManager>(Hub.Audio);
+        RegisterData<UIManager>(Hub.UI);
     }
 
     /// <summary>
@@ -49,7 +50,7 @@ public class SettingView_2D_M : BaseUI_Model
     {
         return Get<AudioManager>().SoundBgVolume;
     }
-
+   
     /// <summary>
     /// 设置音效音量
     /// </summary>

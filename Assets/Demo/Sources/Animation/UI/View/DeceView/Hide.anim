@@ -49,7 +49,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: BG/Option/Line2
+    path: Content/Line2
   - curve:
       serializedVersion: 2
       m_Curve:
@@ -83,7 +83,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    path: BG/Option/Line1
+    path: Content/Line1
   m_FloatCurves: []
   m_PPtrCurves: []
   m_SampleRate: 60
@@ -94,7 +94,7 @@ AnimationClip:
   m_ClipBindingConstant:
     genericBindings:
     - serializedVersion: 2
-      path: 3689051472
+      path: 3699687538
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -103,7 +103,7 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     - serializedVersion: 2
-      path: 1122706666
+      path: 1166905800
       attribute: 3
       script: {fileID: 0}
       typeID: 4
@@ -168,7 +168,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: BG/Option/Line2
+    path: Content/Line2
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -207,7 +207,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: BG/Option/Line2
+    path: Content/Line2
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -246,7 +246,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: BG/Option/Line2
+    path: Content/Line2
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -285,7 +285,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.x
-    path: BG/Option/Line1
+    path: Content/Line1
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -324,7 +324,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.y
-    path: BG/Option/Line1
+    path: Content/Line1
     classID: 224
     script: {fileID: 0}
     flags: 0
@@ -363,7 +363,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalScale.z
-    path: BG/Option/Line1
+    path: Content/Line1
     classID: 224
     script: {fileID: 0}
     flags: 0

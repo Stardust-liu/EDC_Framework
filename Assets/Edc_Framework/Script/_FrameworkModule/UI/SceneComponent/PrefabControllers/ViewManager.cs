@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ViewManager : PanelManager
+public class ViewManager : BaseViewManager
 {
     private IBaseViewControl currentView;
     private HashSet<IBaseViewControl> openViewInfo;

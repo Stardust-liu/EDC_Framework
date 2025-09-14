@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PersistentViewManager : PanelManager
+public class PersistentViewManager : BaseViewManager
 {
     public PersistentViewSetting PersistentViewSetting{get; private set;}
 
