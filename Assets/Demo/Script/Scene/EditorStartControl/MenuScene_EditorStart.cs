@@ -10,7 +10,7 @@ public class MenuScene_EditorStart : BaseEditorStartControl
         var view = Hub.View;
         if (!view.CheckCurrentView<MenuView_2D>())
         {
-            //view.ChangeView<MenuView>();
+            view.ChangeView<MenuView_C>();
         }
     }
 #endif

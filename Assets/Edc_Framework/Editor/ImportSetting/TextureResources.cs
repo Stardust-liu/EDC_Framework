@@ -16,16 +16,16 @@ public class TextureResources : AssetPostprocessor
 
     public void OnPostprocessTexture(Texture2D texture)
     {
-        var isCanPostprocess = false;
+        var isNeedPostprocess = false;
         foreach (var item in postprocessorRangePath)
         {
             if (assetPath.StartsWith(item))
             {
-                isCanPostprocess = true;
+                isNeedPostprocess = true;
                 break;
             }
         }
-        if (!isCanPostprocess)
+        if (!isNeedPostprocess)
         {
             return;
         }

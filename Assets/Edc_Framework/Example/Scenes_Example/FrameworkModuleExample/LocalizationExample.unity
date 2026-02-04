@@ -1426,6 +1426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localizationCsvFiles:
   - {fileID: 4900000, guid: b0d0fef374161d147ac43d47697a60cb, type: 3}
+  isAutoLoadData: 1
 --- !u!1 &1953435466
 GameObject:
   m_ObjectHideFlags: 0
