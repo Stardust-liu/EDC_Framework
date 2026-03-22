@@ -1,11 +1,13 @@
 public class GameModule : IOCContainer<GameModule>
 {
-    public static CameraModule Camera{get; private set;}
-    public static LevelModel Level{get; private set;}
+    public static CameraModule Camera{get{return camera;}}
+    public static LevelModel Level{get{return level;}}
+    public static CameraModule camera;
+    public static LevelModel level;
 
     protected override void InitContainer()
     {
-        Camera = ((IContainer)Instance).Register<CameraModule>();
-        Level = ((IContainer)Instance).Register<LevelModel>();
+        ((IContainer)Instance).Register(out camera);
+        ((IContainer)Instance).Register(out level);
     }
 }

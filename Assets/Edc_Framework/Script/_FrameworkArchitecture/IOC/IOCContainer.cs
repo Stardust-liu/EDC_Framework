@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 public interface IContainer{
-    T Register<T>() where T : class, IIOCComponent; 
-    T Register<T>(T instance) where T : class, IIOCComponent; 
+    void Register<T>(out T value) where T : class, IIOCComponent; 
+    void Register<T>(T instance, out T value) where T : class, IIOCComponent; 
     void Unregister<T>() where T : class, IIOCComponent; 
 }
 public abstract class IOCContainer<TSingle> : IContainer
@@ -37,17 +37,30 @@ where TSingle : IOCContainer<TSingle>, new()
     /// <summary>
     /// 注册
     /// </summary>
-    T IContainer.Register<T>()
-    { 
-        return Instance.RegisterValue<T>();
+    void IContainer.Register<T>(out T value)
+    {
+        var type = typeof(T);
+        if(iocDictionary.ContainsKey(type)){
+            LogManager.LogError($"对象：{type.Name} 被重复注册");
+        }
+        var instance = Activator.CreateInstance<T>();
+        value = instance;
+        instance.Init();
+        iocDictionary.Add(type, instance);
     }
 
     /// <summary>
     /// 注册
     /// </summary>
-    T IContainer.Register<T>(T instance)
-    { 
-        return Instance.RegisterValue<T>(instance);
+    void IContainer.Register<T>(T instance, out T value)
+    {
+        var type = typeof(T);
+        if(iocDictionary.ContainsKey(type)){
+            LogManager.LogError($"对象：{type.Name} 被重复注册");
+        }
+        value = instance;
+        instance.Init();
+        iocDictionary.Add(type, instance);
     }
 
     /// <summary>
@@ -59,33 +72,7 @@ where TSingle : IOCContainer<TSingle>, new()
     }
 
     protected abstract void InitContainer();
-
-    private T RegisterValue<T>()where T : class, IIOCComponent
-    {
-        var type = typeof(T);
-        if(iocDictionary.ContainsKey(type)){
-            LogManager.LogError($"对象：{type.Name} 被重复注册");
-        }
-        else{
-            var instance = Activator.CreateInstance<T>();
-            instance.Init();
-            iocDictionary.Add(type, instance);
-        }
-        return (T)iocDictionary[type];
-    }
-
-    private T RegisterValue<T>(T instance)where T : class, IIOCComponent
-    {
-        var type = typeof(T);
-        if(iocDictionary.TryGetValue(type, out var value)){
-            LogManager.LogError($"对象：{type.Name} 被重复注册");
-        }
-        else{
-            instance.Init();
-            iocDictionary.Add(type, instance);
-        }
-        return (T)iocDictionary[type];
-    }
+ 
 
     private void UnregisterValue<T>()where T : class, IIOCComponent
     {

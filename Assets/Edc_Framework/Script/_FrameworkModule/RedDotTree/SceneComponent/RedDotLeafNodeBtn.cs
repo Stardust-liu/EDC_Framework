@@ -9,7 +9,7 @@ public class RedDotLeafNodeBtn : MonoBehaviour, IPointerClickHandler, IAutoBindE
 {
     public RedDotLeafNode redDotNode;
     public Image redDotIcon;
-    protected bool IsActive{ get {return Hub.RedDotTree.CheckRedDotState(redDotNode); }}
+    protected bool IsActive{ get {return Hub.RedDotTree.GetRedDotState(redDotNode); }}
 
     protected virtual void Start()
     {

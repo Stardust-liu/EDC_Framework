@@ -20,6 +20,16 @@ public class RedDotExample : MonoBehaviour
         resetRedDotBtn.onClick.AddListener(ResetRedDot);
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            Hub.RedDotTree.DisableRedDot(RedDotLeafNode.SystemInformation1);
+            Hub.RedDotTree.DisableRedDot(RedDotLeafNode.SystemInformation1);
+            Hub.RedDotTree.DisableRedDot(RedDotLeafNode.SystemInformation2);
+        }
+    }
+
     /// <summary>
     /// 重置红点状态
     /// </summary>

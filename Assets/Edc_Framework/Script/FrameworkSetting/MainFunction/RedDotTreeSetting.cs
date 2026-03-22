@@ -139,14 +139,9 @@ public class RedDotTreeSetting : SerializedScriptableObject
         return Enum.IsDefined(typeof(RedDotLeafNode), target);
     }
 
-
-    public void InitActiveState(){
-        foreach (var item in leafNode.Values)
-        {
-            item.InitActiveState();
-        } 
-    }
-
+    /// <summary>
+    /// 激活红点
+    /// </summary>
     public void ActiveRedDot(RedDotLeafNode redDotLeafNode){
         if(leafNode.ContainsKey(redDotLeafNode)){
             leafNode[redDotLeafNode].ActiveRedDot();
@@ -156,6 +151,9 @@ public class RedDotTreeSetting : SerializedScriptableObject
         }
     }
 
+    /// <summary>
+    /// 隐藏红点
+    /// </summary>
     public void DisableRedDot(RedDotLeafNode redDotLeafNode){
         if(leafNode.ContainsKey(redDotLeafNode)){
             leafNode[redDotLeafNode].DisableRedDot();
@@ -165,10 +163,17 @@ public class RedDotTreeSetting : SerializedScriptableObject
         }
     }
 
-#if UNITY_EDITOR
-    private void OpenRedDotTreeSetting(RedDotTreeGraph element)
+    /// <summary>
+    /// 初始化红点数据
+    /// </summary>
+    public void InitRedDotInfo()
     {
-        NodeEditorWindow.Open(element);
+        foreach (var redDotTreeSettingItem in redDotTreeSetting)
+        {
+            foreach (var item in redDotTreeSettingItem.nodes)
+            {
+                (item as RedDotTreeBaseNode).SetInfo();
+            }
+        }
     }
-#endif
 }
