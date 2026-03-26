@@ -201,7 +201,7 @@ MonoBehaviour:
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 119
 --- !u!114 &811131360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1200,13 +1200,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2137016975}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f626b964907f044da482ef328d0ea5c, type: 3}
+  m_Script: {fileID: 11500000, guid: a5e57d7393de16543b1ddba21f6f0a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   addEventBtn: {fileID: 1450034464}
   removeEventBtn: {fileID: 1204927116}
   postEventBtn: {fileID: 938047732}
-  autoBindEventObj: {fileID: 477242185}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

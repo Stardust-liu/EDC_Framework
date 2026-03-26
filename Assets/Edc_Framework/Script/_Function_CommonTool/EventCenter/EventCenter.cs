@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public delegate void EventDelegate();
 public delegate void EventDelegate<T>(T value);
 
-public interface IEventCenterFunction{
+interface IEventCenterFunction{
     void AddListener<T>(EventDelegate action);
     void AddListener<T>(EventDelegate<T> action);
     void RemoveListener<T>(EventDelegate action);
@@ -15,18 +15,17 @@ public interface IEventCenterFunction{
 
 public class EventCenter : IEventCenterFunction
 {
-    public Dictionary<Type, Delegate> eventDelegates0;
-    public Dictionary<Type, Delegate> eventDelegates1;
+    private Dictionary<Type, Delegate> eventDelegates0;
+    private Dictionary<Type, Delegate> eventDelegates1;
 
-    public EventCenter(){
-        eventDelegates0 = new Dictionary<Type, Delegate>();
-        eventDelegates1 = new Dictionary<Type, Delegate>();
-    }
+
 #region 添加事件监听相关
     /// <summary>
     /// 添加事件监听
     /// </summary>
     void IEventCenterFunction.AddListener<T>(EventDelegate eventDelegate){
+        eventDelegates0 ??= new Dictionary<Type, Delegate>();
+        
         var type = typeof(T);
         if(eventDelegates0.ContainsKey(type)){
             eventDelegates0[type] = ((EventDelegate)eventDelegates0[type]) + eventDelegate;
@@ -37,9 +36,11 @@ public class EventCenter : IEventCenterFunction
     }
 
     /// <summary>
-    /// 添加事件监听
+    /// 添加事件监听（带参数）
     /// </summary>
     void IEventCenterFunction.AddListener<T>(EventDelegate<T> eventDelegate){
+        eventDelegates1 ??= new Dictionary<Type, Delegate>();
+
         var type = typeof(T);
         if(eventDelegates1.ContainsKey(type)){
             eventDelegates1[type] = ((EventDelegate<T>)eventDelegates1[type]) + eventDelegate;
@@ -54,6 +55,8 @@ public class EventCenter : IEventCenterFunction
     /// 移除事件监听
     /// </summary>
     void IEventCenterFunction.RemoveListener<T>(EventDelegate eventDelegate){
+        if (eventDelegates0 == null) return;
+
         var type = typeof(T);
         if(eventDelegates0.ContainsKey(type)){
             eventDelegates0[type] = ((EventDelegate)eventDelegates0[type]) - eventDelegate;
@@ -67,9 +70,11 @@ public class EventCenter : IEventCenterFunction
     }
 
     /// <summary>
-    /// 移除事件监听
+    /// 移除事件监听（带参数）
     /// </summary>
     void IEventCenterFunction.RemoveListener<T>(EventDelegate<T> eventDelegate){
+        if (eventDelegates1 == null) return;
+
         var type = typeof(T);
         if(eventDelegates1.ContainsKey(type)){
             eventDelegates1[type] = ((EventDelegate<T>)eventDelegates1[type]) - eventDelegate;
@@ -87,6 +92,8 @@ public class EventCenter : IEventCenterFunction
     /// 触发事件
     /// </summary>
     void IEventCenterFunction.SendEvent<T>(){
+        if (eventDelegates0 == null) return;
+
         var type = typeof(T);
         if(eventDelegates0.ContainsKey(type)){
             ((EventDelegate)eventDelegates0[type]).Invoke();
@@ -94,9 +101,11 @@ public class EventCenter : IEventCenterFunction
     }
 
     /// <summary>
-    /// 触发事件
+    /// 触发事件（带参数）
     /// </summary>
     void IEventCenterFunction.SendEvent<T>(T value1){
+        if (eventDelegates1 == null) return;
+
         var type = typeof(T);
         if(eventDelegates1.ContainsKey(type)){
             ((EventDelegate<T>)eventDelegates1[type]).Invoke(value1);

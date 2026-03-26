@@ -26,6 +26,8 @@ where TSingle : IOCContainer<TSingle>, new()
         Instance.InitContainer();
     }
 
+    protected abstract void InitContainer();
+
     /// <summary>
     /// 获取
     /// </summary>
@@ -69,10 +71,7 @@ where TSingle : IOCContainer<TSingle>, new()
     void IContainer.Unregister<T>()
     { 
         Instance.UnregisterValue<T>();
-    }
-
-    protected abstract void InitContainer();
- 
+    } 
 
     private void UnregisterValue<T>()where T : class, IIOCComponent
     {
