@@ -31,10 +31,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2722443188112224970}
   - {fileID: 6832584087109396368}
+  - {fileID: 2722443188112224970}
   - {fileID: 2087081042888614829}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -72,6 +73,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   localizationCsvFiles:
   - {fileID: 4900000, guid: 96ee93c78945cf943aaf6f19b3f75ad6, type: 3}
+  localizationGroups: []
   isAutoLoadData: 0
 --- !u!95 &1160128635487653674
 Animator:
@@ -99,9 +101,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 3
     m_TransformParent: {fileID: 3692432088343051023}
     m_Modifications:
+    - target: {fileID: 921521950082172668, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
+      propertyPath: assetsPath
+      value: ChangeSelect
+      objectReference: {fileID: 0}
     - target: {fileID: 1581751987846787185, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
       propertyPath: m_Colors.m_FadeDuration
       value: 0.05
@@ -238,10 +243,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ConfirmBtn
       objectReference: {fileID: 0}
+    - target: {fileID: 9169381255623420924, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
+      propertyPath: assetsPath
+      value: Click
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
 --- !u!114 &2952127863760844601 stripped
 MonoBehaviour:
@@ -264,7 +270,6 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 3
     m_TransformParent: {fileID: 3692432088343051023}
     m_Modifications:
     - target: {fileID: 1341931293978366036, guid: 6ac4abf59a7443a41b675369ada20aa8, type: 3}
@@ -326,6 +331,10 @@ PrefabInstance:
     - target: {fileID: 7868751810889196900, guid: 6ac4abf59a7443a41b675369ada20aa8, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7868751810889196900, guid: 6ac4abf59a7443a41b675369ada20aa8, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7868751810889196900, guid: 6ac4abf59a7443a41b675369ada20aa8, type: 3}
       propertyPath: m_AnchorMax.x
@@ -412,9 +421,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ac4abf59a7443a41b675369ada20aa8, type: 3}
 --- !u!224 &2722443188112224970 stripped
 RectTransform:
@@ -437,9 +443,12 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    serializedVersion: 3
     m_TransformParent: {fileID: 3692432088343051023}
     m_Modifications:
+    - target: {fileID: 921521950082172668, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
+      propertyPath: assetsPath
+      value: ChangeSelect
+      objectReference: {fileID: 0}
     - target: {fileID: 1581751987846787185, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
       propertyPath: m_Colors.m_FadeDuration
       value: 0.05
@@ -495,6 +504,10 @@ PrefabInstance:
     - target: {fileID: 7194962943018737880, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7194962943018737880, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7194962943018737880, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
       propertyPath: m_AnchorMax.x
@@ -574,12 +587,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9169381255623420924, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
       propertyPath: assetsPath
-      value: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/Back.wav
+      value: Click
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 023b8a2849d6ef349a0a3bf61409f151, type: 3}
 --- !u!224 &2087081042888614829 stripped
 RectTransform:

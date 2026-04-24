@@ -26,19 +26,35 @@ public class LocalizationGroup : MonoBehaviour, IEditorChangeLange, IAutoBindEve
         }
     }
 
-    private void Start()
+    /// <summary>
+    /// 数据加载完成
+    /// </summary>
+    public void Init()
     {
-        this.AddListener_StartDestroy<ChangeLanguage>(ChangeLanguage, gameObject);
-        RefreshContent();
         init = true;
     }
 
-    public void ChangeLanguage(ChangeLanguage changeLanguage)
+    /// <summary>
+    /// 重置数据加载状态
+    /// </summary>
+    public void Reset()
     {
-        if (gameObject.activeInHierarchy) {
-            RefreshContent();
+        init = false;
+    }
+
+    /// <summary>
+    /// 刷新数据
+    /// </summary>
+    public void RefreshContent(){
+        if (gameObject.activeInHierarchy)
+        {
+            foreach (var item in localizationItem)
+            {
+                item.RefreshContent();
+            }
         }
     }
+
 
     /// <summary>
     /// 通过编辑器工具修改语言
@@ -46,12 +62,5 @@ public class LocalizationGroup : MonoBehaviour, IEditorChangeLange, IAutoBindEve
     void IEditorChangeLange.ChangeLanguage(SystemLanguage languageId)
     {
         RefreshContent();
-    }
-
-    private void RefreshContent(){
-        foreach (var item in localizationItem)
-        {
-            item.RefreshContent();
-        }
     }
 }

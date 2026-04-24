@@ -57,7 +57,7 @@ public class MenuView_2D : BaseDescView
     {
         var window = Hub.Window;
         window.OpenWindow<ConfirmWindow_C>(InitConfirmWindow);
-        void InitConfirmWindow(ConfirmWindow_C confirmWindow)
+        async void InitConfirmWindow(ConfirmWindow_C confirmWindow)
         {
             confirmWindow.InitInfo("ConfirmWindow_Quit_Desc", Application.Quit);
         }

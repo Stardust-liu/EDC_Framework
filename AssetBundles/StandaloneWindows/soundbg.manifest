@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3837942444
+CRC: 162086248
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8f079b999601bfa74b64078570c5c884
+    Hash: 14228a80558a9ad30b6b557dfb155595
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a2ca7bdbd1871f7131daf57de908e0c
@@ -13,6 +13,6 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Game/Sources/Audio/HighQuality/PlayImmediately/SoundBg/BGM1.mp3
-- Assets/Game/Sources/Audio/HighQuality/PlayImmediately/SoundBg/BGM2.mp3
+- Assets/Edc_Framework/Example/Sources_Example/SoundBg_Example/BGM1.mp3
+- Assets/Edc_Framework/Example/Sources_Example/SoundBg_Example/BGM2.mp3
 Dependencies: []

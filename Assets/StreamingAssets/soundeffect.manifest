@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 96740020
+CRC: 2951552013
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d5cf9fa44bfc1ba714ecc6d6638225f7
+    Hash: e2fe9b54f505491cf83bb365efc5f305
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a2ca7bdbd1871f7131daf57de908e0c
@@ -13,5 +13,5 @@ ClassTypes:
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
-- Assets/Game/Sources/Audio/HighQuality/PlayImmediately/SoundEffect/Click.wav
+- Assets/Edc_Framework/Example/Sources_Example/SoundEffect_Example/Click.wav
 Dependencies: []

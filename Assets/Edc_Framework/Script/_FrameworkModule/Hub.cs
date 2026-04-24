@@ -1,9 +1,11 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Hub : IOCContainer<Hub>
 {    
-    public static CoroutineRunner Coroutine{get{return coroutine;}}
     public static ResourcesModule Resources{get{return resources;}}
+    public static FrameworkConfigManager FrameworkConfig{get{return frameworkConfig;}}
+    public static CoroutineRunner Coroutine{get{return coroutine;}}
     public static GameSceneManager Scene{get{return scene;}}
     public static InputManager Input{get{return input;}}
     public static AudioManager Audio{get{return audio;}}
@@ -24,8 +26,9 @@ public class Hub : IOCContainer<Hub>
     public static CGManager CG{get{return cg;}}
 #endregion
 
-    private static CoroutineRunner coroutine;
     private static ResourcesModule resources;
+    private static FrameworkConfigManager frameworkConfig;
+    private static CoroutineRunner coroutine;
     private static GameSceneManager scene;
     private static InputManager input;
     private static AudioManager audio;
@@ -44,11 +47,10 @@ public class Hub : IOCContainer<Hub>
     private static NotificationManager notification;
     private static CGManager cg;
 
-    protected override void InitContainer()
+    protected override async UniTask InitContainer(FrameworkManager framework)
     {
-        var framework = GameObject.Find("MainObject").GetComponent<FrameworkManager>();
-
         ((IContainer)this).Register(out resources);
+        await ((IContainer)this).Register(out frameworkConfig).LoadLabel();
 
         ((IContainer)this).Register(framework.coroutineRunner, out coroutine);
         ((IContainer)this).Register(framework.audioController, out audio);

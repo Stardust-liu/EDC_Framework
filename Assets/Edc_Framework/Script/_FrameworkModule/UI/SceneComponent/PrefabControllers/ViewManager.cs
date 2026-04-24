@@ -1,29 +1,29 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class ViewManager : BaseViewManager
 {
     private IBaseViewControl currentView;
-    private HashSet<IBaseViewControl> openViewInfo;
+    private List<IBaseViewControl> openViewInfo;
     private Stack<IBaseViewControl> openViewStack;
     public ViewSetting ViewSetting { get; private set; }
-
 
     protected override void Init()
     {
         base.Init();
-        var resourcePath = new ResourcePath("ViewSetting", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/ViewSetting.asset");
-        ViewSetting = Hub.Resources.GetScriptableobject<ViewSetting>(resourcePath);
-        openViewInfo = new HashSet<IBaseViewControl>();
+        ViewSetting = Hub.Resources.Get<ViewSetting>("ViewSetting");
+        ViewSetting.Init();
+        openViewInfo = new List<IBaseViewControl>();
         openViewStack = new Stack<IBaseViewControl>();
     }
 
     /// <summary>
     /// 切换视图界面
     /// </summary>
-    public void ChangeView<T>(Action<T> onOpenInit)
+    public void ChangeView<T>(Action<T> onCreatePanel) 
     where T : BaseUIControl, IBaseViewControl
     {
         if (currentView != null)
@@ -32,28 +32,28 @@ public class ViewManager : BaseViewManager
             ClosePanel(closePanelType, OpenView);
             void OpenView()
             {
-                OpenView<T>(onOpenInit);
+                OpenView<T>(onCreatePanel);
             }
         }
         else
         {
-            OpenView<T>(onOpenInit);
+            OpenView<T>(onCreatePanel);
         }
     }
 
     /// <summary>
     /// 切换视图界面
     /// </summary>
-    public void ChangeView<T>()
+    public void ChangeView<T>() 
     where T : BaseUIControl, IBaseViewControl
     {
-        ChangeView<T>(null, true);
+        ChangeView<T>((Action)null);
     }
 
     /// <summary>
     /// 切换视图界面
     /// </summary>
-    public void ChangeView<T>(Action onOpenInit, bool dummyValue = true)
+    public void ChangeView<T>(Action onCreatePanel) 
     where T : BaseUIControl, IBaseViewControl
     {
         if (currentView != null)
@@ -62,30 +62,30 @@ public class ViewManager : BaseViewManager
             ClosePanel(closePanelType, OpenView);
             void OpenView()
             {
-                OpenView<T>(onOpenInit);
+                OpenView<T>(onCreatePanel);
             }
         }
         else
         {
-            OpenView<T>(onOpenInit);
+            OpenView<T>(onCreatePanel);
         }
     }
 
     /// <summary>
     /// 返回上一个视图页面
     /// </summary>
-    public void BackLastView(Action onOpenInit = null)
+    public void BackLastView(Action lasetViewOnCreate = null)
     {
         if (BackLastView(out Type closePanelType))
         {
             ClosePanel(closePanelType, WaitOpenView);
         }
-        void WaitOpenView()
+        async void WaitOpenView()
         {
             //照搬了PanelManager OpenPanel类的逻辑，并进行了部分修改
             var type = currentView.GetType();
-            CreatePanel(type, currentView);
-            onOpenInit?.Invoke();//执行委托
+            await CreatePanel(type, currentView);
+            lasetViewOnCreate?.Invoke();//执行委托
             var panel = createPanelContainer[type];
             panel.Open();
         }
@@ -116,15 +116,15 @@ public class ViewManager : BaseViewManager
         }
     }
 
-    private void OpenView<T>(Action<T> onOpened) where T : BaseUIControl, IBaseViewControl
+    private void OpenView<T>(Action<T> onCreatePanel) where T : BaseUIControl, IBaseViewControl
     {
-        OpenPanel(onOpened);
+        OpenPanel(onCreatePanel);
         OpenView<T>();
     }
 
-    private void OpenView<T>(Action onOpened) where T : BaseUIControl, IBaseViewControl
+    private void OpenView<T>(Action onCreatePanel) where T : BaseUIControl, IBaseViewControl
     {
-        OpenPanel<T>(onOpened);
+        OpenPanel<T>(onCreatePanel);
         OpenView<T>();
     }
 
@@ -145,13 +145,13 @@ public class ViewManager : BaseViewManager
         }
     }
 
-    private void CreatePanel(Type type, IBaseViewControl baseViewControl)
+    private async UniTask CreatePanel(Type type, IBaseViewControl baseViewControl)
     {
         if (!createPanelContainer.ContainsKey(type))
         {
             var pathInfo = (ResourceKeyAttribute)Attribute.GetCustomAttribute(type, typeof(ResourceKeyAttribute));
             var panelInfo = GetPanelInfo(pathInfo.Key);
-            baseViewControl.CreatePanel(panelInfo, Parent_2DUI, Parent_3DUI);
+            await baseViewControl.CreatePanel(panelInfo, Parent_2DUI, Parent_3DUI);
             createPanelContainer.Add(type, baseViewControl);
         }
     }

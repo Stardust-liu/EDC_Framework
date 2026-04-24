@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class LevelModel : BaseIOCComponent
 {
-
     protected override void Init()
     {
         base.Init();
@@ -12,9 +13,7 @@ public class LevelModel : BaseIOCComponent
     }
 
     private void InitInfoCfg(){
-        var assetPath = "Assets/Demo/Sources/CSV/Level/LevelDesc.csv";
-        var resourcePath = new ResourcePath("LevelDesc", assetPath);
-        LevelDescInfoCfg.Instance.ParseData(Hub.Resources.GetCsvFile(resourcePath));
+        LevelDescInfoCfg.Instance.ParseData(Hub.Resources.Get<TextAsset>("LevelDesc"));
     }
 
     /// <summary>

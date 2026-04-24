@@ -11,7 +11,7 @@ public enum BtnClickAudioType{
 
 public class BtnClickAudioInfoCfg : ParsCsv<BtnClickAudioInfoCfg>
 {
-    private Dictionary<BtnClickAudioType, ResourcePath> audioInfo;
+    private Dictionary<BtnClickAudioType, string> audioInfo;
     protected override void InitData()
     {
         audioInfo = new(RowCount);
@@ -25,7 +25,7 @@ public class BtnClickAudioInfoCfg : ParsCsv<BtnClickAudioInfoCfg>
     /// <summary>
     /// 获取音频路径
     /// </summary>
-    public ResourcePath GetPath(BtnClickAudioType btnClickAudioType){
+    public string GetPath(BtnClickAudioType btnClickAudioType){
         return audioInfo[btnClickAudioType];
     }
 }

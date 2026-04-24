@@ -15,54 +15,15 @@ MonoBehaviour:
   serializationData:
     SerializedFormat: 2
     SerializedBytes: 
-    ReferencedUnityObjects:
-    - {fileID: 796173816122870943, guid: 32b4eab3efe2fe74ca27ff5b0d088fa3, type: 3}
+    ReferencedUnityObjects: []
     SerializedBytesString: 
     Prefab: {fileID: 0}
     PrefabModificationsReferencedUnityObjects: []
     PrefabModifications: []
-    SerializationNodes:
-    - Name: panelInfo
-      Entry: 7
-      Data: 0|System.Collections.Generic.Dictionary`2[[System.String, mscorlib],[UIPrefabInfo,
-        Assembly-CSharp]], mscorlib
-    - Name: comparer
-      Entry: 7
-      Data: 1|System.Collections.Generic.GenericEqualityComparer`1[[System.String,
-        mscorlib]], mscorlib
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 12
-      Data: 1
-    - Name: 
-      Entry: 7
-      Data: 
-    - Name: $k
-      Entry: 1
-      Data: ConfirmWindow
-    - Name: $v
-      Entry: 7
-      Data: 2|UIPrefabInfo, Assembly-CSharp
-    - Name: prefab_2DUI
-      Entry: 10
-      Data: 0
-    - Name: prefab_3DUI
-      Entry: 6
-      Data: 
-    - Name: isHideFinishDestroy
-      Entry: 5
-      Data: true
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
-    - Name: 
-      Entry: 13
-      Data: 
-    - Name: 
-      Entry: 8
-      Data: 
+    SerializationNodes: []
+  panelList:
+  - name: ConfirmWindow
+    info:
+      prefab_2D: ConfirmWindow_2D
+      prefab_3D: 
+      isHideFinishDestroy: 1

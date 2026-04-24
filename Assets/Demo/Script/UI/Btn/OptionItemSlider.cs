@@ -22,8 +22,6 @@ public class OptionItemSlider : BaseOptionItem
 {
     public Slider slider;
     [FoldoutGroup("切换Value音效")]
-    public string fileNmae_AB;
-    [FoldoutGroup("切换Value音效")]
     public string assetsPath;
     private float lastPlaySoundTime;
     private UnityAction<float> valueChange;
@@ -46,7 +44,7 @@ public class OptionItemSlider : BaseOptionItem
     {
         if (lastPlaySoundTime == 0 || Time.time - lastPlaySoundTime > 0.1f)
         {
-            Hub.Audio.PlaySoundEffect(new ResourcePath(fileNmae_AB, assetsPath));
+            Hub.Audio.PlaySoundEffect(assetsPath);
             lastPlaySoundTime = Time.time;
         }
     }

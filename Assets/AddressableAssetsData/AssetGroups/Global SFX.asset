@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Global SFX
+  m_EditorClassIdentifier: 
+  m_GroupName: Global SFX
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 6788111d8c8c5ff4e931818c53619dc3
+  m_SerializeEntries:
+  - m_GUID: 6c789fd5ca344ae4cbe513477e17568d
+    m_Address: Click
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - GlobalSFX
+  - m_GUID: 78e9d6e2976002f4fb2857df173153aa
+    m_Address: Back
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Soundeffect
+    - GlobalSFX
+  - m_GUID: 0537b29b034160b49a7df10ccdc0f16c
+    m_Address: ChangeSelect
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Soundeffect
+    - GlobalSFX
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 812c912afdf9b1245b0e44aad237d83c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: b79b14f552e7bc34e9bb94803a7daa77, type: 2}
+    - {fileID: 11400000, guid: b6283ce8ab5868e4080d695ebb713cb3, type: 2}

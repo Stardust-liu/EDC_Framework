@@ -1,29 +1,56 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
+
+[Serializable]
+public class PoolEntry
+{
+    public string name;
+    public PoolInfo info;
+}
+
+[Serializable]
+public class PoolInfo
+{
+    public string keyName;
+}
+
 [CreateAssetMenu(fileName = "ObjectPoolSetting", menuName = "创建.Assets文件/FrameworkTool/ObjectPoolSetting")]
 public class ObjectPoolSetting : SerializedScriptableObject
 {
-    [ReadOnly]
-    [DictionaryDrawerSettings(KeyLabel = "预制体名字", ValueLabel ="预制体对象")]
-    public Dictionary<string, GameObject> frameworkPrefab;
+    public List<PoolEntry> prefabList;
+    private Dictionary<string, PoolInfo> prefabInfoDict;
 
-    [DictionaryDrawerSettings(KeyLabel = "预制体名字", ValueLabel ="预制体对象")]
-    public Dictionary<string, GameObject> universalPrefab;
-
-    public GameObject GetPool(string poolName, string sceneName = null){
-        if(frameworkPrefab.TryGetValue(poolName, out var prefab)){
-            return prefab;
-        }
-        if(universalPrefab.TryGetValue(poolName, out prefab)){
-            return prefab;
-        }
-        switch (sceneName)
+    public void Init()
+    {
+        if(prefabInfoDict == null)
         {
-            default:
-                LogManager.LogError($"sceneName填写错误，没有针对 {sceneName} 的处理逻辑");
-                return null;
+            prefabInfoDict = new Dictionary<string, PoolInfo>();
+        }
+        else
+        {
+            prefabInfoDict?.Clear();
+        }
+        foreach (var item in prefabList)
+        {
+            prefabInfoDict.Add(item.name, item.info);
+        }
+#if !UNITY_EDITOR
+        prefabList = null;
+#endif
+    }
+
+    public PoolInfo GetPool(string poolName){
+        if(prefabInfoDict.TryGetValue(poolName, out var prefab)){
+            return prefab;
+        }
+        else
+        {
+            Debug.LogError($"没有{poolName}对象池信息");
+            return null;
         }
     }
 }

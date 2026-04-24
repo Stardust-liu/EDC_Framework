@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using ArchiveData;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
@@ -17,9 +18,8 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
     protected override void Init()
     {
         base.Init();
-        var assetPath = "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationSetting.asset";
-        var resourcePath = new ResourcePath("LocalizationFontSetting", assetPath);
-        localizationFontSetting = Hub.Resources.GetScriptableobject<LocalizationSetting>(resourcePath);
+       
+        localizationFontSetting = Hub.Resources.Get<LocalizationSetting>("LocalizationFontSetting");
         InitInfoCfg();
         SetInitLanguage();
     }
@@ -113,17 +113,17 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
     /// <summary>
     /// 添加数据
     /// </summary>
-    public void AddLocalizationData(TextAsset localizationCsvFile, SystemLanguage systemLanguage)
+    public async UniTask AddLocalizationData(TextAsset localizationCsvFile, SystemLanguage systemLanguage)
     {
-        SetDataState(localizationCsvFile, systemLanguage, true);
+        await SetDataState(localizationCsvFile, systemLanguage, true);
     }
 
     /// <summary>
     /// 移除数据
     /// </summary>
-    public void RemoveLocalizationData(TextAsset localizationCsvFile, SystemLanguage systemLanguage)
+    public async UniTask RemoveLocalizationData(TextAsset localizationCsvFile, SystemLanguage systemLanguage)
     {
-        SetDataState(localizationCsvFile, systemLanguage, false);
+        await SetDataState(localizationCsvFile, systemLanguage, false);
     }
 
     /// <summary>
@@ -136,13 +136,17 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
         localization_SizeInfoCfg.CleanLocalizationData();
     }
 
-    private void SetDataState(TextAsset localizationCsvFile, SystemLanguage systemLanguage, bool isAdd)
+    private async UniTask SetDataState(TextAsset localizationCsvFile, SystemLanguage systemLanguage, bool isAdd)
     {
         localization_FilePath.ParseData(localizationCsvFile);
         var localizationCsvData = localization_FilePath.GetLocalizationFileData(systemLanguage);
+        if (isAdd)
+        {
+            await localization_FilePath.LoadLabelInfo(systemLanguage);
+        }
         foreach (var item in localizationCsvData)
         {
-            var csv = Hub.Resources.GetCsvFile(item.resourcePath);
+            var csv = Hub.Resources.Get<TextAsset>(item.resourcePath);
             switch (item.localizationType)
             {
                 case LocalizationType.Text:
@@ -158,6 +162,10 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
                     else { RemoveAssetInfo(csv); }
                     break;
             }
+        }
+        if (!isAdd)//完成本地化信息卸载后，再卸载资源，否则无法找到需要卸载的本地化信息
+        {
+            localization_FilePath.ReleaseLabel(localizationCsvFile);
         }
     }
 #region 文本信息
@@ -208,9 +216,9 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
     /// <summary>
     /// 获取本地化Asset信息
     /// </summary>
-    public T GetLocalizationAsset<T>(string key, string abName) where T : Object
+    public T GetLocalizationAsset<T>(string key) where T : Object
     {
-        return localization_AssetInfoCfg.GetLocalizationAsset<T>(key, abName);
+        return localization_AssetInfoCfg.GetLocalizationAsset<T>(key);
     }
 #endregion
 #region 尺寸信息

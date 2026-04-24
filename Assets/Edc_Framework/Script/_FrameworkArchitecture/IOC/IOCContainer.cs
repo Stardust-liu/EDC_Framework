@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 public interface IContainer{
-    void Register<T>(out T value) where T : class, IIOCComponent; 
-    void Register<T>(T instance, out T value) where T : class, IIOCComponent; 
+    //为了方便调用Register后，可以直接调用模块中的异步方法，因此使用了通过out赋值，同时返回实例对象的方法
+    T Register<T>(out T value) where T : class, IIOCComponent;
+    T Register<T>(T instance, out T value) where T : class, IIOCComponent; 
     void Unregister<T>() where T : class, IIOCComponent; 
 }
+
 public abstract class IOCContainer<TSingle> : IContainer
 where TSingle : IOCContainer<TSingle>, new()
 {
@@ -21,12 +24,21 @@ where TSingle : IOCContainer<TSingle>, new()
     /// <summary>
     /// 初始化
     /// </summary>
-    public static void Init()
+    public static async UniTask Init()
     {
-        Instance.InitContainer();
+        await Instance.InitContainer();
     }
 
-    protected abstract void InitContainer();
+    /// <summary>
+    /// 初始化
+    /// </summary>
+    public static async UniTask Init(FrameworkManager frameworkManager)
+    {
+        await Instance.InitContainer(frameworkManager);
+    }
+
+    protected virtual UniTask InitContainer(){return UniTask.CompletedTask;}
+    protected virtual UniTask InitContainer(FrameworkManager frameworkManager){return UniTask.CompletedTask;}
 
     /// <summary>
     /// 获取
@@ -39,7 +51,7 @@ where TSingle : IOCContainer<TSingle>, new()
     /// <summary>
     /// 注册
     /// </summary>
-    void IContainer.Register<T>(out T value)
+    T IContainer.Register<T>(out T value)
     {
         var type = typeof(T);
         if(iocDictionary.ContainsKey(type)){
@@ -49,12 +61,13 @@ where TSingle : IOCContainer<TSingle>, new()
         value = instance;
         instance.Init();
         iocDictionary.Add(type, instance);
+        return value;
     }
 
     /// <summary>
     /// 注册
     /// </summary>
-    void IContainer.Register<T>(T instance, out T value)
+    T IContainer.Register<T>(T instance, out T value)
     {
         var type = typeof(T);
         if(iocDictionary.ContainsKey(type)){
@@ -63,6 +76,7 @@ where TSingle : IOCContainer<TSingle>, new()
         value = instance;
         instance.Init();
         iocDictionary.Add(type, instance);
+        return value;
     }
 
     /// <summary>

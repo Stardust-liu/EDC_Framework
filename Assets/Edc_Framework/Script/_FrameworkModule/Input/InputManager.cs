@@ -20,8 +20,7 @@ public class InputManager : BaseIOCComponent, IBindEvent
 
     protected override void Init()
     {
-        var resourcePath = new ResourcePath("InputSetting","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Input/InputSetting.asset");
-        inputSetting = Hub.Resources.GetScriptableobject<InputSetting>(resourcePath);
+        inputSetting = Hub.Resources.Get<InputSetting>("InputSetting");
         immutableKey = new HashSet<KeyCode>();
         changeableKey = new Dictionary<KeyCode, Key>();
         changeableKeyInfo = new Dictionary<InputEnum, Key>();//如果数据持久化功能做好，则需要判断是否有这个保存数据，没有的话再创建

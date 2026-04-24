@@ -1,7 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public abstract class BasePool : MonoBehaviour{
@@ -10,16 +9,12 @@ public abstract class BasePool : MonoBehaviour{
     public virtual void Recycle(){}//回收对象
     public abstract void Destroy();//销毁对象
     private static ObjectPoolSetting objectPool;
-    private static ObjectPoolSetting ObjectPool{
+    protected static ObjectPoolSetting ObjectPool{
         get{
-            var resourcePath = new ResourcePath("ObjectPoolSetting","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/ObjectPool/ObjectPoolSetting.asset");
-            objectPool ??= Hub.Resources.GetScriptableobject<ObjectPoolSetting>(resourcePath);
+            objectPool ??= Hub.Resources.Get<ObjectPoolSetting>("ObjectPoolSetting");
+            objectPool.Init();
             return objectPool;
         }
-    }
-
-    protected static GameObject GetPool(string poolName, string sceneName = null){
-        return ObjectPool.GetPool(poolName, sceneName);
     }
 }
 
@@ -29,35 +24,23 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     protected static Transform parent;
     private static bool isInit;
     private static int createCount;
+    private static AssetManager assetManager;
     private static List<T> hideObject;
     private static List<T> activeObject;
     protected static int HideObjectCount{ get{return hideObject.Count;}}
     protected static int ActiveObjectCount{ get{return activeObject.Count;}}
     protected static int CreateCount{ get{return createCount;}}
+    private static UniTask task;
 
-    public static void InitPool(Transform parentTransform = null, int count = 0, bool isPreloading = false){
+    /// <summary>
+    /// 初始化对象池
+    /// </summary>
+    public static async UniTask InitPool(Transform parentTransform = null, int count = 0, bool isPreloading = false){
         if (!isInit)
         {
-            var prefabName = (ResourceKeyAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(ResourceKeyAttribute));
-            prefab = GetPool(prefabName.Key); 
-            parent = parentTransform;
             isInit = true;
-            if (count != 0)
-            {
-                hideObject = new List<T>(count);
-                activeObject = new List<T>(count);
-            }
-            else
-            {
-                hideObject = new List<T>();
-                activeObject = new List<T>();
-            }
-            if(isPreloading){
-                for (int i = 0; i < count; i++)
-                {
-                    PreloadingObject();
-                }
-            }
+            task = Init(parentTransform, count, isPreloading).Preserve();
+            await task;
         }
         else
         {
@@ -66,10 +49,39 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     }
 
     /// <summary>
+    /// 初始化对象池
+    /// </summary>
+    private static async UniTask Init(Transform parentTransform = null, int count = 0, bool isPreloading = false){
+        var prefabName = (ResourceKeyAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(ResourceKeyAttribute));
+        var keyName = ObjectPool.GetPool(prefabName.Key).keyName;
+        AssetManager.Init(out assetManager, keyName);
+        await assetManager.Load();
+        prefab = Hub.Resources.Get<GameObject>(keyName);
+        parent = parentTransform;
+        if (count != 0)
+        {
+            hideObject = new List<T>(count);
+            activeObject = new List<T>(count);
+        }
+        else
+        {
+            hideObject = new List<T>();
+            activeObject = new List<T>();
+        }
+        if(isPreloading){
+            for (int i = 0; i < count; i++)
+            {
+                PreloadingObject();
+            }
+        }   
+    }
+
+    /// <summary>
     /// 获取对象
     /// </summary>
-    public static T GetItem()
+    public static async UniTask<T> GetItem()
     {
+        await task;
         T item;
         if (hideObject.Count > 0)
         {
@@ -217,7 +229,6 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
         }
     }
 
-        
     /// <summary>
     /// 销毁整个池
     /// </summary>
@@ -225,6 +236,7 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     {
         if (isInit)
         {
+            assetManager.ReleaseAll();
             foreach (var item in hideObject)
             {
                 item.Destroy();
@@ -238,6 +250,7 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
             hideObject = null;
             activeObject = null;
             isInit = false;
+            assetManager = null;
         }
         else
         {

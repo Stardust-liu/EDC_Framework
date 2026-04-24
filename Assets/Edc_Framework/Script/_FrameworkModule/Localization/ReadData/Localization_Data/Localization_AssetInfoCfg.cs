@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_AssetInfoCfg>
 {
-    private static Dictionary<string, ResourcePath> localizationInfo;
+    private static Dictionary<string, string> localizationInfo;
+
 
     protected override void InitData()
     {
@@ -15,7 +16,7 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
     {
         if (isAddInfo)
         {
-            var resourcePath = new ResourcePath(GetString("AB_FileNmae"), GetString("AssetsPath"));
+            var resourcePath = GetString("AssetsPath");
             localizationInfo.Add(GetString("ID"), resourcePath);
         }
         else
@@ -27,9 +28,18 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
     /// <summary>
     /// 获取本地化资源
     /// </summary>
-    public T GetLocalizationAsset<T>(string key, string abName) where T : Object
+    public T GetLocalizationAsset<T>(string key) where T : Object
     {
-        return Hub.Resources.GetAssets<T>(abName, localizationInfo[key]);
+        if (typeof(T) == typeof(Sprite))
+        {
+            var tex = Hub.Resources.Get<Texture2D>(localizationInfo[key]);
+            var spr = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100f);
+            return spr as T;
+        }
+        else
+        {
+            return Hub.Resources.Get<T>(localizationInfo[key]);
+        }
     }
 
     public override void CleanLocalizationData()

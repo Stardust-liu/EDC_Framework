@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using ArchiveData;
+using Cysharp.Threading.Tasks;
 
 public enum AudioType{
     SoundBg,//背景音
@@ -36,8 +37,8 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     protected override void Init() {
         base.Init();
         resourcesModule = Hub.Resources;
-        SFXPool.InitPool(sFXParent, 5, true);
-        VOPool.InitPool(vOParent, 5, true);
+        SFXPool.InitPool(sFXParent, 5, true).Forget();
+        VOPool.InitPool(vOParent, 5, true).Forget();
     }
 
 #region 主音音量相关
@@ -60,12 +61,13 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
         bGM1.volume = SoundBgOffsetVolume;
         bGM2.volume = SoundBgOffsetVolume;
     }
-    
+
+
     /// <summary>
     /// 播放背景音
     /// </summary>
-    public void PlaysoundBg(ResourcePath resourcePath){
-        PlaySoundBg(resourcesModule.GetSoundBg(resourcePath));
+    public void PlaysoundBg(string resourcePath){
+        PlaySoundBg(resourcesModule.Get<AudioClip>(resourcePath));
     }
 
     /// <summary>
@@ -135,15 +137,17 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// <summary>
     /// 播放音效
     /// </summary>
-    public void PlaySoundEffect(ResourcePath resourcePath){
-        SFXPool.GetItem().PlaySound(resourcesModule.GetSoundEffect(resourcePath));
+    public async void PlaySoundEffect(string resourcePath){
+        var sfx = await SFXPool.GetItem();
+        sfx.PlaySound(resourcesModule.Get<AudioClip>(resourcePath));
     }
 
     /// <summary>
     /// 播放音效
     /// </summary>
-    public void PlaySoundEffect(AudioClip audio){
-        SFXPool.GetItem().PlaySound(audio);
+    public async void PlaySoundEffect(AudioClip audio){
+        var sfx = await SFXPool.GetItem();
+        sfx.PlaySound(audio);
     }
 
     /// <summary>
@@ -156,8 +160,8 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// <summary>
     /// 停止指定音效
     /// </summary>
-    public void StopSpecifySoundEffect(ResourcePath resourcePath){
-        StopSpecifySoundEffect(resourcesModule.GetSoundEffect(resourcePath));
+    public void StopSpecifySoundEffect(string resourcePath){
+        StopSpecifySoundEffect(resourcesModule.Get<AudioClip>(resourcePath));
     }
 
     /// <summary>
@@ -186,15 +190,17 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// <summary>
     /// 播放对话
     /// </summary>
-    public void PlaySoundDialogue(ResourcePath resourcePath){
-        VOPool.GetItem().PlaySound(resourcesModule.GetSoundDialogue(resourcePath));
+    public async void PlaySoundDialogue(string resourcePath){
+        var vo = await VOPool.GetItem();
+        vo.PlaySound(resourcesModule.Get<AudioClip>(resourcePath));
     }
 
     /// <summary>
     /// 播放对话
     /// </summary>
-    public void PlaySoundDialogue(AudioClip audio){
-        VOPool.GetItem().PlaySound(audio);
+    public async void PlaySoundDialogue(AudioClip audio){
+        var vo = await VOPool.GetItem();
+        vo.PlaySound(audio);
     }
 
     /// <summary>

@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: FrameworkConfig
+  m_EditorClassIdentifier: 
+  m_GroupName: FrameworkConfig
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 9dbd8ac2f06cc7149be03a903fe6deac
+  m_SerializeEntries:
+  - m_GUID: e365dd9d78152c042bc07072e07a87c7
+    m_Address: LocalizationFontSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  - m_GUID: 5d0524a4193e8c644b200dcd2539e29c
+    m_Address: ObjectPoolSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  - m_GUID: c8c616d7cd18ada4fb070f77fd2b570b
+    m_Address: PersistentViewSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  - m_GUID: d43fba56041bd694aaf0b37572717b1c
+    m_Address: ViewSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  - m_GUID: d547db33eacdc0447a972247068fbc9e
+    m_Address: WindowSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  - m_GUID: 7dcb1c38a17372240b8b8a56688fbead
+    m_Address: RedDotTreeSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  - m_GUID: 211c03841de7d3143ad131bd6f494595
+    m_Address: InputSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  - m_GUID: 059874555077d284eb02724b8bb6123c
+    m_Address: SceneResourcesSetting
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - FrameworkConfig
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 812c912afdf9b1245b0e44aad237d83c, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: c169e7a5552ccad4b8fe14d5629de5a9, type: 2}
+    - {fileID: 11400000, guid: 82bddc75ea9090b47b908f3761ec0cb6, type: 2}

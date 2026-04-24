@@ -16,7 +16,7 @@ public class LocalizationText : BaseLocalization
     public TMP_Text contentText;
 
     public override void RefreshContent(){
-        if (!string.IsNullOrEmpty(id))
+        if (!string.IsNullOrEmpty(id) && id != "-1")
         {
             contentText.text = Localization.GetLocalizationText(id);
         }

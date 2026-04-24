@@ -36,6 +36,7 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
             CurrentReadRow = item;
             SetData();
         }
+        SetDataComplete();
         titleData = null;
         originalData = null;
         csvName = null;
@@ -103,6 +104,11 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     /// 设置数据
     /// </summary>
     protected abstract void SetData();
+
+    /// <summary>
+    /// 设置完成
+    /// </summary>
+    protected virtual void SetDataComplete(){}
 
     /// <summary>
     /// 初始化数据

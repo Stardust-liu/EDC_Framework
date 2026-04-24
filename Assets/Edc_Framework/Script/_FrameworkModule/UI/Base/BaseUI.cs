@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -31,11 +32,14 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     private bool isHideFinishDestroy;
     private bool is3DUI;
 
-    void IBaseUI.Init(bool _isHideFinishDestroy, bool _is3DUI)
+    async UniTask IBaseUI.Init(bool _isHideFinishDestroy, bool _is3DUI)
     {
         isHideFinishDestroy = _isHideFinishDestroy;
         is3DUI = _is3DUI;
-        localizationFileGroup?.Loadnfo();
+        if(localizationFileGroup != null)
+        {
+            await localizationFileGroup.Loadnfo();
+        }
         Init();
     }
 

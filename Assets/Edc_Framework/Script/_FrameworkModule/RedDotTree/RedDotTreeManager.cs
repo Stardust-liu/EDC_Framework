@@ -15,8 +15,7 @@ public class RedDotTreeManager : BaseIOCComponent<RedDotData>, ISendEvent
 
     protected override void Init(){
         base.Init();
-        var resourcePath = new ResourcePath("RedDotTreeSetting","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/RedDotTree/RedDotTreeSetting.asset");
-        redDotTreeSetting = Hub.Resources.GetScriptableobject<RedDotTreeSetting>(resourcePath);
+        redDotTreeSetting = Hub.Resources.Get<RedDotTreeSetting>("RedDotTreeSetting");
         SetInitRedDotTree();
     }
 

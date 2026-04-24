@@ -14,18 +14,18 @@ public class WindowManager : PanelManager
 
     protected override void Init(){
         base.Init();
-        var resourcePath = new ResourcePath("WindowSetting","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/WindowSetting.asset");
-        WindowSetting = Hub.Resources.GetScriptableobject<WindowSetting>(resourcePath);
+        WindowSetting = Hub.Resources.Get<WindowSetting>("WindowSetting");
+        WindowSetting.Init();
         openWindowStack = new Stack<IBaseWindowControl>();
     }
 
     /// <summary>
     /// 打开窗口
     /// </summary>
-    public void OpenWindow<T>(Action<T> onOpenInit = null)
+    public void OpenWindow<T>(Action<T> onCreatePanel = null)
     where T : BaseUIControl, IBaseWindowControl
     {
-        OpenPanel(onOpenInit);
+        OpenPanel(onCreatePanel);
         var newWindow = GetPanel<T>();
         OpenWindow(newWindow, openWindowStack, windowMaskPanel);
     }

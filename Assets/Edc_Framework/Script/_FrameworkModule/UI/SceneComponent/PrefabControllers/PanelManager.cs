@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -22,34 +23,34 @@ public abstract class PanelManager : BaseMonoIOCComponent
     /// <summary>
     /// 打开面板(执行面板对应类相关的委托,并返回对应面板的实例)
     /// </summary>
-    protected void OpenPanel<T>(Action<T> onOpenInit) where T : BaseUIControl
+    protected async void OpenPanel<T>(Action<T> onCreatePanel) where T : BaseUIControl
     {
         var type = typeof(T);
-        CreatePanel<T>(type);
-        onOpenInit?.Invoke(createPanelContainer[type] as T);//执行委托
+        await CreatePanel<T>(type);
+        onCreatePanel?.Invoke(createPanelContainer[type] as T);//执行委托
         ShowPanel(type);
     }
 
     /// <summary>
     /// 打开面板(执行面板对应类相关的委托,并返回对应面板的实例)
     /// </summary>
-    protected void OpenPanel<T>(Action onOpenInit) where T : BaseUIControl
+    protected async void OpenPanel<T>(Action onCreatePanel) where T : BaseUIControl
     {
         var type = typeof(T);
-        CreatePanel<T>(type);
-        onOpenInit?.Invoke();//执行委托
+        await CreatePanel<T>(type);
+        onCreatePanel?.Invoke();//执行委托
         ShowPanel(type);
     }
 
-    private void CreatePanel<T>(Type type) where T : BaseUIControl
+    private async UniTask CreatePanel<T>(Type type) where T : BaseUIControl
     {
         if (!createPanelContainer.ContainsKey(type))
         {
             var pathInfo = (ResourceKeyAttribute)Attribute.GetCustomAttribute(type, typeof(ResourceKeyAttribute));
             var panelInfo = GetPanelInfo(pathInfo.Key);
             var control = Activator.CreateInstance(type) as T;
-            ((IBaseUIControl)control).CreatePanel(panelInfo, Parent_2DUI, Parent_3DUI);
             createPanelContainer.Add(type, control);
+            await ((IBaseUIControl)control).CreatePanel(panelInfo, Parent_2DUI, Parent_3DUI);
         }
     }
 

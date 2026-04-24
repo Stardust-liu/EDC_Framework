@@ -6,7 +6,7 @@ public class LocalizationSize : BaseLocalization
     public RectTransform rectTransform;
 
     public override void RefreshContent(){
-        if(id != "-1"){
+        if(!string.IsNullOrEmpty(id) && id != "-1"){
             rectTransform.sizeDelta = Localization.GetLocalizationSize(id);
         }
     }

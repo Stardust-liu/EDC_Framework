@@ -1,19 +1,16 @@
 ManifestFileVersion: 0
-CRC: 4275487892
+CRC: 1761517312
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: 1.aa
-      Dependencies: {}
-    Info_1:
       Name: scriptableobject
       Dependencies: {}
-    Info_2:
-      Name: 2
+    Info_1:
+      Name: soundbg
       Dependencies: {}
-    Info_3:
+    Info_2:
       Name: soundeffect
       Dependencies: {}
-    Info_4:
-      Name: soundbg
+    Info_3:
+      Name: prefab
       Dependencies: {}

@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,18 +10,25 @@ public class BaseUIControl<T> : BaseUIControl
 where T : IBaseUI
 {
     public T panel;
+    private AssetManager assetManager;
 
-    protected override void CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
+    protected override async UniTask CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
     {
-        base.CreatePanel(uIPrefabInfo, Parent_2DUI, Parent_3DUI);
-        if (uIPrefabInfo.prefab_2DUI != null)
+        base.CreatePanel(uIPrefabInfo, Parent_2DUI, Parent_3DUI).Forget();;
+        if (uIPrefabInfo.prefab_2D != null)
         {
-            panel = GameObject.Instantiate(uIPrefabInfo.prefab_2DUI, Parent_2DUI).GetComponent<T>();
-            ((IBaseUI)panel).Init(isHideFinishDestroy, is3DUI: false);
+            var prefab_2D_RuntimeKey = uIPrefabInfo.prefab_2D;
+            await AssetManager.Init(out assetManager, prefab_2D_RuntimeKey).Load();
+            var prefab = Hub.Resources.Get<GameObject>(prefab_2D_RuntimeKey);
+            panel = GameObject.Instantiate(prefab, Parent_2DUI).GetComponent<T>();
+            await ((IBaseUI)panel).Init(isHideFinishDestroy, is3DUI: false);
         }
         else
         {
-            panel = GameObject.Instantiate(uIPrefabInfo.prefab_3DUI, Parent_3DUI).GetComponent<T>();
+            var prefab_3D_RuntimeKey = uIPrefabInfo.prefab_3D;
+            await AssetManager.Init(out assetManager, prefab_3D_RuntimeKey).Load();
+            var prefab = Hub.Resources.Get<GameObject>(prefab_3D_RuntimeKey);
+            panel = GameObject.Instantiate(prefab, Parent_3DUI).GetComponent<T>();
             ((IBaseUI)panel).Init(isHideFinishDestroy, is3DUI: true);
         }
     }
@@ -51,6 +60,7 @@ where T : IBaseUI
     protected override void DestroyPanel()
     {
         ((IBaseUI)panel).DestroyPanel();
+        assetManager.ReleaseAll();
     }
 }
 
@@ -62,14 +72,22 @@ where panel_3D : IBaseUI
     protected panel_3D panel3D;
 
     private int showFinishPanelCount;
+    private AssetManager assetManager;
 
-    protected override void CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
+    protected override async UniTask CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
     {
-        base.CreatePanel(uIPrefabInfo, Parent_2DUI, Parent_3DUI);
-        panel2D = GameObject.Instantiate(uIPrefabInfo.prefab_2DUI, Parent_2DUI).GetComponent<panel_2D>();
-        panel3D = GameObject.Instantiate(uIPrefabInfo.prefab_3DUI, Parent_3DUI).GetComponent<panel_3D>();
-        ((IBaseUI)panel2D).Init(isHideFinishDestroy, is3DUI: false);
-        ((IBaseUI)panel3D).Init(isHideFinishDestroy, is3DUI: true);
+        base.CreatePanel(uIPrefabInfo, Parent_2DUI, Parent_3DUI).Forget();
+        
+        var prefab_2D_RuntimeKey = uIPrefabInfo.prefab_2D;
+        var prefab_3D_RuntimeKey = uIPrefabInfo.prefab_3D;
+        var keyNames = new List<string>(){prefab_2D_RuntimeKey, prefab_3D_RuntimeKey};
+        await AssetManager.Init(out assetManager, keyNames).Load();
+        var prefab_2D = Hub.Resources.Get<GameObject>(prefab_2D_RuntimeKey);
+        var prefab_3D = Hub.Resources.Get<GameObject>(prefab_3D_RuntimeKey);
+        panel2D = GameObject.Instantiate(prefab_2D, Parent_2DUI).GetComponent<panel_2D>();
+        panel3D = GameObject.Instantiate(prefab_3D, Parent_3DUI).GetComponent<panel_3D>();
+        await ((IBaseUI)panel2D).Init(isHideFinishDestroy, is3DUI: false);
+        await ((IBaseUI)panel3D).Init(isHideFinishDestroy, is3DUI: true);
     }
 
     protected override void StartShow()
@@ -110,6 +128,7 @@ where panel_3D : IBaseUI
     {
         ((IBaseUI)panel2D).DestroyPanel();
         ((IBaseUI)panel3D).DestroyPanel();
+        assetManager.ReleaseAll();
     }
 }
 
@@ -125,9 +144,9 @@ public abstract class BaseUIControl : IBaseUIControl
     public bool IsHideFinishDestroy { get { return isHideFinishDestroy; } }
     protected Action hideFinishCallBack;
 
-    void IBaseUIControl.CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
+    async UniTask IBaseUIControl.CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
     {
-        CreatePanel(uIPrefabInfo, Parent_2DUI, Parent_3DUI);
+        await CreatePanel(uIPrefabInfo, Parent_2DUI, Parent_3DUI);
     }
 
     void IBaseUIControl.Open()
@@ -163,8 +182,9 @@ public abstract class BaseUIControl : IBaseUIControl
 
     protected abstract void DestroyPanel();
     
-    protected virtual void CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
+    protected virtual UniTask CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI)
     {
         isHideFinishDestroy = uIPrefabInfo.isHideFinishDestroy;
+        return UniTask.CompletedTask;
     }
 }

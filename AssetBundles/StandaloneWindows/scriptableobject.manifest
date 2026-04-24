@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2350261578
+CRC: 837112853
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4a591686fe6195a5e1466a8652b639b9
+    Hash: dddb4a21907fc85f08fd5be7a6574239
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4e094d69b80828575358c89467c85f38
+    Hash: 017a8a1c9ba1cd256fe487fb26299665
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -21,50 +21,82 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 49
   Script: {instanceID: 0}
+- Class: 74
+  Script: {instanceID: 0}
 - Class: 82
   Script: {instanceID: 0}
+- Class: 91
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 8a4c0a6a577d6ad4d8dda9e25d73bcfc, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: fae487ff23779f14aa6d4328c70a9abb, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: d36a24943e4ac5e4398123b97b36fa7c, type: 3}
+  Script: {fileID: 11500000, guid: 62c542c9b465cbd4584e9e6a282a8071, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: cbdd0761a57a60a44be2a576d3a14b85, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 1bbbd3b5d4f3dfc4080dbf2ad101e351, type: 3}
+  Script: {fileID: 11500000, guid: fc72f93c15bdaeb43a768d348ffb217b, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: ba9cf4d33f47bb74f8a49a4b158077c6, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 3f31c1d0ecf69f7429472f432b4968b9, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 6d5f0a146de4da04c904852ccfa68950, type: 3}
+  Script: {fileID: 11500000, guid: dbada950ecc03924fa94c4c9772b5c89, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 252e24ccfad5bb1478b43caba4320974, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: 7bd608d3cf87a4147a38a86b544e2440, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 3368cbf59dbe72244b26569b500c8e23, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: ff4bcce957b249c42a03c3a9d200baf7, type: 3}
+  Script: {fileID: 11500000, guid: 71781cf57caa0df49b6f644048b09720, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 059e732fac71b8840b3994774dff16a5, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: f0c24638368b4ca4391a849467af5080, type: 3}
+  Script: {fileID: 11500000, guid: 11307b8dbf5721544859b3f1c45f8a63, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: d5285dd8bf74eca4c8d79c72e18710d7, type: 3}
+  Script: {fileID: 11500000, guid: 0b1226ff980d8e444a2eefb1a4574e9a, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 230def4fa549c7440ad681c80401c6d7, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: d296666973b8e8b46bb5f43e3541e638, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 047f7057bbc97f141b59887fac9a22d6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: e999ede4b790bb64882c6844351d996f, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1bbbd3b5d4f3dfc4080dbf2ad101e351, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 562928919fca06c498586a02f08213a2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 2ac4a85d2eef17446ad08a9fbfc5cd0e, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a3265925adf76eb4bb495e9cd9e6a6da, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a38b4d00ea34afa4cb5d94fc061a7094, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 47dc7e326f97eb84fbf883a62b260cdc, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 57f851b4dcbc08d4d80708ec20ec53ce, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: a4e0b390e9b17bf41bbe9831581af289, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 38b1229033400a64db9a9c0c6f34416e, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: bb4fe40dd9483804ea7d41d78275b7c8, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: 047f7057bbc97f141b59887fac9a22d6, type: 3}
+  Script: {fileID: 11500000, guid: 284738fbd5062be46ac32bce605b8def, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 213
@@ -92,6 +124,8 @@ SerializeReferenceClassIdentifiers:
   ClassName: TMPro.VertexGradient
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.RectOffset
 - AssemblyName: UnityEngine.TextCoreFontEngineModule
   ClassName: UnityEngine.TextCore.FaceInfo
 - AssemblyName: UnityEngine.TextCoreFontEngineModule
@@ -111,12 +145,13 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.Navigation
 - AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.Slider/SliderEvent
+- AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.SpriteState
 Assets:
-- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/ViewPrefabSetting.asset
-- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationFontSetting.asset
-- Assets/Game/Sources/AssetFile/CharacterTextSetting.asset
-- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/PersistentViewPrefabSetting.asset
+- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/ViewSetting.asset
+- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationSetting.asset
+- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/PersistentViewSetting.asset
 - Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/ObjectPool/ObjectPoolSetting.asset
-- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/WindowPrefabSetting.asset
+- Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI/WindowSetting.asset
 Dependencies: []

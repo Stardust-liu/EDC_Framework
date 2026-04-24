@@ -20,11 +20,11 @@ public class FrameworkSetting : OdinMenuEditorWindow
         tree.AddAllAssetsAtPath("UI面板设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI",typeof(ViewSetting));
         tree.AddAllAssetsAtPath("UI面板设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI",typeof(PersistentViewSetting));
         tree.AddAllAssetsAtPath("UI面板设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/UI",typeof(WindowSetting));
+        tree.AddAssetAtPath("场景加载信息管理", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Scene/SceneResourcesSetting.asset");
         tree.AddAssetAtPath("输入键位设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Input/InputSetting.asset");
-        tree.AddAssetAtPath("本地化设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationSetting.asset");
+        tree.AddAssetAtPath("本地化设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationFontSetting.asset");
         tree.AddAssetAtPath("红点树设置","Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/RedDotTree/RedDotTreeSetting.asset");
         tree.AddAssetAtPath("打包设置工具", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Build/BuildSettingTool.asset");
-        tree.AddAssetAtPath("AB包打包设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Build/AssetBundlesTool.asset");
         tree.AddAssetAtPath("存档信息设置", "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Archive/ArchiveTool.asset");
         return tree;
     }
@@ -66,7 +66,7 @@ public class FrameworkSetting : OdinMenuEditorWindow
     /// 设置多语言相关设置
     /// </summary>
     private void SetLocalizationSettingInfo(){
-        var path = "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationSetting.asset";
+        var path = "Assets/Edc_Framework/Sources/AssetFile/FrameworkSetting/Localization/LocalizationFontSetting.asset";
         localizationSetting = AssetDatabase.LoadAssetAtPath<LocalizationSetting>(path);
     }
 

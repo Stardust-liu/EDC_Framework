@@ -8,7 +8,6 @@ public class GameScene : MonoBehaviour
 {
     private void Awake()
     {
-#if UNITY_EDITOR
         if (!FrameworkManager.isInitFinish)
         {
             FrameworkManager.SetInitFinishLoadScene(SceneManager.GetActiveScene().name);
@@ -16,11 +15,20 @@ public class GameScene : MonoBehaviour
         }
         else
         {
-            GetComponentInChildren<BaseEditorStartControl>()?.Init();
             gameObject.SetActive(false);
         }
-#else
-        gameObject.SetActive(false);
-#endif
+// #if UNITY_EDITOR
+//         if (!FrameworkManager.isInitFinish)
+//         {
+//             FrameworkManager.SetInitFinishLoadScene(SceneManager.GetActiveScene().name);
+//             SceneManager.LoadScene("MainScene");
+//         }
+//         else
+//         {
+//             gameObject.SetActive(false);
+//         }
+// #else
+//         gameObject.SetActive(false);
+// #endif
     }
 }

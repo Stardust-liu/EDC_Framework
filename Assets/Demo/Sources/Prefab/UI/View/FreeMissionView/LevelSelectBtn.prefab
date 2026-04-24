@@ -33,6 +33,7 @@ RectTransform:
   m_Children:
   - {fileID: 179545560061211128}
   m_Father: {fileID: 1870904723508472419}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -129,6 +130,7 @@ RectTransform:
   - {fileID: 8695549195186824379}
   - {fileID: 3597204626463324615}
   m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -161,8 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71781cf57caa0df49b6f644048b09720, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileNmae_AB: 
-  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/Click.wav
+  assetsPath: Click
   button: {fileID: 5382644130936740013}
 --- !u!114 &5999199195689695040
 MonoBehaviour:
@@ -176,8 +177,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4e0b390e9b17bf41bbe9831581af289, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fileNmae_AB: 
-  assetsPath: Assets/Demo/Sources/Audio/HighQuality/PlayImmediately/SFX/ChangeSelect.wav
+  assetsPath: ChangeSelect
 --- !u!114 &5382644130936740013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +253,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1870904723508472419}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -328,6 +329,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 179545560061211128}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -460,6 +462,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1870904723508472419}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -499,6 +502,7 @@ RectTransform:
   m_Children:
   - {fileID: 3650790565164014702}
   m_Father: {fileID: 8695549195186824379}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -42,12 +43,12 @@ namespace Example
         /// </summary>
         private void ClickAddObject(){
             if(!isBatchOperation){
-                TestPoolObj.GetItem();
+                TestPoolObj.GetItem().Forget();
             }
             else{
                 for (int i = 0; i < 5; i++)
                 {
-                    TestPoolObj.GetItem();            
+                    TestPoolObj.GetItem().Forget();         
                 }
             }
         }
@@ -96,10 +97,10 @@ namespace Example
         /// </summary>
         private void ClickInitPool(){
             if(isPreloading){
-                TestPoolObj.InitPool(objectPoolParent, 5, true);
+                TestPoolObj.InitPool(objectPoolParent, 5, true).Forget();
             }
             else{
-                TestPoolObj.InitPool(objectPoolParent);
+                TestPoolObj.InitPool(objectPoolParent).Forget();
             }
         }
         
