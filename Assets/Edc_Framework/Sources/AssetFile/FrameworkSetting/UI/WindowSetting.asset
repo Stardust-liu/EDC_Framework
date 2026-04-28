@@ -24,6 +24,5 @@ MonoBehaviour:
   panelList:
   - name: ConfirmWindow
     info:
-      prefab_2D: ConfirmWindow_2D
-      prefab_3D: 
+      prefab: ConfirmWindow
       isHideFinishDestroy: 1

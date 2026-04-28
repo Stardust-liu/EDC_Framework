@@ -7,7 +7,6 @@ using UnityEngine.UI;
 public class WindowManager : PanelManager
 {
     public Image windowMaskPanel; 
-    public Image windowMaskPanel_3D; 
     private IBaseWindowControl currentWindow;
     private Stack<IBaseWindowControl> openWindowStack;
     public WindowSetting WindowSetting {get; private set;}

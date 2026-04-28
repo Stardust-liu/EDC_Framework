@@ -1,12 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 public class AssetManager
 {
     private List<string> keyNames;
     public List<string> KeyNames{get{return keyNames;}}
 
+    private AssetManager()
+    {
+        keyNames = new List<string>(){};
+    }
     private AssetManager(string _keyName)
     {
         keyNames = new List<string>(){_keyName};
@@ -27,6 +32,11 @@ public class AssetManager
     public static AssetManager Init(out AssetManager instance, List<string> _keyNames)
     {
         instance = new AssetManager(_keyNames);
+        return instance;
+    }
+    public static AssetManager Init(out AssetManager instance)
+    {
+        instance = new AssetManager();
         return instance;
     }
 
@@ -58,6 +68,22 @@ public class AssetManager
         {
             LogManager.LogWarning($"已加载 {keyNames} 资源");
         }
+    }
+
+    /// <summary>
+    /// 添加并加载资源
+    /// </summary>
+    public async UniTask AddLoad(List<string> _keyNames)
+    {
+        var count = _keyNames.Count;
+        var task = new UniTask[count];
+        for (var i = 0; i < count; i++)
+        {
+            var value = _keyNames[i];
+            keyNames.Add(value);
+            task[i] = ((IResourcesModule)Hub.Resources).Load(value);
+        }
+        await UniTask.WhenAll(task);
     }
 
     /// <summary>

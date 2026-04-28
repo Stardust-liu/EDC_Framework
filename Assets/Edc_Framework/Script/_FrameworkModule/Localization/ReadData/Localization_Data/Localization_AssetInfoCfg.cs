@@ -1,28 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_AssetInfoCfg>
 {
     private static Dictionary<string, string> localizationInfo;
-
-
+    private static List<string> addressableInfo;
+    private static AssetManager assetManager;
+    
     protected override void InitData()
     {
-        localizationInfo = new(RowCount);
+        base.InitData();
+        if(localizationInfo == null)
+        {
+            localizationInfo = new();
+            addressableInfo = new();
+            AssetManager.Init(out assetManager);
+        }
+        addressableInfo.Clear();
     }
 
-    protected override void SetData()
+    protected override void SetData(string id)
     {
-        if (isAddInfo)
-        {
-            var resourcePath = GetString("AssetsPath");
-            localizationInfo.Add(GetString("ID"), resourcePath);
-        }
-        else
-        {
-            localizationInfo.Remove(GetString("ID"));
-        }
+        var resourcePath = GetString("AssetsPath");
+        localizationInfo.Add(id, resourcePath);
+        addressableInfo.Add(resourcePath);
+    }
+
+    protected override void RemoveLocalizationData(string key)
+    {
+        var resourcePath = localizationInfo[key];
+        assetManager.Release(resourcePath);
+        localizationInfo.Remove(key);
+    }
+
+    public override void CleanLocalizationData()
+    {
+        base.CleanLocalizationData();
+        localizationInfo?.Clear();
+        assetManager?.ReleaseAll();
+    }
+
+    /// <summary>
+    /// 加载资源信息
+    /// </summary>
+    public async UniTask LoadInfo()
+    {
+        await assetManager.AddLoad(addressableInfo);
+        addressableInfo.Clear();
     }
 
     /// <summary>
@@ -40,10 +66,5 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
         {
             return Hub.Resources.Get<T>(localizationInfo[key]);
         }
-    }
-
-    public override void CleanLocalizationData()
-    {
-        localizationInfo?.Clear();
     }
 }

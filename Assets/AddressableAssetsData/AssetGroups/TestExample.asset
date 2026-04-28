@@ -20,69 +20,66 @@ MonoBehaviour:
   - m_GUID: 6915551d5d4923e4a8f76d16be407670
     m_Address: Flag_of_US
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Example_EN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 34c5f89fe5e3ce64988ac5baf304d2dd
     m_Address: Flag_of_CN
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Test
-    - Example_CN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 11f3cc5ecaf242c4492302f92b78721c
     m_Address: Click_Example
     m_ReadOnly: 0
     m_SerializedLabels:
     - Example_Audio
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e550139d5b5ed7a4cbfc10249ad169bf
     m_Address: BGM1
     m_ReadOnly: 0
     m_SerializedLabels:
     - Example_Audio
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3ea7a08cb56fdf64aaa48feae220b9e6
     m_Address: BGM2
     m_ReadOnly: 0
     m_SerializedLabels:
     - Example_Audio
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 86f77edee2bf2e948afaf2d6f8a9e25a
     m_Address: LocalizationImage_CNExample
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Test
-    - Example_CN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0bfca037ca3c3c44683976b484a52227
     m_Address: LocalizationSize_CNExample
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Test
-    - Example_CN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 328d9249a667217478ef2e02c6e219a2
     m_Address: LocalizationText_CNExample
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Test
-    - Example_CN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 177a14e8873c01c439972f9f91b61903
     m_Address: LocalizationText_ENExample
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Test
-    - Example_EN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d0a6224b86a6ed64286e4a187ecdb43f
     m_Address: LocalizationSize_ENExample
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Test
-    - Example_EN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: a173aa5c9ca698b438339d94d3d856d6
     m_Address: LocalizationImage_ENExample
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - Test
-    - Example_EN
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 202bdc8b6e8781842b19fe35b1812b8f
-    m_Address: TestView_2D
+    m_Address: TestView
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 812c912afdf9b1245b0e44aad237d83c, type: 2}
   m_SchemaSet:

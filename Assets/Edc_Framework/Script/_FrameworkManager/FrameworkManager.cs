@@ -81,7 +81,6 @@ public class FrameworkManager : MonoBehaviour
         if (string.IsNullOrEmpty(initFinishLoadScene))
         {
             await Hub.Scene.LoadScene("MenuScene");
-            Hub.View.ChangeView<MenuView_C>();
         }
         else
         {

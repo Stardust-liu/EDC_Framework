@@ -8,22 +8,25 @@ public class Localization_SizeInfoCfg : BaseLocalizationInfoCfg<Localization_Siz
 
     protected override void InitData()
     {
-        if(localizationInfo == null){
-            localizationInfo = new(RowCount);
-        }
+        base.InitData();
+        localizationInfo ??= new();
     }
 
-    protected override void SetData()
+    protected override void SetData(string id)
     {
-        if (isAddInfo)
-        {
-            var pos = new Vector2(GetFloat("X"), GetFloat("Y"));
-            localizationInfo.Add(GetString("ID"), pos);
-        }
-        else
-        {
-            localizationInfo.Remove(GetString("ID"));
-        }
+        var pos = new Vector2(GetFloat("X"), GetFloat("Y"));
+        localizationInfo.Add(id, pos);
+    }
+
+    protected override void RemoveLocalizationData(string key)
+    {
+        localizationInfo.Remove(key);
+    }
+
+    public override void CleanLocalizationData()
+    {
+        base.CleanLocalizationData();
+        localizationInfo?.Clear();
     }
 
     /// <summary>
@@ -32,10 +35,5 @@ public class Localization_SizeInfoCfg : BaseLocalizationInfoCfg<Localization_Siz
     public Vector2 GetLocalizationSize(string key)
     {
         return localizationInfo[key];
-    }
-    
-    public override void CleanLocalizationData()
-    {
-        localizationInfo?.Clear();
     }
 }

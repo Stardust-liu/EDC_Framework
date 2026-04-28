@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,12 +10,12 @@ public class LocalizationFileGroup : MonoBehaviour, IAutoBindEvent
     public TextAsset[] localizationCsvFiles;
     public LocalizationGroup[] localizationGroups;
     public bool isAutoLoadData;
-    private SystemLanguage currentLoadLanguage;
+    private SystemLanguage currentLanguage;
     private void Awake()
     {
         if (FrameworkManager.isInitFinish && isAutoLoadData)
         {
-            Loadnfo().Forget();
+            LoadInfo().Forget();
         }
     }
 
@@ -24,24 +23,24 @@ public class LocalizationFileGroup : MonoBehaviour, IAutoBindEvent
     {
         if (FrameworkManager.isInitFinish)
         {
-            RemoveLocalizationData(currentLoadLanguage);
+            RemoveLocalizationData(currentLanguage);
         }
     }
 
-    public async UniTask Loadnfo()
+    public async UniTask LoadInfo()
     {
-        currentLoadLanguage = Hub.Localization.GetCurrentLanguage();
+        currentLanguage = Hub.Localization.GetCurrentLanguage();
         this.AddListener_EnableDisable<ReadyChangeLanguage>(ChangeLanguage, gameObject);
-        await AddLocalizationData(currentLoadLanguage);
+        await AddLocalizationData(currentLanguage);
         LoadComplete();
     }
 
     private async void ChangeLanguage(ReadyChangeLanguage readyChangeLanguage)
     {
         Reset();
-        RemoveLocalizationData(currentLoadLanguage);
-        currentLoadLanguage = readyChangeLanguage.tagetLanguageId;
-        await AddLocalizationData(currentLoadLanguage);
+        ClearLocalizationData(currentLanguage);
+        await AddLocalizationData(readyChangeLanguage.tagetLanguageId);
+        currentLanguage = Hub.Localization.GetCurrentLanguage();
         LoadComplete();
     }
 
@@ -54,6 +53,30 @@ public class LocalizationFileGroup : MonoBehaviour, IAutoBindEvent
         foreach (var item in localizationCsvFiles)
         {
             await localization.AddLocalizationData(item, systemLanguage);
+        }
+    }
+
+    /// <summary>
+    /// 移除数据
+    /// </summary>
+    private void RemoveLocalizationData(SystemLanguage systemLanguage)
+    {
+        var localization = Hub.Localization;
+        foreach (var item in localizationCsvFiles)
+        {
+            localization.RemoveLocalizationData(item, systemLanguage);
+        }
+    }
+
+    /// <summary>
+    /// 清除数据
+    /// </summary>
+    private void ClearLocalizationData(SystemLanguage systemLanguage)
+    {
+        var localization = Hub.Localization;
+        foreach (var item in localizationCsvFiles)
+        {
+            localization.ClearLocalizationData(item, systemLanguage);
         }
     }
 
@@ -77,18 +100,6 @@ public class LocalizationFileGroup : MonoBehaviour, IAutoBindEvent
         {
             item.Init();
             item.RefreshContent();
-        }
-    }
-
-    /// <summary>
-    /// 移除数据
-    /// </summary>
-    private void RemoveLocalizationData(SystemLanguage systemLanguage)
-    {
-        var localization = Hub.Localization;
-        foreach (var item in localizationCsvFiles)
-        {
-            localization.RemoveLocalizationData(item, systemLanguage).Forget();
         }
     }
 }

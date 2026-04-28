@@ -30,15 +30,13 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     private Action showFinishCallBack;
     private Action hideFinishCallBack;
     private bool isHideFinishDestroy;
-    private bool is3DUI;
 
-    async UniTask IBaseUI.Init(bool _isHideFinishDestroy, bool _is3DUI)
+    async UniTask IBaseUI.Init(bool _isHideFinishDestroy)
     {
         isHideFinishDestroy = _isHideFinishDestroy;
-        is3DUI = _is3DUI;
         if(localizationFileGroup != null)
         {
-            await localizationFileGroup.Loadnfo();
+            await localizationFileGroup.LoadInfo();
         }
         Init();
     }
@@ -115,7 +113,7 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     {
         if (isShow)
         {
-            var parent = is3DUI ? panelManager.Parent_3DUI : panelManager.Parent_2DUI;
+            var parent = panelManager.Parent_2DUI;
             if (transform.parent != parent)
             {
                 transform.SetParent(parent, false);
@@ -123,7 +121,7 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
         }
         else
         {
-            var parent = is3DUI ? panelManager.Parent_3DUI_Hide : panelManager.Parent_2DUI_Hide;
+            var parent = panelManager.Parent_2DUI_Hide;
             transform.SetParent(parent, false);
         }
     }

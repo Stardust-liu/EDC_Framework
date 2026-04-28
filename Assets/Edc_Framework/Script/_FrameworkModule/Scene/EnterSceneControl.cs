@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseEditorStartControl : MonoBehaviour
+public abstract class EnterSceneControl : MonoBehaviour
 {
-#if UNITY_EDITOR
+    private void Start()
+    {
+        Init();   
+    }
     public abstract void Init();
-#endif
 }

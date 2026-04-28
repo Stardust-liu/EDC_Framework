@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class BaseViewManager : PanelManager, IBindEvent
 {
     public RectTransform rectTransformManager;
-    public RectTransform rectTransformManager_3D;
     private const int margin = 100;
 
     protected override void Init()
@@ -26,7 +25,7 @@ public abstract class BaseViewManager : PanelManager, IBindEvent
         var offsetMin = new Vector2(horizontalMargin, verticalMargin);
         var offsetMax = new Vector2(-horizontalMargin, -verticalMargin);
 
-        rectTransformManager_3D.offsetMin = rectTransformManager.offsetMin = offsetMin;
-        rectTransformManager_3D.offsetMax = rectTransformManager.offsetMax = offsetMax;
+        rectTransformManager.offsetMin = offsetMin;
+        rectTransformManager.offsetMax = offsetMax;
     }
 }

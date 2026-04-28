@@ -1,6 +1,6 @@
-ID,SystemLanguage,LocalizationType,AssetsPath,LabelName
-#ID(占位符),对应语言,本地化类型,,
-#简体中文,,,,
-0,ChineseSimplified,Text,CN_SettingView,CN_SettingView
-#英文,,,,
-3,English,Text,EN_SettingView,EN_SettingView
+ID,SystemLanguage,LocalizationType,AssetsPath
+#ID(占位符),对应语言,本地化类型,
+#简体中文,,,
+0,ChineseSimplified,Text,CN_SettingView
+#英文,,,
+3,English,Text,EN_SettingView

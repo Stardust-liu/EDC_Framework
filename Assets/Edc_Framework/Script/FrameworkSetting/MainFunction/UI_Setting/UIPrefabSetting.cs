@@ -6,10 +6,9 @@ using UnityEngine.AddressableAssets;
 [Serializable]
 public class UIPrefabInfo
 {
-    [LabelText("预制体_2DUI")]
-    public string prefab_2D; 
-    [LabelText("预制体_3DUI")]
-    public string prefab_3D; 
+    [LabelText("预制体")]
+    public string prefab; 
+
     [LabelText("在关闭完成后销毁对象")]
     public bool isHideFinishDestroy;
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SettingView_2D : BaseReturnableView<SettingView_2D_M>
+public class SettingView : BaseReturnableView<SettingView_M>
 {
     public OptionItemToggle language;
     public OptionItemSlider sfx;

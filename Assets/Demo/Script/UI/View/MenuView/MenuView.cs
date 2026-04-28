@@ -5,7 +5,7 @@ using DG.Tweening;
 using UnityEngine;
 
 
-public class MenuView_2D : BaseDescView
+public class MenuView : BaseDescView
 {
     public OptionItemBtn freeMissionBtn;
     public OptionItemBtn dataViewerBtn;
@@ -57,7 +57,7 @@ public class MenuView_2D : BaseDescView
     {
         var window = Hub.Window;
         window.OpenWindow<ConfirmWindow_C>(InitConfirmWindow);
-        async void InitConfirmWindow(ConfirmWindow_C confirmWindow)
+        static void InitConfirmWindow(ConfirmWindow_C confirmWindow)
         {
             confirmWindow.InitInfo("ConfirmWindow_Quit_Desc", Application.Quit);
         }

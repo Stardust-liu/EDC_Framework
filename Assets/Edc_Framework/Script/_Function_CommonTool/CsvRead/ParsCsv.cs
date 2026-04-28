@@ -12,10 +12,10 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     /// <summary>
     /// CSV文件第一行标签
     /// </summary>
-    private string csvName;
     private Dictionary<string, int> titleData;
     private Dictionary<int, List<string>> originalData;
-    protected int RowCount {get; private set;}
+    protected string CsvName{get; private set;}
+    protected int RowCount {get; private set;}//有效数据行数（不包括标题行（第一行），也不包括被忽略的行（以 # 开头的注释行））
     protected int CurrentReadRow {get; private set;}
     protected int CurrentReadIndex { get { return CurrentReadRow - 1; } }
 
@@ -24,7 +24,7 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
     /// </summary>
     public T ParseData(TextAsset csv)
     {
-        csvName = csv.name;
+        CsvName = csv.name;
         CurrentReadRow = 0;
         titleData = new Dictionary<string, int>();
         originalData = new Dictionary<int, List<string>>();
@@ -39,7 +39,7 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
         SetDataComplete();
         titleData = null;
         originalData = null;
-        csvName = null;
+        CsvName = null;
         return Instance;
     }
 
@@ -174,7 +174,7 @@ public abstract class ParsCsv<T> : SingleInstance<T> where T: class, new()
 
     private string GetData(string columnsKey){
         if(!titleData.ContainsKey(columnsKey)){
-            LogManager.LogError($"csv文件：{csvName} 中，不存在 {columnsKey} 数据");
+            LogManager.LogError($"csv文件：{CsvName} 中，不存在 {columnsKey} 数据");
         }
         return originalData[CurrentReadRow][titleData[columnsKey]];
     }

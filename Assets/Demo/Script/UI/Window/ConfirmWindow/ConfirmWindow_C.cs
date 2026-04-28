@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 [ResourceKeyAttribute("ConfirmWindow")]
-public class ConfirmWindow_C : BaseWindowControl<ConfirmWindow_2D>
+public class ConfirmWindow_C : BaseWindowControl<ConfirmWindow>
 {
     public void InitInfo(string key, Action action)
     {

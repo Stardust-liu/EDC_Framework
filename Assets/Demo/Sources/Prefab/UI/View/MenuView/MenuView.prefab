@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5486649585574189798}
   - component: {fileID: 8073291386164107129}
   m_Layer: 5
-  m_Name: MenuView_2D
+  m_Name: MenuView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

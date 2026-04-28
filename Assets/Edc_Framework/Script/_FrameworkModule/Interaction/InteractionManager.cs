@@ -9,9 +9,7 @@ public class InteractionManager : BaseMonoIOCComponent, ISendEvent
     [SerializeField]
     private GameObject eventSystem;
     [SerializeField]
-    private PhysicsRaycaster eaycaster3D;
-    [SerializeField]
-    private Physics2DRaycaster eaycaster2D;
+    private Physics2DRaycaster eaycaster;
     private int invokeCount;
     private bool interactionState = true;
     public bool InteractionState { get { return interactionState; } }
@@ -48,7 +46,6 @@ public class InteractionManager : BaseMonoIOCComponent, ISendEvent
     private void SetInteractionState(bool state)
     {
         eventSystem.SetActive(state);
-        eaycaster3D.enabled = state;
-        eaycaster2D.enabled = state;
+        eaycaster.enabled = state;
     }
 }

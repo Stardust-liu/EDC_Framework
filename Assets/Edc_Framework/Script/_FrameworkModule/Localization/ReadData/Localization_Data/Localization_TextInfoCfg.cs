@@ -10,22 +10,24 @@ public class Localization_TextInfoCfg : BaseLocalizationInfoCfg<Localization_Tex
 
     protected override void InitData()
     {
-        if (localizationInfo == null)
-        {
-            localizationInfo = new(RowCount);
-        }
+        base.InitData();
+        localizationInfo ??= new();
     }
 
-    protected override void SetData()
+    protected override void SetData(string id)
     {
-        if (isAddInfo)
-        {
-            localizationInfo.Add(GetString("ID"), GetString("Desc"));
-        }
-        else
-        {
-            localizationInfo.Remove(GetString("ID"));
-        }
+        localizationInfo.Add(id, GetString("Desc"));
+    }
+
+    protected override void RemoveLocalizationData(string key)
+    {
+        localizationInfo.Remove(key);
+    }
+
+    public override void CleanLocalizationData()
+    {
+        base.CleanLocalizationData();
+        localizationInfo?.Clear();
     }
 
     /// <summary>
@@ -34,10 +36,5 @@ public class Localization_TextInfoCfg : BaseLocalizationInfoCfg<Localization_Tex
     public string GetLocalizationText(string key)
     {
         return localizationInfo[key];
-    }
-    
-    public override void CleanLocalizationData()
-    {
-        localizationInfo?.Clear();
     }
 }

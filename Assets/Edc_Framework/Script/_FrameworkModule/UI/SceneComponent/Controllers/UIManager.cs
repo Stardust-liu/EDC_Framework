@@ -10,12 +10,10 @@ public class UIManager : BaseMonoIOCComponent<UIManagerData>, ISendEvent
     [LabelText("标记勾选RaycastTarget的UI")]
     [SerializeField]
     private bool isMarkRaycastTargetUI;
-    [SerializeField]
-    private Canvas canvas_3DUI;
+
     [SerializeField]
     private CanvasScaler canvasScaler_UI;
-    [SerializeField]
-    private CanvasScaler canvasScaler_3DUI;
+
     [SerializeField]
     private CanvasScaler canvasScaler_CG;
     public float HorizontalMargin { get { return Data.horizontalMargin; } }
@@ -55,31 +53,31 @@ public class UIManager : BaseMonoIOCComponent<UIManagerData>, ISendEvent
 
         if (width > height)
         {
-            canvasScaler_UI.referenceResolution = canvasScaler_3DUI.referenceResolution = canvasScaler_CG.referenceResolution = new Vector2(1920, 1080);
+            canvasScaler_UI.referenceResolution = canvasScaler_CG.referenceResolution = new Vector2(1920, 1080);
             if (width / (float)height > 1920 / 1080f)
             {
-                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 1;
+                canvasScaler_UI.matchWidthOrHeight = 1;
 
             }
             else
             {
-                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 0;
+                canvasScaler_UI.matchWidthOrHeight = 0;
             }
             canvasScaler_CG.matchWidthOrHeight = 1;
         }
         else
         {
-            canvasScaler_UI.referenceResolution = canvasScaler_3DUI.referenceResolution = canvasScaler_CG.referenceResolution = new Vector2(1080, 1920);
+            canvasScaler_UI.referenceResolution = canvasScaler_CG.referenceResolution = new Vector2(1080, 1920);
             if (height / (float)width > 1920 / 1080f)
             {
-                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 0;
+                canvasScaler_UI.matchWidthOrHeight = 0;
 
             }
             else
             {
-                canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 1;
+                canvasScaler_UI.matchWidthOrHeight = 1;
             }
-            canvasScaler_UI.matchWidthOrHeight = canvasScaler_3DUI.matchWidthOrHeight = 1;
+            canvasScaler_UI.matchWidthOrHeight = 1;
             canvasScaler_CG.matchWidthOrHeight = 0;
         }
     }

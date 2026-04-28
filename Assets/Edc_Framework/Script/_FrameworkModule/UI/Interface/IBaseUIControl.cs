@@ -10,7 +10,7 @@ public interface IBaseUIControl
     public bool IsShowFinish {get;}
     public bool IsHideFinish{get;}
     public bool IsHideFinishDestroy{get;}
-    UniTask CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent_2DUI, RectTransform Parent_3DUI);
+    UniTask CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform Parent);
     void Open();
     void Close(Action hideFinishCallBack);
     void DestroyPanel();

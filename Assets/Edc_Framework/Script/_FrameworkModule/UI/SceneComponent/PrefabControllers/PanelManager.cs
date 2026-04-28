@@ -7,9 +7,7 @@ using UnityEngine;
 public abstract class PanelManager : BaseMonoIOCComponent
 {
     public RectTransform Parent_2DUI;
-    public RectTransform Parent_3DUI;
     public RectTransform Parent_2DUI_Hide;
-    public RectTransform Parent_3DUI_Hide;
     protected readonly Dictionary<Type, IBaseUIControl> createPanelContainer = new();
 
     /// <summary>
@@ -50,7 +48,7 @@ public abstract class PanelManager : BaseMonoIOCComponent
             var panelInfo = GetPanelInfo(pathInfo.Key);
             var control = Activator.CreateInstance(type) as T;
             createPanelContainer.Add(type, control);
-            await ((IBaseUIControl)control).CreatePanel(panelInfo, Parent_2DUI, Parent_3DUI);
+            await ((IBaseUIControl)control).CreatePanel(panelInfo, Parent_2DUI);
         }
     }
 

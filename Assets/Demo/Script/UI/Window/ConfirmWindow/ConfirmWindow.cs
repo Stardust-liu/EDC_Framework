@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ConfirmWindow_2D : BaseWindow
+public class ConfirmWindow : BaseWindow
 {
     public Button confirmBtn;
     public Button cancelBtn;

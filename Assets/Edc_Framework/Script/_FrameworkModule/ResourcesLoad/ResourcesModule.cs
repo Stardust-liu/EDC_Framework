@@ -241,7 +241,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
             {
                 if (resourceRef.handle.IsValid())
                 {
-                    Addressables.Release(resourceRef);
+                    Addressables.Release(resourceRef.handle);
                 }
                 loadedHandles.Remove(key);
             }
@@ -254,7 +254,6 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
     /// </summary>
     void IResourcesModule.WaitLoadCompletion(string key)
     {
-        Debug.Log(key);
         if (!loadedHandles.TryGetValue(key, out ResourceRef resourceRef))
         {
             resourceRef = new ResourceRef(Addressables.LoadAssetAsync<Object>(key));
@@ -276,7 +275,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
             {
                 asset.Remove(key);
                 loadedHandles.Remove(key);
-                Addressables.Release(resourceRef);   
+                Addressables.Release(resourceRef.handle);   
             }
         }
     }

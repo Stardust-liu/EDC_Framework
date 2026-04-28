@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: -1298743065309656890}
   - component: {fileID: 7177507829158077625}
   m_Layer: 5
-  m_Name: TestView_2D
+  m_Name: TestView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

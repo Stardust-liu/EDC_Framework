@@ -94,9 +94,16 @@ public class ViewManager : BaseViewManager
     /// <summary>
     /// 检查当前打开的界面是否是指定类型
     /// </summary>
-    public bool CheckCurrentView<T>() where T : BaseView
+    public bool CheckCurrentView<T>() where T : IBaseViewControl
     {
-        return currentView is T;
+        if (currentView == null)
+        {
+           return false; 
+        }
+        else
+        {
+            return currentView is T;
+        }
     }
 
     private bool BackLastView(out Type closePanelType)
@@ -151,7 +158,7 @@ public class ViewManager : BaseViewManager
         {
             var pathInfo = (ResourceKeyAttribute)Attribute.GetCustomAttribute(type, typeof(ResourceKeyAttribute));
             var panelInfo = GetPanelInfo(pathInfo.Key);
-            await baseViewControl.CreatePanel(panelInfo, Parent_2DUI, Parent_3DUI);
+            await baseViewControl.CreatePanel(panelInfo, Parent_2DUI);
             createPanelContainer.Add(type, baseViewControl);
         }
     }

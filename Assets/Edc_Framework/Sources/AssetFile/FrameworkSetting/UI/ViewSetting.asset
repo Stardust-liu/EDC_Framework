@@ -24,21 +24,17 @@ MonoBehaviour:
   panelList:
   - name: TestView
     info:
-      prefab_2D: TestView_2D
-      prefab_3D: 
+      prefab: TestView
       isHideFinishDestroy: 0
   - name: MenuView
     info:
-      prefab_2D: MenuView_2D
-      prefab_3D: 
+      prefab: MenuView
       isHideFinishDestroy: 0
   - name: SettingView
     info:
-      prefab_2D: SettingView_2D
-      prefab_3D: 
+      prefab: SettingView
       isHideFinishDestroy: 0
   - name: FreeMissionView
     info:
-      prefab_2D: FreeMissionView_2D
-      prefab_3D: FreeMissionView_3D
+      prefab: FreeMissionView
       isHideFinishDestroy: 0

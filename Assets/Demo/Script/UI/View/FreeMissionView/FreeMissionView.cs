@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class FreeMissionView_2D : BaseReturnableView<FreeMissionView_2D_M>
+public class FreeMissionView : BaseReturnableView<FreeMissionView_M>
 {
     public GameObject levelSelectBtnPrefab;
     public TextMeshProUGUI levelDesc2;

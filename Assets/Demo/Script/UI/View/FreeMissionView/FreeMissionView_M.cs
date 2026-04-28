@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreeMissionView_2D_M : BaseUI_Model
+public class FreeMissionView_M : BaseUI_Model
 {
     protected override void Init()
     {

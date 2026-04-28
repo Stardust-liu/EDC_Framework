@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class SettingView_2D_M : BaseUI_Model
+public class SettingView_M : BaseUI_Model
 {
     protected override void Init()
     {
