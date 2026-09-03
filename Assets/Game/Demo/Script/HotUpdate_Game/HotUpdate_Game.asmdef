@@ -1,0 +1,22 @@
+{
+    "name": "HotUpdate_Game",
+    "rootNamespace": "",
+    "references": [
+        "EdcFramework.Runtime",
+        "UniTask",
+        "Unity.TextMeshPro",
+        "Unity.Mathematics",
+        "UnityEngine.UI",
+        "DOTween.Modules",
+        "Sirenix.OdinInspector.CompatibilityLayer"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

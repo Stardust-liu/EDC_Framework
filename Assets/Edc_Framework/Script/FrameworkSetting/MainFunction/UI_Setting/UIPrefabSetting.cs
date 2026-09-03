@@ -32,7 +32,7 @@ public class UIPrefabSetting : SerializedScriptableObject
         }
         else
         {
-            panelInfoDict?.Clear();
+            panelInfoDict.Clear();
         }
         foreach (var item in panelList)
         {

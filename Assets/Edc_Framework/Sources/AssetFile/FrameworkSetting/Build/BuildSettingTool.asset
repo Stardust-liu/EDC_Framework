@@ -12,17 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bded978debee5f40ac391da28163f19, type: 3}
   m_Name: BuildSettingTool
   m_EditorClassIdentifier: 
-  serializationData:
-    SerializedFormat: 2
-    SerializedBytes: []
-    ReferencedUnityObjects: []
-    SerializedBytesString: 
-    Prefab: {fileID: 0}
-    PrefabModificationsReferencedUnityObjects: []
-    PrefabModifications: []
-    SerializationNodes: []
-  scenesInBuild:
-  - {fileID: 102900000, guid: 183e40ca249900b4f9f94e5be4b8e022, type: 3}
-  - {fileID: 102900000, guid: 42aa610a35f4af44eaad3bfa2b0d6c98, type: 3}
-  - {fileID: 102900000, guid: 22c5492c13e039f44a02c51f9924271a, type: 3}
-  buildTarget: 0
+  platformModulesRootPath: PlatformModules
+  platformImportRootPath: Assets/Platform
+  selectedProfileId: Demo
+  baseVersion: 1.0.0
+  runFrameworkCheckBeforeBuild: 1
+  stopBuildWhenCheckError: 1
+  buildAddressablesBeforeBuild: 1
+  appendVersionToBuildName: 1
+  buildOutputRootPath: Builds

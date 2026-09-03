@@ -1,0 +1,25 @@
+{
+    "name": "EdcFramework.Runtime",
+    "rootNamespace": "",
+    "references": [
+        "XNode",
+        "UniTask",
+        "UniTask.Addressables",
+        "Unity.Addressables",
+        "Unity.ResourceManager",
+        "Unity.TextMeshPro",
+        "UnityEngine.UI",
+        "Unity.Mathematics",
+        "DOTween.Modules",
+        "JoshClose.CsvHelper"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

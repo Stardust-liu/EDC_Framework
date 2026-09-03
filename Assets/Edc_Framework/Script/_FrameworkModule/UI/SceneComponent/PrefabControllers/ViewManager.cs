@@ -14,10 +14,15 @@ public class ViewManager : BaseViewManager
     protected override void Init()
     {
         base.Init();
-        ViewSetting = Hub.Resources.Get<ViewSetting>("ViewSetting");
-        ViewSetting.Init();
         openViewInfo = new List<IBaseViewControl>();
         openViewStack = new Stack<IBaseViewControl>();
+    }
+
+    protected override void Ready()
+    {
+        base.Ready();
+        ViewSetting = Hub.FrameworkConfig.Get<ViewSetting>("ViewSetting");
+        ViewSetting.Init();
     }
 
     /// <summary>
@@ -125,19 +130,39 @@ public class ViewManager : BaseViewManager
 
     private void OpenView<T>(Action<T> onCreatePanel) where T : BaseUIControl, IBaseViewControl
     {
-        OpenPanel(onCreatePanel);
-        OpenView<T>();
+        OpenViewAsync(onCreatePanel).Forget();
+    }
+
+    private async UniTask OpenViewAsync<T>(Action<T> onCreatePanel) where T : BaseUIControl, IBaseViewControl
+    {
+        var viewControl = await OpenPanel(onCreatePanel);
+        if (viewControl == null)
+        {
+            return;
+        }
+
+        OpenView(viewControl);
     }
 
     private void OpenView<T>(Action onCreatePanel) where T : BaseUIControl, IBaseViewControl
     {
-        OpenPanel<T>(onCreatePanel);
-        OpenView<T>();
+        OpenViewAsync<T>(onCreatePanel).Forget();
     }
 
-    private void OpenView<T>() where T : IBaseViewControl
+    private async UniTask OpenViewAsync<T>(Action onCreatePanel) where T : BaseUIControl, IBaseViewControl
     {
-        currentView = GetPanel<T>();
+        var viewControl = await OpenPanel<T>(onCreatePanel);
+        if (viewControl == null)
+        {
+            return;
+        }
+
+        OpenView(viewControl);
+    }
+
+    private void OpenView(IBaseViewControl viewControl)
+    {
+        currentView = viewControl;
         if (openViewInfo.Contains(currentView))
         {
             while (openViewStack.Peek() != currentView)

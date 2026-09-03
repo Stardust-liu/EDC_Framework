@@ -11,7 +11,7 @@ public abstract class BasePool : MonoBehaviour{
     private static ObjectPoolSetting objectPool;
     protected static ObjectPoolSetting ObjectPool{
         get{
-            objectPool ??= Hub.Resources.Get<ObjectPoolSetting>("ObjectPoolSetting");
+            objectPool ??= Hub.FrameworkConfig.Get<ObjectPoolSetting>("ObjectPoolSetting");
             objectPool.Init();
             return objectPool;
         }
@@ -24,7 +24,7 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     protected static Transform parent;
     private static bool isInit;
     private static int createCount;
-    private static AssetManager assetManager;
+    private static IResourceOwner resourceOwner;
     private static List<T> hideObject;
     private static List<T> activeObject;
     protected static int HideObjectCount{ get{return hideObject.Count;}}
@@ -54,9 +54,9 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     private static async UniTask Init(Transform parentTransform = null, int count = 0, bool isPreloading = false){
         var prefabName = (ResourceKeyAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(ResourceKeyAttribute));
         var keyName = ObjectPool.GetPool(prefabName.Key).keyName;
-        AssetManager.Init(out assetManager, keyName);
-        await assetManager.Load();
-        prefab = Hub.Resources.Get<GameObject>(keyName);
+        resourceOwner = Hub.Resources.CreateOwner($"{typeof(T).Name}Pool");
+        await resourceOwner.LoadAsset(keyName);
+        prefab = resourceOwner.GetAsset<GameObject>(keyName);
         parent = parentTransform;
         if (count != 0)
         {
@@ -236,7 +236,7 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
     {
         if (isInit)
         {
-            assetManager.ReleaseAll();
+            resourceOwner?.ReleaseAll();
             foreach (var item in hideObject)
             {
                 item.Destroy();
@@ -250,7 +250,7 @@ public abstract class BasePoolManager<T> : BasePool where T : BasePool
             hideObject = null;
             activeObject = null;
             isInit = false;
-            assetManager = null;
+            resourceOwner = null;
         }
         else
         {

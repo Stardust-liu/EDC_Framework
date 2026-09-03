@@ -13,9 +13,10 @@ public class RedDotTreeManager : BaseIOCComponent<RedDotData>, ISendEvent
     private HashSet<RedDotTreeBaseNode> nextList = new();
     private bool isWaitingForUpdate = false;
 
-    protected override void Init(){
-        base.Init();
-        redDotTreeSetting = Hub.Resources.Get<RedDotTreeSetting>("RedDotTreeSetting");
+    protected override void Ready()
+    {
+        base.Ready();
+        redDotTreeSetting = Hub.FrameworkConfig.Get<RedDotTreeSetting>("RedDotTreeSetting");
         SetInitRedDotTree();
     }
 

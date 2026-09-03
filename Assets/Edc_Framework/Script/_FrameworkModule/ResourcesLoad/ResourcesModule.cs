@@ -4,14 +4,20 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
-using UnityEngine.ResourceManagement.ResourceLocations;
 using Object = UnityEngine.Object;
 
-public interface IResourcesModule
+public interface IResourceOwnerFactory
+{
+    /// <summary>
+    /// 创建资源持有者
+    /// </summary>
+    IResourceOwner CreateOwner(string ownerName = null);
+}
+
+internal interface IResourcesModule
 {
     /// <summary>
     /// 加载Label
@@ -36,6 +42,21 @@ public interface IResourcesModule
     /// 释放资源
     /// </summary>
     void Release(string labelName);
+
+    /// <summary>
+    /// 获取资源
+    /// </summary>
+    T Get<T>(string labelName, string key) where T : Object;
+
+    /// <summary>
+    /// 获取资源
+    /// </summary>
+    T Get<T>(string key) where T : Object;
+
+    /// <summary>
+    /// 释放资源持有者
+    /// </summary>
+    void UnregisterOwner(ResourceOwner resourceOwner);
 } 
 
 public class ResourceRef
@@ -60,14 +81,21 @@ public class ListResourceRef
     }
 }
 
-public class ResourcesModule : BaseIOCComponent, IResourcesModule
+internal class ResourcesModule : BaseIOCComponent, IResourcesModule, IResourceOwnerFactory
 {
     private static readonly Dictionary<string, ResourceRef> loadedHandles = new();
     private static readonly Dictionary<string, ListResourceRef> loadedHandlesLabel = new();
-    private static readonly Dictionary<string, Dictionary<string,Object>> labelAsset = new();
-    private static readonly Dictionary<string, Object> asset = new();
-    private Dictionary<string, UniTask> loadingLabelTasks = new Dictionary<string, UniTask>();
-    
+    private static readonly Dictionary<string, Dictionary<string,Object>> loadedLabelAssets = new();
+    private static readonly Dictionary<string, Object> loadedAssets = new();
+    private readonly Dictionary<string, UniTask> loadingLabelTasks = new();
+    private readonly HashSet<ResourceOwner> activeOwners = new();
+
+    protected override void Uninstall()
+    {
+        base.Uninstall();
+        ReleaseAllOwners();
+    }
+
     /// <summary>
     /// 获取资源
     /// </summary>
@@ -75,11 +103,11 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
     {
         if (!string.IsNullOrEmpty(key))
         {
-            if (asset.TryGetValue(key, out var value))
+            if (loadedAssets.TryGetValue(key, out var value))
             {
                 return value as T;
             }
-            foreach (var item in labelAsset)
+            foreach (var item in loadedLabelAssets)
             {
                 if (item.Value.TryGetValue(key, out value))
                 {
@@ -102,7 +130,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
     {
         if (!string.IsNullOrEmpty(labelName) && !string.IsNullOrEmpty(key))
         {
-            if (labelAsset.TryGetValue(labelName, out var labelInfo)&&
+            if (loadedLabelAssets.TryGetValue(labelName, out var labelInfo)&&
                 labelInfo.TryGetValue(key, out var value))
             {
                 return value as T;
@@ -130,7 +158,11 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
             await ongoingTask; 
             return;
         }
-        if (loadedHandlesLabel.ContainsKey(labelName)) return;
+        if (loadedHandlesLabel.ContainsKey(labelName))
+        {
+            loadedHandlesLabel[labelName].refCount++;
+            return;
+        }
         var task = LoadLabelTask(labelName).Preserve();
         loadingLabelTasks[labelName] = task;
         try 
@@ -145,7 +177,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
 
     async UniTask LoadLabelTask(string labelName)
     {
-        labelAsset.Add(labelName, new Dictionary<string, Object>());
+        loadedLabelAssets.Add(labelName, new Dictionary<string, Object>());
         loadedHandlesLabel.Add(labelName, new ListResourceRef(new List<AsyncOperationHandle>()));
         var locationsHandle = Addressables.LoadResourceLocationsAsync(labelName);
         try
@@ -167,7 +199,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
             count = keys.Count;
             for (int i = 0; i < count; i++)
             {
-                labelAsset[labelName][keys[i]] = results[i];
+                loadedLabelAssets[labelName][keys[i]] = results[i];
             }
         }
         catch (System.Exception)
@@ -180,7 +212,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
                 }
             }
             loadedHandlesLabel.Remove(labelName);
-            labelAsset.Remove(labelName);            
+            loadedLabelAssets.Remove(labelName);            
             throw;
         }
         finally
@@ -206,7 +238,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
                         Addressables.Release(item);
                     }
                 }
-                labelAsset.Remove(labelName);
+                loadedLabelAssets.Remove(labelName);
                 loadedHandlesLabel.Remove(labelName);   
             }
         }
@@ -233,7 +265,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
         try
         {
             var res = await resourceRef.handle.Convert<Object>().ToUniTask();
-            asset[key] = res;
+            loadedAssets[key] = res;
         }
         catch (System.Exception)
         {
@@ -259,7 +291,7 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
             resourceRef = new ResourceRef(Addressables.LoadAssetAsync<Object>(key));
             resourceRef.handle.WaitForCompletion(); 
             loadedHandles.Add(key, resourceRef);
-            asset[key] = resourceRef.handle.Result as Object;
+            loadedAssets[key] = resourceRef.handle.Result as Object;
         }
     }
 
@@ -273,11 +305,41 @@ public class ResourcesModule : BaseIOCComponent, IResourcesModule
             resourceRef.refCount--;
             if (resourceRef.refCount == 0)
             {
-                asset.Remove(key);
+                loadedAssets.Remove(key);
                 loadedHandles.Remove(key);
                 Addressables.Release(resourceRef.handle);   
             }
         }
     }
 #endregion
+    /// <summary>
+    /// 创建资源持有者
+    /// </summary>
+    public IResourceOwner CreateOwner(string ownerName = null)
+    {
+        var owner = new ResourceOwner(this, ownerName);
+        activeOwners.Add(owner);
+        return owner;
+    }
+
+    /// <summary>
+    /// 注销资源持有者
+    /// </summary>
+    public void UnregisterOwner(ResourceOwner resourceOwner)
+    {
+        activeOwners.Remove(resourceOwner);
+    }
+
+    /// <summary>
+    /// 释放所有资源持有者
+    /// </summary>
+    private void ReleaseAllOwners()
+    {
+        var owners = new List<ResourceOwner>(activeOwners);
+        foreach (var item in owners)
+        {
+            item.ReleaseAll();
+        }
+        activeOwners.Clear();
+    }
 }

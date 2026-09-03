@@ -22,18 +22,19 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - GlobalSFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 78e9d6e2976002f4fb2857df173153aa
     m_Address: Back
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Soundeffect
     - GlobalSFX
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0537b29b034160b49a7df10ccdc0f16c
     m_Address: ChangeSelect
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Soundeffect
     - GlobalSFX
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 812c912afdf9b1245b0e44aad237d83c, type: 2}
   m_SchemaSet:

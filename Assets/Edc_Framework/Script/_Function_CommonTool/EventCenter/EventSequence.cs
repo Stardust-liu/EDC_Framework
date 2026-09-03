@@ -21,8 +21,8 @@ interface IEventSequenceFunction
 
 public class EventSequence : IEventSequenceFunction
 {
-    private Dictionary<Type, List<Type>> keyValuePairs = new();
-    private Dictionary<Type, Delegate> eventDelegates = new();
+    private Dictionary<Type, List<Type>> keyValuePairs = new();//用来存放事件队列中事件的触发顺序
+    private Dictionary<Type, Delegate> eventDelegates = new();//用来存放事件对应的异步回调
 
 
     public EventSequence(){

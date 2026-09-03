@@ -1,19 +1,31 @@
 
-public interface IBaseWindow : IBaseUI{}
-public class BaseWindow<Model> : BaseUI<Model>, IBaseWindow where Model : BaseUI_Model, new()
+public interface IBaseWindow : IBaseUI, IWindowUI{}
+public class BaseWindow<Model> : BaseWindow where Model : BaseUI_Model, new()
 {
-    protected override void MoveToShowParent()
+    protected Model model;
+    protected override void Init()
     {
-        MoveToParent(Hub.Window, isShow: true);
+        base.Init();
+        model = CreateModel<Model>();
     }
 
-    protected override void MoveToHideParent()
+    protected override void DestroyPanel()
     {
-        MoveToParent(Hub.Window, isShow: false);
+        model = null;
+        base.DestroyPanel();
     }
 }
 public class BaseWindow : BaseUI, IBaseWindow
 {
+    void IWindowUI.Cover()
+    {
+        OnCover();
+    }
+    
+    void IWindowUI.Reveal()
+    {
+        OnReveal();
+    }
     protected override void MoveToShowParent()
     {
         MoveToParent(Hub.Window, isShow: true);
@@ -23,4 +35,14 @@ public class BaseWindow : BaseUI, IBaseWindow
     {
         MoveToParent(Hub.Window, isShow: false);
     }
+
+    /// <summary>
+    /// 遮挡
+    /// </summary>
+    protected virtual void OnCover(){}
+
+    /// <summary>
+    /// 恢复
+    /// </summary>
+    protected virtual void OnReveal(){}
 }

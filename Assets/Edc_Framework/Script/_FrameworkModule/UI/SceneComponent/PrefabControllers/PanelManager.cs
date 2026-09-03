@@ -9,6 +9,7 @@ public abstract class PanelManager : BaseMonoIOCComponent
     public RectTransform Parent_2DUI;
     public RectTransform Parent_2DUI_Hide;
     protected readonly Dictionary<Type, IBaseUIControl> createPanelContainer = new();
+    private readonly HashSet<Type> creatingPanelTypes = new();
 
     /// <summary>
     /// 获取面板
@@ -19,36 +20,81 @@ public abstract class PanelManager : BaseMonoIOCComponent
     }
 
     /// <summary>
-    /// 打开面板(执行面板对应类相关的委托,并返回对应面板的实例)
+    /// 打开面板
     /// </summary>
-    protected async void OpenPanel<T>(Action<T> onCreatePanel) where T : BaseUIControl
+    protected async UniTask<T> OpenPanel<T>(Action<T> onCreatePanel) where T : BaseUIControl
     {
         var type = typeof(T);
-        await CreatePanel<T>(type);
-        onCreatePanel?.Invoke(createPanelContainer[type] as T);//执行委托
-        ShowPanel(type);
+        if (creatingPanelTypes.Contains(type))
+        {
+            LogManager.LogWarning($"面板 {type.Name} 正在创建，忽略重复打开");
+            return null;
+        }
+
+        if (createPanelContainer.TryGetValue(type, out var control) && control.IsShow)
+        {
+            LogManager.LogWarning($"面板 {type.Name} 已经显示，忽略重复打开");
+            return null;
+        }
+
+        try
+        {
+            var panel = await CreatePanel<T>(type);
+            if (panel == null)
+            {
+                LogManager.LogError($"面板 {type.Name} 创建失败");
+                return null;
+            }
+
+            onCreatePanel?.Invoke(panel);
+            ShowPanel(type);
+            return panel;
+        }
+        catch (Exception exception)
+        {
+            LogManager.LogError($"打开面板 {type.Name} 失败\n{exception}");
+            return null;
+        }
     }
 
     /// <summary>
-    /// 打开面板(执行面板对应类相关的委托,并返回对应面板的实例)
+    /// 打开面板
     /// </summary>
-    protected async void OpenPanel<T>(Action onCreatePanel) where T : BaseUIControl
+    protected UniTask<T> OpenPanel<T>(Action onCreatePanel) where T : BaseUIControl
     {
-        var type = typeof(T);
-        await CreatePanel<T>(type);
-        onCreatePanel?.Invoke();//执行委托
-        ShowPanel(type);
+        return OpenPanel<T>(_ => onCreatePanel?.Invoke());
     }
 
-    private async UniTask CreatePanel<T>(Type type) where T : BaseUIControl
+    private async UniTask<T> CreatePanel<T>(Type type) where T : BaseUIControl
     {
-        if (!createPanelContainer.ContainsKey(type))
+        if (createPanelContainer.TryGetValue(type, out var existingControl))
+        {
+            return existingControl as T;
+        }
+        if (!creatingPanelTypes.Add(type))
+        {
+            return null;
+        }
+        try
         {
             var pathInfo = (ResourceKeyAttribute)Attribute.GetCustomAttribute(type, typeof(ResourceKeyAttribute));
+            if (pathInfo == null)
+            {
+                throw new Exception($"面板 {type.Name} 缺少 ResourceKeyAttribute");
+            }
             var panelInfo = GetPanelInfo(pathInfo.Key);
             var control = Activator.CreateInstance(type) as T;
-            createPanelContainer.Add(type, control);
+            if (control == null)
+            {
+                throw new Exception($"面板 {type.Name} 控制器创建失败");
+            }
             await ((IBaseUIControl)control).CreatePanel(panelInfo, Parent_2DUI);
+            createPanelContainer.Add(type, control);
+            return control;
+        }
+        finally
+        {
+            creatingPanelTypes.Remove(type);
         }
     }
 
@@ -83,20 +129,36 @@ public abstract class PanelManager : BaseMonoIOCComponent
         {
             if (panel.IsShow)
             {
-                ((IBaseUIControl)panel).Close(hideFinishCallBack);
-                if (panel.IsHideFinishDestroy)
+                ((IBaseUIControl)panel).Close(() =>
                 {
-                    createPanelContainer.Remove(panel.GetType());
-                }
+                    try
+                    {
+                        hideFinishCallBack?.Invoke();
+                    }
+                    catch (Exception exception)
+                    {
+                        LogManager.LogError($"面板 {type.Name} 关闭回调执行失败\n{exception}");
+                    }
+                    finally
+                    {
+                        if (panel.IsHideFinishDestroy)
+                        {
+                            DestroyClosePanel(type);
+                        }
+                    }
+                });
             }
             else
             {
-                LogManager.LogWarning($"关闭了一个已经隐藏的UI面板 {type.Name}");
+                if (panel.IsHideFinish)
+                {
+                    LogManager.LogWarning($"重复关闭了一个已经隐藏的UI面板 {type.Name}");
+                }
+                else
+                {
+                    LogManager.LogWarning($"重复关闭了一个正在隐藏的UI面板 {type.Name}");
+                }
             }
-        }
-        else
-        {
-            LogManager.LogWarning($"面板 {type.Name}");
         }
     }
     
@@ -106,17 +168,24 @@ public abstract class PanelManager : BaseMonoIOCComponent
     protected void DestroyClosePanel<T>() where T : BaseUI
     {
         var type = typeof(T);
+        DestroyClosePanel(type);
+    }
+
+    /// <summary>
+    /// 销毁关闭的面板
+    /// </summary>
+    protected void DestroyClosePanel(Type type)
+    {
         if (createPanelContainer.TryGetValue(type, out var panel))
         {
-            if (!panel.IsShow)
+            if (panel.IsHideFinish)
             {
                 panel.DestroyPanel();
                 createPanelContainer.Remove(type);
-                Resources.UnloadUnusedAssets();
             }
             else
             {
-                LogManager.LogWarning($"面板 {type.Name} 正在显示，无法销毁");
+                LogManager.LogWarning($"面板 {type.Name} 正在显示，或未关闭完成，无法销毁");
             }
         }
         else
@@ -133,7 +202,7 @@ public abstract class PanelManager : BaseMonoIOCComponent
         var hidePanel = new List<Type>();
         foreach (var item in createPanelContainer.Keys)
         {
-            if(!createPanelContainer[item].IsShow){
+            if(!createPanelContainer[item].IsHideFinish){
                 hidePanel.Add(item);
                 count++;
             }

@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Hub : IOCContainer<Hub>
 {    
-    public static ResourcesModule Resources{get{return resources;}}
+    public static IResourceOwnerFactory Resources{get{return resources;}}
     public static FrameworkConfigManager FrameworkConfig{get{return frameworkConfig;}}
     public static CoroutineRunner Coroutine{get{return coroutine;}}
     public static GameSceneManager Scene{get{return scene;}}
@@ -25,7 +25,10 @@ public class Hub : IOCContainer<Hub>
     public static NotificationManager Notification{get{return notification;}}
     public static CGManager CG{get{return cg;}}
 #endregion
+#region 第三方平台相关
+    public static PlatformAchievementManager PlatformAchievement{get{return platformAchievement;}}
 
+#endregion
     private static ResourcesModule resources;
     private static FrameworkConfigManager frameworkConfig;
     private static CoroutineRunner coroutine;
@@ -46,6 +49,8 @@ public class Hub : IOCContainer<Hub>
     private static ScreenTransitionManager screenTransition;
     private static NotificationManager notification;
     private static CGManager cg;
+
+    private static PlatformAchievementManager platformAchievement;
 
     protected override async UniTask InitContainer(FrameworkManager framework)
     {
@@ -71,5 +76,7 @@ public class Hub : IOCContainer<Hub>
         ((IContainer)this).Register(out achievement);
         ((IContainer)this).Register(out redDotTree);
         ((IContainer)this).Register(out localization);
+
+        ((IContainer)this).Register(out platformAchievement);
     }
 }

@@ -19,14 +19,17 @@ public class Localization_FileDataVO
 public class Localization_FileData : ParsCsv<Localization_FileData>
 {
     private Dictionary<string, Dictionary<SystemLanguage, List<Localization_FileDataVO>>> localizationInfo;
-    public AssetManager assetManager;
+    private IResourceOwner resourceOwner;
 
     protected override void InitData()
     {
         if (localizationInfo == null)
         {
-            AssetManager.Init(out assetManager);
             localizationInfo = new();
+        }
+        if (resourceOwner == null)
+        {
+            resourceOwner = Hub.Resources.CreateOwner(GetType().Name);
         }
     }
 
@@ -55,12 +58,18 @@ public class Localization_FileData : ParsCsv<Localization_FileData>
     /// </summary>
     public async UniTask LoadInfo(List<Localization_FileDataVO> localization_FileDataVOs)
     {
-        var assetsPath = new List<string>(localization_FileDataVOs.Count);
-        foreach (var item in localization_FileDataVOs)
+        if (localization_FileDataVOs == null || localization_FileDataVOs.Count == 0)
         {
-            assetsPath.Add(item.resourcePath);
+            return;
         }
-        await assetManager.AddLoad(assetsPath);
+
+        var tasks = new UniTask[localization_FileDataVOs.Count];
+        for (var i = 0; i < localization_FileDataVOs.Count; i++)
+        {
+            tasks[i] = resourceOwner.LoadAsset(localization_FileDataVOs[i].resourcePath);
+        }
+
+        await UniTask.WhenAll(tasks);
     }
 
     /// <summary>
@@ -76,10 +85,23 @@ public class Localization_FileData : ParsCsv<Localization_FileData>
     /// </summary>
     public void Release(List<Localization_FileDataVO> localization_FileDataVOs)
     {
+        if (localization_FileDataVOs == null)
+        {
+            return;
+        }
+
         foreach (var item in localization_FileDataVOs)
         {
-            assetManager.Release(item.resourcePath);
+            resourceOwner?.ReleaseAsset(item.resourcePath);
         }
+    }
+
+    /// <summary>
+    /// 获取多语言文件资源
+    /// </summary>
+    public T GetAsset<T>(string resourcePath) where T : UnityEngine.Object
+    {
+        return resourceOwner.GetAsset<T>(resourcePath);
     }
 
     /// <summary>

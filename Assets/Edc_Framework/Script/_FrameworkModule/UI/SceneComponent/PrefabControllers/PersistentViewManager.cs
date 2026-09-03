@@ -1,15 +1,17 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class PersistentViewManager : BaseViewManager
 {
     public PersistentViewSetting PersistentViewSetting{get; private set;}
 
-    protected override void Init(){
-        base.Init();
-        PersistentViewSetting = Hub.Resources.Get<PersistentViewSetting>("PersistentViewSetting");
+    protected override void Ready()
+    {
+        base.Ready();
+        PersistentViewSetting = Hub.FrameworkConfig.Get<PersistentViewSetting>("PersistentViewSetting");
         PersistentViewSetting.Init();
     }
 
@@ -19,7 +21,7 @@ public class PersistentViewManager : BaseViewManager
     public void OpenPersistentView<T>(Action<T> onCreatePanel = null)
     where T : BaseUIControl, IBasePersistentViewControl
     {
-        OpenPanel(onCreatePanel);
+        OpenPanel(onCreatePanel).Forget();
     }
 
     /// <summary>

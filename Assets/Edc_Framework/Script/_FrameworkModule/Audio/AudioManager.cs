@@ -31,16 +31,24 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     public float SoundEffectOffsetVolume {get{return SoundEffectVolume * SoundMainVolume;}}
     public float SoundDialogueOffsetVolume {get{return SoundDialogueVolume * SoundMainVolume;}}
 
-    private ResourcesModule resourcesModule;
+    private IResourceOwner resourceOwner;
     private AudioClip audioClip;
     
-    protected override void Init() {
-        base.Init();
-        resourcesModule = Hub.Resources;
+    protected override void Ready()
+    {
+        base.Ready();
+        resourceOwner = Hub.Resources.CreateOwner(GetType().Name);
         SFXPool.InitPool(sFXParent, 5, true).Forget();
         VOPool.InitPool(vOParent, 5, true).Forget();
     }
 
+    protected override void Uninstall()
+    {
+        base.Uninstall();
+        resourceOwner?.ReleaseAll();
+        resourceOwner = null;
+        audioClip = null;
+    }
 #region 主音音量相关
     /// <summary>
     /// 设置主音量
@@ -67,13 +75,27 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// 播放背景音
     /// </summary>
     public void PlaysoundBg(string resourcePath){
-        PlaySoundBg(resourcesModule.Get<AudioClip>(resourcePath));
+        PlaySoundBgAsync(resourcePath).Forget();
+    }
+
+    private async UniTask PlaySoundBgAsync(string resourcePath)
+    {
+        var audio = await GetOrLoadAudioClip(resourcePath);
+        if (audio == null)
+        {
+            return;
+        }
+        PlaySoundBg(audio);
     }
 
     /// <summary>
     /// 播放背景音
     /// </summary>
     public void PlaySoundBg(AudioClip audio){
+        if (audio == null)
+        {
+            return;
+        }
         if (audioClip != null && audioClip == audio)
         {
             return;
@@ -125,6 +147,46 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
         }
     }
 #endregion
+#region 音频资源加载
+    /// <summary>
+    /// 加载音频Label
+    /// </summary>
+    public UniTask LoadLabel(string labelName)
+    {
+        return resourceOwner.LoadLabel(labelName);
+    }
+
+    /// <summary>
+    /// 释放音频Label
+    /// </summary>
+    public void ReleaseLabel(string labelName)
+    {
+        resourceOwner.ReleaseLabel(labelName);
+    }
+
+    private async UniTask<AudioClip> GetOrLoadAudioClip(string resourcePath)
+    {
+        if (string.IsNullOrEmpty(resourcePath))
+        {
+            LogManager.LogWarning("音频资源路径为空，无法播放");
+            return null;
+        }
+        if (resourceOwner == null)
+        {
+            LogManager.LogWarning("AudioManager 尚未初始化资源持有者，无法播放音频");
+            return null;
+        }
+
+        var audio = (resourceOwner as ResourceOwner)?.TryGetAssetAndLabelAsset<AudioClip>(resourcePath);
+        if (audio != null)
+        {
+            return audio;
+        }
+
+        await resourceOwner.LoadAsset(resourcePath);
+        return resourceOwner.GetAsset<AudioClip>(resourcePath);
+    }
+#endregion
 #region 音效相关
     /// <summary>
     /// 设置音效音量
@@ -137,15 +199,33 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// <summary>
     /// 播放音效
     /// </summary>
-    public async void PlaySoundEffect(string resourcePath){
-        var sfx = await SFXPool.GetItem();
-        sfx.PlaySound(resourcesModule.Get<AudioClip>(resourcePath));
+    public void PlaySoundEffect(string resourcePath){
+        PlaySoundEffectAsync(resourcePath).Forget();
+    }
+
+    private async UniTask PlaySoundEffectAsync(string resourcePath)
+    {
+        var audio = await GetOrLoadAudioClip(resourcePath);
+        if (audio == null)
+        {
+            return;
+        }
+        await PlaySoundEffectAsync(audio);
     }
 
     /// <summary>
     /// 播放音效
     /// </summary>
-    public async void PlaySoundEffect(AudioClip audio){
+    public void PlaySoundEffect(AudioClip audio){
+        PlaySoundEffectAsync(audio).Forget();
+    }
+
+    private async UniTask PlaySoundEffectAsync(AudioClip audio)
+    {
+        if (audio == null)
+        {
+            return;
+        }
         var sfx = await SFXPool.GetItem();
         sfx.PlaySound(audio);
     }
@@ -161,7 +241,7 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// 停止指定音效
     /// </summary>
     public void StopSpecifySoundEffect(string resourcePath){
-        StopSpecifySoundEffect(resourcesModule.Get<AudioClip>(resourcePath));
+        StopSpecifySoundEffect(resourceOwner.GetAsset<AudioClip>(resourcePath));
     }
 
     /// <summary>
@@ -190,15 +270,33 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
     /// <summary>
     /// 播放对话
     /// </summary>
-    public async void PlaySoundDialogue(string resourcePath){
-        var vo = await VOPool.GetItem();
-        vo.PlaySound(resourcesModule.Get<AudioClip>(resourcePath));
+    public void PlaySoundDialogue(string resourcePath){
+        PlaySoundDialogueAsync(resourcePath).Forget();
+    }
+
+    private async UniTask PlaySoundDialogueAsync(string resourcePath)
+    {
+        var audio = await GetOrLoadAudioClip(resourcePath);
+        if (audio == null)
+        {
+            return;
+        }
+        await PlaySoundDialogueAsync(audio);
     }
 
     /// <summary>
     /// 播放对话
     /// </summary>
-    public async void PlaySoundDialogue(AudioClip audio){
+    public void PlaySoundDialogue(AudioClip audio){
+        PlaySoundDialogueAsync(audio).Forget();
+    }
+
+    private async UniTask PlaySoundDialogueAsync(AudioClip audio)
+    {
+        if (audio == null)
+        {
+            return;
+        }
         var vo = await VOPool.GetItem();
         vo.PlaySound(audio);
     }

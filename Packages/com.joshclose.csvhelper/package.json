@@ -1,0 +1,12 @@
+{
+    "name": "com.joshclose.csvhelper",
+    "displayName": "JoshClose CsvHelper",
+    "version": "1.0.0",
+    "unity": "2019.4",
+    "description": "Library to help reading and writing CSV files",
+    "keywords": [
+        "csv",
+        "unity"
+    ],
+    "category": "Unity"
+}

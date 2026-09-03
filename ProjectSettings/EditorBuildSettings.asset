@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Edc_Framework/Scenes/MainScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Demo/Scene/MenuScene.unity
+    path: Assets/Game/Demo/Scene/EnterGameScene.unity
     guid: 3f8a4356aaf05a24eab9e6a3efabc103
   - enabled: 0
     path: Assets/Demo/Scene/test/New Scene_1.unity
@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Demo/Scene/test/New Scene_2.unity
     guid: 7a2ddf70916a08e4e827393e600c44d1
-  - enabled: 1
+  - enabled: 0
     path: Assets/ABTest/2.unity
     guid: 9ecbdbf6b64d5b5478e209cd0f5a0389
   m_configObjects:

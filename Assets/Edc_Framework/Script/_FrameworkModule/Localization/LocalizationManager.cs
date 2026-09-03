@@ -18,11 +18,15 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
 
     protected override void Init()
     {
-        base.Init();
-       
-        localizationFontSetting = Hub.Resources.Get<LocalizationSetting>("LocalizationFontSetting");
-        InitInfoCfg();
+        base.Init();   
         SetInitLanguage();
+    }
+
+    protected override void Ready()
+    {
+        base.Ready();
+        localizationFontSetting = Hub.FrameworkConfig.Get<LocalizationSetting>("LocalizationFontSetting");
+        InitInfoCfg();
     }
 
     private void InitInfoCfg()
@@ -133,7 +137,7 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
         await localization_FilePath.LoadInfo(localizationCsvData);
         foreach (var item in localizationCsvData)
         {
-            var csv = Hub.Resources.Get<TextAsset>(item.resourcePath);
+            var csv = localization_FilePath.GetAsset<TextAsset>(item.resourcePath);
             switch (item.localizationType)
             {
                 case LocalizationType.Text:
@@ -157,7 +161,7 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
         var localizationCsvData = localization_FilePath.GetLocalizationFileData(localizationCsvFile, systemLanguage);
         foreach (var item in localizationCsvData)
         {
-            var csv = Hub.Resources.Get<TextAsset>(item.resourcePath);
+            var csv = localization_FilePath.GetAsset<TextAsset>(item.resourcePath);
             switch (item.localizationType)
             {
                 case LocalizationType.Text:

@@ -2,17 +2,20 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public interface IBaseView : IBaseUI { }
-public class BaseView<Model> : BaseUI<Model>, IBaseView where Model : BaseUI_Model, new()
+public interface IBaseView : IBaseUI {}
+public class BaseView<Model> : BaseView where Model : BaseUI_Model, new()
 {
-    protected override void MoveToShowParent()
+    protected Model model;
+    protected override void Init()
     {
-        MoveToParent(Hub.View, isShow: true);
+        base.Init();
+        model = CreateModel<Model>();
     }
 
-    protected override void MoveToHideParent()
+    protected override void DestroyPanel()
     {
-        MoveToParent(Hub.View, isShow: false);
+        model = null;
+        base.DestroyPanel();
     }
 }
 public class BaseView : BaseUI, IBaseView

@@ -1,17 +1,20 @@
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public interface IBasePersistentView{}
-public class BasePersistentView<Model> : BaseUI<Model>, IBasePersistentView where Model : BaseUI_Model, new()
+public interface IBasePersistentView : IBaseUI{}
+public class BasePersistentView<Model> : BasePersistentView where Model : BaseUI_Model, new()
 {
-    protected override void MoveToShowParent()
+    protected Model model;
+    protected override void Init()
     {
-        MoveToParent(Hub.PersistentView, isShow: true);
+        base.Init();
+        model = CreateModel<Model>();
     }
 
-    protected override void MoveToHideParent()
+    protected override void DestroyPanel()
     {
-        MoveToParent(Hub.PersistentView, isShow: false);
+        model = null;
+        base.DestroyPanel();
     }
 }
 public class BasePersistentView : BaseUI, IBasePersistentView

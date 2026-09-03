@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,9 +14,14 @@ public class WindowManager : PanelManager
 
     protected override void Init(){
         base.Init();
-        WindowSetting = Hub.Resources.Get<WindowSetting>("WindowSetting");
-        WindowSetting.Init();
         openWindowStack = new Stack<IBaseWindowControl>();
+    }
+
+    protected override void Ready()
+    {
+        base.Ready();
+        WindowSetting = Hub.FrameworkConfig.Get<WindowSetting>("WindowSetting");
+        WindowSetting.Init();
     }
 
     /// <summary>
@@ -24,8 +30,17 @@ public class WindowManager : PanelManager
     public void OpenWindow<T>(Action<T> onCreatePanel = null)
     where T : BaseUIControl, IBaseWindowControl
     {
-        OpenPanel(onCreatePanel);
-        var newWindow = GetPanel<T>();
+        OpenWindowAsync(onCreatePanel).Forget();
+    }
+
+    private async UniTask OpenWindowAsync<T>(Action<T> onCreatePanel) where T : BaseUIControl, IBaseWindowControl
+    {
+        var newWindow = await OpenPanel(onCreatePanel);
+        if (newWindow == null)
+        {
+            return;
+        }
+
         OpenWindow(newWindow, openWindowStack, windowMaskPanel);
     }
 
@@ -47,6 +62,7 @@ public class WindowManager : PanelManager
 
     private void OpenWindow(IBaseWindowControl window, Stack<IBaseWindowControl> windowStack, Image windowMask)
     {
+        currentWindow?.Cover();
         windowStack.Push(window);
         currentWindow = windowStack.Peek();
         windowMask.enabled = true;
@@ -55,6 +71,16 @@ public class WindowManager : PanelManager
 
     private void CloseWindow(Stack<IBaseWindowControl> windowStack, Image windowMask)
     {
+        if (windowStack == null || windowStack.Count == 0)
+        {
+            LogManager.LogWarning("当前没有可关闭的窗口");
+            if (windowMask != null)
+            {
+                windowMask.enabled = false;
+            }
+            currentWindow = null;
+            return;
+        }
         //如果关闭后要做什么操作直接重写面板自身的HideFinish就行
         ClosePanel(windowStack.Pop().GetType(), null);
         if (windowStack.Count == 0)
@@ -65,6 +91,7 @@ public class WindowManager : PanelManager
         else
         {
             currentWindow = windowStack.Peek();
+            currentWindow.Reveal();
             windowMask.transform.SetSiblingIndex(windowStack.Count - 1);
         }
     }

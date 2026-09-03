@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using XNode;
 using Sirenix.OdinInspector;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 public abstract class RedDotTreeBaseNode : BaseNode 
 {
     [Input, ShowIf(nameof(IshavelastNode))]

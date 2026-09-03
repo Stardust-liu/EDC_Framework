@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 76a835c3d3e861d4b9c9bb9ebb91e7e6
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: e456c3194022735c8164b95f30fbdbda
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -38,7 +38,7 @@ MonoBehaviour:
     m_Id: c9d60dc082b913b49a22b5edfdf56303
   m_RemoteCatalogLoadPath:
     m_Id: a93fcaaddbb449c45aa32bdda1a132c5
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -105,6 +105,7 @@ MonoBehaviour:
     - Voice_Level1
     - Global_CN
     - Global_EN
+    - Soundbg
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: c5cc76eb428ce6947ad83a92f982d646, type: 2}

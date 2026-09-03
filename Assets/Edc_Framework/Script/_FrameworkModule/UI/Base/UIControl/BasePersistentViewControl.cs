@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IBasePersistentViewControl : IBaseUIControl { }
 public class BasePersistentViewControl<T> : BaseUIControl<T>, IBasePersistentViewControl
-where T : IBaseUI
+where T : IBasePersistentView
 { }

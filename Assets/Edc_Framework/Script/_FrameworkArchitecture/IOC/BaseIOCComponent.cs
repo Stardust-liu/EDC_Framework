@@ -5,7 +5,13 @@ using UnityEngine;
 public interface IIOCComponent 
 {
     void Init();
+    void Ready();
     void Uninstall();
+}
+
+public interface IGameQuit
+{
+    void OnGameQuit();
 }
 
 public class BaseIOCComponent<T> : BaseIOCComponent
@@ -31,10 +37,15 @@ public abstract class BaseIOCComponent : IIOCComponent
     void IIOCComponent.Init(){
         Init();
     }
+    void IIOCComponent.Ready()
+    {
+        Ready();
+    }
     void IIOCComponent.Uninstall(){
         Uninstall();
     }
     protected virtual void Init(){}
+    protected virtual void Ready() {}
     protected virtual void Uninstall(){}
 }
 
@@ -61,10 +72,15 @@ public class BaseMonoIOCComponent : MonoBehaviour, IIOCComponent
     void IIOCComponent.Init(){
         Init();
     }
+    void IIOCComponent.Ready()
+    {
+        Ready();
+    }
     void IIOCComponent.Uninstall(){
         Uninstall();
     }
     protected virtual void Init(){}
+    protected virtual void Ready() {}
     protected virtual void Uninstall(){}
 }
 

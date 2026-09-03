@@ -1,25 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
 using UnityEngine.SceneManagement;
+#endif
 
-
+[DefaultExecutionOrder(-10000)]
 public class GameScene : MonoBehaviour
 {
+#if UNITY_EDITOR
     private void Awake()
     {
-#if UNITY_EDITOR
         if (!FrameworkManager.isInitFinish)
         {
             FrameworkManager.SetInitFinishLoadScene(SceneManager.GetActiveScene().name);
             SceneManager.LoadScene("MainScene");
+            return;
         }
-        else
-        {
-            gameObject.SetActive(false);
-        }
-#else
         gameObject.SetActive(false);
-#endif
     }
+#endif
 }

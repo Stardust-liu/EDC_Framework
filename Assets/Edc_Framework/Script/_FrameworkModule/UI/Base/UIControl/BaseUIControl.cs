@@ -10,16 +10,17 @@ public class BaseUIControl<T> : BaseUIControl
 where T : IBaseUI
 {
     public T panel;
-    private AssetManager assetManager;
+    private IResourceOwner resourceOwner;
 
     protected override async UniTask CreatePanel(UIPrefabInfo uIPrefabInfo, RectTransform parent)
     {
-        base.CreatePanel(uIPrefabInfo, parent).Forget();;
+        await base.CreatePanel(uIPrefabInfo, parent);
         var prefab_2D_RuntimeKey = uIPrefabInfo.prefab;
-        await AssetManager.Init(out assetManager, prefab_2D_RuntimeKey).Load();
-        var prefab = Hub.Resources.Get<GameObject>(prefab_2D_RuntimeKey);
+        resourceOwner = Hub.Resources.CreateOwner(GetType().Name);
+        await resourceOwner.LoadAsset(prefab_2D_RuntimeKey);
+        var prefab = resourceOwner.GetAsset<GameObject>(prefab_2D_RuntimeKey);
         panel = GameObject.Instantiate(prefab, parent).GetComponent<T>();
-        await ((IBaseUI)panel).Init(isHideFinishDestroy);
+        await ((IBaseUI)panel).Init(IsShowFinishValid, IsHideFinishValid);
     }
 
     protected override void StartShow()
@@ -41,6 +42,14 @@ where T : IBaseUI
 
     protected override void HideFinish()
     {
+        if (isShow)
+        {
+            return;
+        }
+        if (!isHideFinishDestroy)
+        {
+            ((IBaseUI)panel).CompleteHide();
+        }
         isHideFinish = true;
         hideFinishCallBack?.Invoke();
         hideFinishCallBack = null;
@@ -49,7 +58,19 @@ where T : IBaseUI
     protected override void DestroyPanel()
     {
         ((IBaseUI)panel).DestroyPanel();
-        assetManager.ReleaseAll();
+        panel = default;
+        resourceOwner?.ReleaseAll();
+        resourceOwner = null;
+    }
+
+    private bool IsShowFinishValid()
+    {
+        return isShow;
+    }
+
+    private bool IsHideFinishValid()
+    {
+        return !isShow;
     }
 }
 

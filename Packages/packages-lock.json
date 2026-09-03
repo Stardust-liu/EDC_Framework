@@ -1,5 +1,21 @@
 {
   "dependencies": {
+    "com.besty.unity-skills": {
+      "version": "file:D:/Users/StarDust/Downloads/Unity-Skills-main/SkillsForUnity",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "3.0.2",
+        "com.unity.timeline": "1.7.7"
+      }
+    },
+    "com.code-philosophy.hybridclr": {
+      "version": "https://github.com/focus-creative-games/hybridclr_unity.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "e4def761d69b27b7b51a5de0f6d272861416a2d6"
+    },
     "com.cysharp.unitask": {
       "version": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
       "depth": 0,
@@ -7,12 +23,26 @@
       "dependencies": {},
       "hash": "a9e27c03d411d2fca01cc7410c24c97cd77cb539"
     },
+    "com.esotericsoftware.spine.urp-shaders": {
+      "version": "file:D:/Users/StarDust/Downloads/com.esotericsoftware.spine.urp-shaders-4.2-2019.1",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {
+        "com.unity.render-pipelines.universal": "7.1.5"
+      }
+    },
     "com.joshclose.csvhelper": {
-      "version": "https://github.com/bilal-arikan/CsvHelper-For-Unity.git?path=/src/CsvHelper",
+      "version": "file:com.joshclose.csvhelper",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.rlabrecque.steamworks.net": {
+      "version": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net#2025.163.0",
       "depth": 0,
       "source": "git",
       "dependencies": {},
-      "hash": "bf312d493712889933ad7394671a009d58a7ca39"
+      "hash": "98d6584e4509dd514768cc28c3f02026fbdd6cc7"
     },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
@@ -243,13 +273,13 @@
       "url": "https://packages.unity.cn"
     },
     "com.unity.timeline": {
-      "version": "1.7.6",
-      "depth": 0,
+      "version": "1.7.7",
+      "depth": 1,
       "source": "registry",
       "dependencies": {
+        "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.director": "1.0.0",
         "com.unity.modules.animation": "1.0.0",
-        "com.unity.modules.audio": "1.0.0",
         "com.unity.modules.particlesystem": "1.0.0"
       },
       "url": "https://packages.unity.cn"

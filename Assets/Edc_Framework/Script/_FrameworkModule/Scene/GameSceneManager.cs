@@ -11,10 +11,10 @@ public class GameSceneManager : BaseIOCComponent, ISendEvent
     private SceneResourceConfig lastSceneResourceConfig;
     private SceneResourcesSetting SceneResourcesSetting { get; set; }
 
-    protected override void Init()
+    protected override void Ready()
     {
-        base.Init();
-        SceneResourcesSetting = Hub.Resources.Get<SceneResourcesSetting>("SceneResourcesSetting");
+        base.Ready();
+        SceneResourcesSetting = Hub.FrameworkConfig.Get<SceneResourcesSetting>("SceneResourcesSetting");
     }
 
     public async UniTask LoadScene(string sceneName){

@@ -11,17 +11,21 @@ public class AudioExample : MonoBehaviour
     public Button playMusic1Btn;
     public Button playMusic2Btn;
     public Button stopMusicBtn;
-    public LabelManager soundManager;
 
     private void Start()
     {
-        LabelManager.Init(out soundManager, "Example_Audio").LoadLabel().Forget();
+        Hub.Audio.LoadLabel("Example_Audio").Forget();
 
         playSoundBtn.onClick.AddListener(ClickPlaySoundBtn);
         stopAllSoundBtn.onClick.AddListener(ClickStopAllSoundBtn);
         playMusic1Btn.onClick.AddListener(ClickPlayMusic1Btn);
         playMusic2Btn.onClick.AddListener(ClickPlayMusic2Btn);
         stopMusicBtn.onClick.AddListener(ClickStopMusicBtn);
+    }
+
+    private void OnDestroy()
+    {
+        Hub.Audio.ReleaseLabel("Example_Audio");
     }
 
     /// <summary>

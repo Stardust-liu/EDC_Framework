@@ -173,7 +173,7 @@ GameObject:
   - component: {fileID: 8080062577092198694}
   m_Layer: 0
   m_Name: GameScene
-  m_TagString: Untagged
+  m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -215,6 +215,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4251544931234796411}
+  - component: {fileID: 5967470810486253983}
   m_Layer: 0
   m_Name: StartControl
   m_TagString: Untagged
@@ -237,3 +238,15 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7697763107886852411}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5967470810486253983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3820358582819739953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08dfbdd5c1eb7d748a11f41adbd81937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -8,11 +8,12 @@ public class AchievementManager : BaseIOCComponent<AchievementData>, ISendEvent
     /// <summary>
     /// 更新成就进度
     /// </summary>
-    public void UpdateAchivementProgress<T>(string achievementID, int addCount = 1, float completeTime = -1f)where T: BaseAchievement{
-        if(!IsUnlockAchievement(achievementID)){
-            Data.UpdateAchivementProgress<T>(achievementID, addCount, completeTime);
-            if(IsUnlockAchievement(achievementID)){
-                UnlockAchievement(achievementID);
+    public void UpdateAchivementProgress<T>(string achievement, int addCount = 1, float completeTime = -1f)where T: BaseAchievement{
+        if(!IsUnlockAchievement(achievement)){
+            Data.UpdateAchivementProgress<T>(achievement, addCount, completeTime);
+            this.SendEvent(new UpdateAchievementSchedule(achievement, GetAchievementProgress(achievement).completeCount));
+            if(IsUnlockAchievement(achievement)){
+                UnlockAchievement(achievement);
             }
         }
     }

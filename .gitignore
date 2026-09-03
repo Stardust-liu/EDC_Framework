@@ -76,3 +76,8 @@ crashlytics-build.properties
 
 .vscode/
 .vsconfig
+
+# EDC generated content
+/[Aa]sset[Bb]undles/
+/[Hh]ybridCLRData/
+steam_appid.txt

@@ -2,38 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
-using Sirenix.OdinInspector;
-using Unity.VisualScripting;
 using UnityEngine;
-public abstract class BaseUI<Model> : BaseUI
-where Model : BaseUI_Model, new()
-{
-    protected Model model;
-    protected override void Init()
-    {
-        base.Init();
-        model = new Model();
-        ((IBaseUI_Model)model).Init();
-    }
 
-    protected override void DestroyPanel()
-    {
-        model = null;
-        base.DestroyPanel();
-    }
-}
 [RequireComponent(typeof(Animator))]
 public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery, IBindEvent
 {
     public Animator uiAnimator;
     public LocalizationFileGroup localizationFileGroup;
-    private Action showFinishCallBack;
-    private Action hideFinishCallBack;
-    private bool isHideFinishDestroy;
+    private Action showFinishCallBack_Anim;
+    private Action hideFinishCallBack_Anim;
+    private Func<bool> isShowFinishValid;
+    private Func<bool> isHideFinishValid;
 
-    async UniTask IBaseUI.Init(bool _isHideFinishDestroy)
+    async UniTask IBaseUI.Init(Func<bool> _isShowFinishValid, Func<bool> _isHideFinishValid)
     {
-        isHideFinishDestroy = _isHideFinishDestroy;
+        isShowFinishValid = _isShowFinishValid;
+        isHideFinishValid = _isHideFinishValid;
         if(localizationFileGroup != null)
         {
             await localizationFileGroup.LoadInfo();
@@ -43,18 +27,23 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
 
     void IBaseUI.Open(Action _showFinishCallBack)
     {
-        showFinishCallBack = _showFinishCallBack;
+        showFinishCallBack_Anim = _showFinishCallBack;
         StartShow();
     }
     void IBaseUI.Close(Action _hideFinishCallBack)
     {
-        hideFinishCallBack = _hideFinishCallBack;
+        hideFinishCallBack_Anim = _hideFinishCallBack;
         StartHide();
     }
 
     void IBaseUI.DestroyPanel()
     {
         DestroyPanel();
+    }
+
+    void IBaseUI.CompleteHide()
+    {
+        MoveToHideParent();
     }
 
 
@@ -83,27 +72,41 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     /// <summary>
     /// 打开完成
     /// </summary>
-    protected virtual void ShowFinish()
+    protected void ShowFinish()
     {
-        showFinishCallBack?.Invoke();
-        showFinishCallBack = null;
+        if (isShowFinishValid())
+        {
+            OnShowFinish();
+        }
+    }
+
+    /// <summary>
+    /// 打开完成
+    /// </summary>
+    protected virtual void OnShowFinish()
+    {
+        showFinishCallBack_Anim?.Invoke();
+        showFinishCallBack_Anim = null;
     }
 
     /// <summary>
     /// 隐藏完成
     /// </summary>
-    protected virtual void HideFinish()
+    protected void HideFinish()
     {
-        hideFinishCallBack?.Invoke();
-        hideFinishCallBack = null;
-        if (isHideFinishDestroy)
+        if (isHideFinishValid())
         {
-            ((IBaseUI)this).DestroyPanel();
+            OnHideFinish();
         }
-        else
-        {
-            MoveToHideParent();
-        }
+    }
+
+    /// <summary>
+    /// 隐藏完成
+    /// </summary>
+    protected virtual void OnHideFinish()
+    {
+        hideFinishCallBack_Anim?.Invoke();
+        hideFinishCallBack_Anim = null;
     }
 
     /// <summary>
@@ -136,6 +139,13 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
 
     protected abstract void MoveToShowParent();
     protected abstract void MoveToHideParent();
+
+    protected T CreateModel<T>() where T : IBaseUI_Model, new()
+    {
+        var model = new T();
+        model.Init();
+        return model;
+    }
 
     private void PLayShowAnimator()
     {

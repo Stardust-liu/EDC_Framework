@@ -5,8 +5,9 @@ public interface IContainer{
     //为了方便调用Register后，可以直接调用模块中的异步方法，因此使用了通过out赋值，同时返回实例对象的方法
     T Register<T>(out T value) where T : class, IIOCComponent;
     T Register<T>(T instance, out T value) where T : class, IIOCComponent; 
-    void Unregister<T>() where T : class, IIOCComponent; 
+    void Unregister<T>() where T : class, IIOCComponent;
 }
+
 
 public abstract class IOCContainer<TSingle> : IContainer
 where TSingle : IOCContainer<TSingle>, new()
@@ -19,7 +20,7 @@ where TSingle : IOCContainer<TSingle>, new()
         }
     }
 
-    private readonly Dictionary<Type, object> iocDictionary = new();
+    private static readonly Dictionary<Type, IIOCComponent> iocDictionary = new();
 
     /// <summary>
     /// 初始化
@@ -37,8 +38,52 @@ where TSingle : IOCContainer<TSingle>, new()
         await Instance.InitContainer(frameworkManager);
     }
 
+    /// <summary>
+    /// 第二阶段初始化
+    /// </summary>
+    /// <remarks>
+    /// 在所有模块注册并完成Init后，统一触发模块的Ready,用来实现模块间的依赖访问
+    /// </remarks>
+    public static void ReadyRegisteredModules()
+    {
+        foreach (var module in iocDictionary.Values)
+        {
+            module.Ready();
+        }
+    }
+
+    /// <summary>
+    /// 退出
+    /// </summary>
+    public static void Quit()
+    {
+        Instance.GameQuit();
+    }
+
     protected virtual UniTask InitContainer(){return UniTask.CompletedTask;}
     protected virtual UniTask InitContainer(FrameworkManager frameworkManager){return UniTask.CompletedTask;}
+    private void GameQuit()
+    {
+        var values = new List<IIOCComponent>(iocDictionary.Values);
+        foreach (var value in values)
+        {
+            if (value is not IGameQuit gameQuit)
+            {
+                continue;
+            }
+
+            try
+            {
+                gameQuit.OnGameQuit();
+            }
+            catch (Exception exception)
+            {
+                LogManager.LogError($"对象：{value.GetType().Name} 退出回调执行失败\n{exception}");
+            }
+        }
+        iocDictionary.Clear();
+        instance = null;
+    }
 
     /// <summary>
     /// 获取
@@ -56,6 +101,8 @@ where TSingle : IOCContainer<TSingle>, new()
         var type = typeof(T);
         if(iocDictionary.ContainsKey(type)){
             LogManager.LogError($"对象：{type.Name} 被重复注册");
+            value = iocDictionary[type] as T;
+            return value;
         }
         var instance = Activator.CreateInstance<T>();
         value = instance;
@@ -72,6 +119,8 @@ where TSingle : IOCContainer<TSingle>, new()
         var type = typeof(T);
         if(iocDictionary.ContainsKey(type)){
             LogManager.LogError($"对象：{type.Name} 被重复注册");
+            value = iocDictionary[type] as T;
+            return value;
         }
         value = instance;
         instance.Init();

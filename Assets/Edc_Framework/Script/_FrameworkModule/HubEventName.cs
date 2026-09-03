@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 开始加载场景
 /// </summary>
-public struct LoadSceneBegin{
+public class LoadSceneBegin{
     public string sceneName;
     public LoadSceneBegin(string _sceneName){
         sceneName = _sceneName;
@@ -16,7 +16,7 @@ public struct LoadSceneBegin{
 /// <summary>
 /// 加载场景结束
 /// </summary>
-public struct LoadSceneEnd{
+public class LoadSceneEnd{
     public string sceneName;
     public LoadSceneEnd(string _sceneName){
         sceneName = _sceneName;
@@ -26,7 +26,7 @@ public struct LoadSceneEnd{
 /// <summary>
 /// 更新UI边距
 /// </summary>
-public struct UpdateMargins
+public class UpdateMargins
 {
 
 }
@@ -34,7 +34,7 @@ public struct UpdateMargins
 /// <summary>
 /// 准备改变语言
 /// </summary>
-public struct ReadyChangeLanguage
+public class ReadyChangeLanguage
 {
     public SystemLanguage currentLanguage;
     public SystemLanguage tagetLanguageId;
@@ -48,7 +48,7 @@ public struct ReadyChangeLanguage
 /// <summary>
 /// 修改语言
 /// </summary>
-public struct ChangeLanguage
+public class ChangeLanguage
 {
     public SystemLanguage languageId;
     public ChangeLanguage(SystemLanguage _changeLanguage)
@@ -60,7 +60,7 @@ public struct ChangeLanguage
 /// <summary>
 /// 获得成就
 /// </summary>
-public struct UnlockAchievement{
+public class UnlockAchievement{
     public string unlockAchievement;
     public UnlockAchievement(string _unlockAchievement){
         unlockAchievement = _unlockAchievement;
@@ -68,9 +68,21 @@ public struct UnlockAchievement{
 }
 
 /// <summary>
+/// 更新成就进度
+/// </summary>
+public class UpdateAchievementSchedule{
+    public string unlockAchievement;
+    public int schedule;
+    public UpdateAchievementSchedule(string _unlockAchievement, int _schedule){
+        unlockAchievement = _unlockAchievement;
+        schedule = _schedule;
+    }
+}
+
+/// <summary>
 /// 更新红点状态（起点与分支节点）
 /// </summary>
-public struct UpdateRedDotNodeState{
+public class UpdateRedDotNodeState{
     public RedDotNode redDotNode;
     public UpdateRedDotNodeState(RedDotNode _redDotNode){
         redDotNode = _redDotNode;
@@ -80,7 +92,7 @@ public struct UpdateRedDotNodeState{
 /// <summary>
 /// 更新红点状态（末端节点）
 /// </summary>
-public struct UpdateRedDotLeafNodeState
+public class UpdateRedDotLeafNodeState
 {
     public RedDotLeafNode redDotLeafNode;
     public UpdateRedDotLeafNodeState(RedDotLeafNode _redDotLeafNode)
@@ -89,7 +101,7 @@ public struct UpdateRedDotLeafNodeState
     }
 }
 
-public struct ChangeInteractionState
+public class ChangeInteractionState
 {
     public bool interactionState;
     public ChangeInteractionState(bool _interactionState)

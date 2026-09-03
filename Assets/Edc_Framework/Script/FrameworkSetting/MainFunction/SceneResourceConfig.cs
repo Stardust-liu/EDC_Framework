@@ -14,6 +14,8 @@ public class SceneResourceConfig : SerializedScriptableObject
     public string[] addressables;// 需要加载或释放的资源
     [System.NonSerialized]
     private bool isLoad;
+    [System.NonSerialized]
+    private IResourceOwner resourceOwner;
 
     /// <summary>
     /// 加载
@@ -21,16 +23,17 @@ public class SceneResourceConfig : SerializedScriptableObject
     public async UniTask Load()
     {
         if(isLoad) return;
+        resourceOwner = Hub.Resources.CreateOwner(name);
         var addressableLabelsCount = addressableLabels.Length;
         var addressablesCount = addressables.Length;
         var task = new UniTask[addressableLabelsCount + addressablesCount];
         for (var i = 0; i < addressableLabelsCount; i++)
         {
-            task[i] = ((IResourcesModule)Hub.Resources).LoadLabel(addressableLabels[i]);
+            task[i] = resourceOwner.LoadLabel(addressableLabels[i]);
         }
         for (var i = 0; i < addressablesCount; i++)
         {
-            task[i+addressableLabelsCount] = ((IResourcesModule)Hub.Resources).Load(addressables[i]);
+            task[i+addressableLabelsCount] = resourceOwner.LoadAsset(addressables[i]);
         }
         await UniTask.WhenAll(task);
         isLoad = true;
@@ -42,15 +45,7 @@ public class SceneResourceConfig : SerializedScriptableObject
     public void Release()
     {
         isLoad = false;
-        var addressableLabelsCount = addressableLabels.Length;
-        var addressablesCount = addressables.Length;
-        for (var i = 0; i < addressableLabelsCount; i++)
-        {
-            ((IResourcesModule)Hub.Resources).ReleaseLabel(addressableLabels[i]);
-        }
-        for (var i = 0; i < addressablesCount; i++)
-        {
-            ((IResourcesModule)Hub.Resources).Release(addressables[i]);
-        }
+        resourceOwner?.ReleaseAll();
+        resourceOwner = null;
     }
 }

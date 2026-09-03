@@ -1,11 +1,7 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.EventSystems;
-
 
 public class FrameworkManager : MonoBehaviour
 {
@@ -31,6 +27,7 @@ public class FrameworkManager : MonoBehaviour
     public LoadingManager loadingController;
     public ScreenTransitionManager screenTransitionController;
     public NotificationManager notificationController;
+    [LabelText("CG管理")]
     public CGManager cgController;
 
     [Title("")]
@@ -48,6 +45,7 @@ public class FrameworkManager : MonoBehaviour
     public static FrameworkRuntimeSetting FrameworkSetting { get { return instance.runtimeSetting; } }
     public static LogLevel LogDisplay { get { return instance.runtimeSetting.logDisplay; } }
     public static bool IsSaveDisabled { get { return instance.runtimeSetting.isSaveDisabled; } }
+    public static bool IsShowLogo { get { return instance.runtimeSetting.isShowLogo; } }
     private void Awake()
     {
         instance = this;
@@ -55,12 +53,17 @@ public class FrameworkManager : MonoBehaviour
         StartFrameworkFlow().Forget();
     }
 
+    private void OnApplicationQuit()
+    {
+        HotUpdateLoader.Quit();
+        Hub.Quit();
+    }
+
     private async UniTaskVoid StartFrameworkFlow()
     {
         try 
         {
             await InitInfo();
-            FrameworkInitFinish();
         }
         catch (Exception e)
         {
@@ -71,28 +74,30 @@ public class FrameworkManager : MonoBehaviour
     private async UniTask InitInfo()
     {
         await Hub.Init(instance);
-        await GameModule.Init();
+        Hub.ReadyRegisteredModules();
+        FrameworkInitFinish();
+        await HotUpdateLoader.Load();
+        await HotUpdateLoader.Init(CreateGameStartInfo());
+        await HotUpdateLoader.ReadyRegisteredModules();
+        await HotUpdateLoader.EnterGame();
     }
 
-    private async void FrameworkInitFinish()
+    private void FrameworkInitFinish()
     {
         isInitFinish = true;
         LogManager.Log("框架初始化完成");
-        if (string.IsNullOrEmpty(initFinishLoadScene))
-        {
-            await Hub.Scene.LoadScene("MenuScene");
-        }
-        else
-        {
-            await Hub.Scene.LoadScene(initFinishLoadScene);
-        }
+    }
+
+    private GameStartInfo CreateGameStartInfo()
+    {
+        return GameStartInfo.CreateGameStartInfo(initFinishLoadScene, IsShowLogo);
     }
 
     /// <summary>
     /// 设置加载完成后跳转的场景
     /// </summary>
-    public static void SetInitFinishLoadScene(string initFinishLoadScene)
+    public static void SetInitFinishLoadScene(string sceneName)
     {
-        FrameworkManager.initFinishLoadScene = initFinishLoadScene;
+        initFinishLoadScene = sceneName;
     }
 }

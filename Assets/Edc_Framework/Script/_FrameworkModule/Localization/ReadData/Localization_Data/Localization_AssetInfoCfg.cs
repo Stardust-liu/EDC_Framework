@@ -7,7 +7,7 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
 {
     private static Dictionary<string, string> localizationInfo;
     private static List<string> addressableInfo;
-    private static AssetManager assetManager;
+    private static IResourceOwner resourceOwner;
     
     protected override void InitData()
     {
@@ -16,7 +16,10 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
         {
             localizationInfo = new();
             addressableInfo = new();
-            AssetManager.Init(out assetManager);
+        }
+        if (resourceOwner == null)
+        {
+            resourceOwner = Hub.Resources.CreateOwner(nameof(Localization_AssetInfoCfg));
         }
         addressableInfo.Clear();
     }
@@ -31,7 +34,7 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
     protected override void RemoveLocalizationData(string key)
     {
         var resourcePath = localizationInfo[key];
-        assetManager.Release(resourcePath);
+        resourceOwner?.ReleaseAsset(resourcePath);
         localizationInfo.Remove(key);
     }
 
@@ -39,7 +42,9 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
     {
         base.CleanLocalizationData();
         localizationInfo?.Clear();
-        assetManager?.ReleaseAll();
+        addressableInfo?.Clear();
+        resourceOwner?.ReleaseAll();
+        resourceOwner = null;
     }
 
     /// <summary>
@@ -47,7 +52,18 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
     /// </summary>
     public async UniTask LoadInfo()
     {
-        await assetManager.AddLoad(addressableInfo);
+        if (addressableInfo == null || addressableInfo.Count == 0)
+        {
+            return;
+        }
+
+        var tasks = new UniTask[addressableInfo.Count];
+        for (var i = 0; i < addressableInfo.Count; i++)
+        {
+            tasks[i] = resourceOwner.LoadAsset(addressableInfo[i]);
+        }
+
+        await UniTask.WhenAll(tasks);
         addressableInfo.Clear();
     }
 
@@ -56,15 +72,20 @@ public class Localization_AssetInfoCfg : BaseLocalizationInfoCfg<Localization_As
     /// </summary>
     public T GetLocalizationAsset<T>(string key) where T : Object
     {
+        var resourcePath = localizationInfo[key];
         if (typeof(T) == typeof(Sprite))
         {
-            var tex = Hub.Resources.Get<Texture2D>(localizationInfo[key]);
+            var tex = resourceOwner.GetAsset<Texture2D>(resourcePath);
+            if (tex == null)
+            {
+                return null;
+            }
             var spr = Sprite.Create(tex, new Rect(0, 0, tex.width, tex.height), new Vector2(0.5f, 0.5f), 100f);
             return spr as T;
         }
         else
         {
-            return Hub.Resources.Get<T>(localizationInfo[key]);
+            return resourceOwner.GetAsset<T>(resourcePath);
         }
     }
 }

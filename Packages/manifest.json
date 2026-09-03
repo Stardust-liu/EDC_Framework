@@ -1,7 +1,11 @@
 {
   "dependencies": {
+    "com.besty.unity-skills": "file:D:/Users/StarDust/Downloads/Unity-Skills-main/SkillsForUnity",
+    "com.code-philosophy.hybridclr": "https://github.com/focus-creative-games/hybridclr_unity.git",
     "com.cysharp.unitask": "https://github.com/Cysharp/UniTask.git?path=src/UniTask/Assets/Plugins/UniTask",
-    "com.joshclose.csvhelper": "https://github.com/bilal-arikan/CsvHelper-For-Unity.git?path=/src/CsvHelper",
+    "com.esotericsoftware.spine.urp-shaders": "file:D:/Users/StarDust/Downloads/com.esotericsoftware.spine.urp-shaders-4.2-2019.1",
+    "com.joshclose.csvhelper": "file:com.joshclose.csvhelper",
+    "com.rlabrecque.steamworks.net": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net#2025.163.0",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.addressables": "1.21.19",
     "com.unity.ai.navigation": "1.1.5",
