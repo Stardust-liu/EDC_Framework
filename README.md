@@ -38,13 +38,10 @@ PlatformModules/             平台资源模块外部存放目录
 
 ## 文档
 
-完整设计文档维护在飞书知识库中：
+完整设计文档：
 
 [EDC Framework Documentation](https://qazzxnq862.feishu.cn/wiki/space/7323485762769534979?ccm_open_type=lark_wiki_spaceLink&open_tab_from=wiki_home)
 
-## 当前状态
-
-该仓库是个人 Unity 框架项目，仍在持续整理和迭代中。当前重点包括资源加载、UI 管理、打包设置、框架检查和平台扩展流程。
 
 ## License
 
