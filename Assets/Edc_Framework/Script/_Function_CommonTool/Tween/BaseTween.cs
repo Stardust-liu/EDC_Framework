@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,22 +9,31 @@ public abstract class BaseTween : MonoBehaviour
     protected float duration = WaitTime.fast;
     [LabelText("延迟时间"), SerializeField]
     protected float delay = 0;
-    
+
     public Ease ease = Ease.OutQuad;
     public bool setUpdate;
     private Tweener tweener;
-    public Tweener Play(bool isForwardPlay = true){
-        if(isForwardPlay){
-            tweener = ForwardPlay();
-        }
-        else{
-            tweener = ReversePlay();
-        }
+
+    public Tweener Play(bool isForwardPlay = true)
+    {
+        Kill();
+        tweener = isForwardPlay ? ForwardPlay() : ReversePlay();
+        tweener?.SetLink(gameObject);
         return tweener;
     }
 
-    public void Pause(){
+    public void Pause()
+    {
         tweener?.Pause();
+    }
+
+    public void Kill()
+    {
+        if (tweener != null && tweener.IsActive())
+        {
+            tweener.Kill();
+        }
+        tweener = null;
     }
 
     protected abstract Tweener ForwardPlay();
@@ -39,20 +46,23 @@ public abstract class BaseTween : MonoBehaviour
     [Button("SwapStartAndTarget")]
     public abstract void SwapStartAndTarget();
 
-
-    public void SetDuration(float _duration){
+    public void SetDuration(float _duration)
+    {
         duration = _duration;
     }
 
-    public void SetDelay(float _delay){
+    public void SetDelay(float _delay)
+    {
         delay = _delay;
     }
-    
-    public float GetDuration(){
+
+    public float GetDuration()
+    {
         return duration;
     }
 
-    public float GetDelay(){
+    public float GetDelay()
+    {
         return delay;
     }
 }

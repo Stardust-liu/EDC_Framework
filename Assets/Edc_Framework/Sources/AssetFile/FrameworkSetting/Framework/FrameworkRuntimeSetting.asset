@@ -23,4 +23,5 @@ MonoBehaviour:
     SerializationNodes: []
   logDisplay: -1
   isSaveDisabled: 0
-  isEditorUsingAssetBundle: 0
+  archiveSlotCount: 1
+  isShowLogo: 0

@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using ArchiveData;
@@ -21,18 +20,6 @@ public class RedDotTreeManager : BaseIOCComponent<RedDotData>, ISendEvent
     }
 
     private void SetInitRedDotTree(){
-        if(!Data.isInitSave){
-            var redDotLeafNodeArray = Enum.GetValues(typeof(RedDotLeafNode));
-            var redDotNodeArray = Enum.GetValues(typeof(RedDotNode));
-            foreach (RedDotLeafNode item in redDotLeafNodeArray)
-            {
-                Data.UpdateleafRedDotState(item, false);
-            }
-            foreach (RedDotNode item in redDotNodeArray)
-            {
-                Data.UpdateRedDotState(item, false, 0);
-            }
-        }
         redDotTreeSetting.InitRedDotInfo();
         //data.SaveDataNow();
     }

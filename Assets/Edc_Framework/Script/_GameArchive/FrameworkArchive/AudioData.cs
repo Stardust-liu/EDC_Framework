@@ -3,18 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ArchiveData{
+    [ArchiveKey("AudioData")]
     public class AudioData : BaseGameArchive
     {
-        public float soundMainVolume = 1f;
-        public float soundBgVolume = 1f;
-        public float soundEffectVolume = 1f;
-        public float soundDialogueVolume = 1f;
+        public float soundMainVolume;
+        public float soundBgVolume;
+        public float soundEffectVolume;
+        public float soundDialogueVolume;
+
+        protected internal override void OnCreateDefaultData()
+        {
+            soundMainVolume = 1f;
+            soundBgVolume = 1f;
+            soundEffectVolume = 1f;
+            soundDialogueVolume = 1f;
+        }
 
         /// <summary>
         /// 更新主音量
         /// </summary>
         public void UpdtaeSoundMainVolume(float volume){
             soundMainVolume = volume;
+            SetDirty();
         }
 
         /// <summary>
@@ -22,6 +32,7 @@ namespace ArchiveData{
         /// </summary>
         public void UpdateSoundBgVolume(float volume){
             soundBgVolume = volume;
+            SetDirty();
         }
 
         /// <summary>
@@ -29,6 +40,7 @@ namespace ArchiveData{
         /// </summary>
         public void UpdateSoundEffectVolume(float volume){
             soundEffectVolume = volume;
+            SetDirty();
         }
 
         /// <summary>
@@ -36,6 +48,7 @@ namespace ArchiveData{
         /// </summary>
         public void UpdateSoundDialogueVolume(float volume){
             soundDialogueVolume = volume;
+            SetDirty();
         }
     }
 }

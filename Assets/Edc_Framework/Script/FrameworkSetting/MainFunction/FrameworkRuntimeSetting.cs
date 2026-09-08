@@ -12,6 +12,9 @@ public class FrameworkRuntimeSetting : SerializedScriptableObject
     [LabelText("是否禁用数据保存功能")]
     public bool isSaveDisabled;
 
+    [LabelText("存档槽数量"), MinValue(1)]
+    public int archiveSlotCount = 3;
+
     [LabelText("启动时是否显示LOGO")]
     public bool isShowLogo;
 }

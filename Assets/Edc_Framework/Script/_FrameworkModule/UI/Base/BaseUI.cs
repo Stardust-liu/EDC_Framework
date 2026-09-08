@@ -1,23 +1,24 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery, IBindEvent
 {
-    public Animator uiAnimator;
+    [SerializeField]
+    private BaseUITransition uiTransition;
     public LocalizationFileGroup localizationFileGroup;
     private Action showFinishCallBack_Anim;
     private Action hideFinishCallBack_Anim;
     private Func<bool> isShowFinishValid;
     private Func<bool> isHideFinishValid;
+    private bool isShowFinished;
+    private bool isHideFinished;
 
     async UniTask IBaseUI.Init(Func<bool> _isShowFinishValid, Func<bool> _isHideFinishValid)
     {
         isShowFinishValid = _isShowFinishValid;
         isHideFinishValid = _isHideFinishValid;
+        CacheTransition();
         if(localizationFileGroup != null)
         {
             await localizationFileGroup.LoadInfo();
@@ -28,11 +29,15 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     void IBaseUI.Open(Action _showFinishCallBack)
     {
         showFinishCallBack_Anim = _showFinishCallBack;
+        isShowFinished = false;
+        isHideFinished = false;
         StartShow();
     }
     void IBaseUI.Close(Action _hideFinishCallBack)
     {
         hideFinishCallBack_Anim = _hideFinishCallBack;
+        isShowFinished = false;
+        isHideFinished = false;
         StartHide();
     }
 
@@ -58,7 +63,7 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     protected virtual void StartShow()
     {
         MoveToShowParent();
-        PLayShowAnimator();
+        PlayShowAnimation();
     }
 
     /// <summary>
@@ -66,16 +71,21 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     /// </summary>
     protected virtual void StartHide()
     {
-        PLayHideAnimator();
+        PlayHideAnimation();
     }
 
     /// <summary>
     /// 打开完成
     /// </summary>
-    protected void ShowFinish()
+    public void ShowFinish()
     {
-        if (isShowFinishValid())
+        if (isShowFinished)
         {
+            return;
+        }
+        if (isShowFinishValid == null || isShowFinishValid())
+        {
+            isShowFinished = true;
             OnShowFinish();
         }
     }
@@ -92,10 +102,15 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
     /// <summary>
     /// 隐藏完成
     /// </summary>
-    protected void HideFinish()
+    public void HideFinish()
     {
-        if (isHideFinishValid())
+        if (isHideFinished)
         {
+            return;
+        }
+        if (isHideFinishValid == null || isHideFinishValid())
+        {
+            isHideFinished = true;
             OnHideFinish();
         }
     }
@@ -147,20 +162,42 @@ public abstract class BaseUI : MonoBehaviour, IBaseUI, ISendCommand, ISendQuery,
         return model;
     }
 
-    private void PLayShowAnimator()
+    private void PlayShowAnimation()
     {
-        if (uiAnimator != null)
+        if (uiTransition != null)
         {
-            uiAnimator.SetTrigger("Show");
+            uiTransition.PlayShow(ShowFinish);
+        }
+        else
+        {
+            ShowFinish();
         }
     }
 
-    private void PLayHideAnimator()
+    private void PlayHideAnimation()
     {
-        if (uiAnimator != null)
+        if (uiTransition != null)
         {
-            uiAnimator.SetTrigger("Hide");
+            uiTransition.PlayHide(HideFinish);
+        }
+        else
+        {
+            HideFinish();
         }
     }
+
+    private void CacheTransition()
+    {
+        if (uiTransition == null)
+        {
+            TryGetComponent(out uiTransition);
+        }
+    }
+
+#if UNITY_EDITOR
+    protected virtual void Reset()
+    {
+        TryGetComponent(out uiTransition);
+    }
+#endif
 }
-

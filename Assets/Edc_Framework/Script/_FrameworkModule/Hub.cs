@@ -5,6 +5,7 @@ public class Hub : IOCContainer<Hub>
 {    
     public static IResourceOwnerFactory Resources{get{return resources;}}
     public static FrameworkConfigManager FrameworkConfig{get{return frameworkConfig;}}
+    public static ArchiveManager Archive{get{return archive;}}
     public static CoroutineRunner Coroutine{get{return coroutine;}}
     public static GameSceneManager Scene{get{return scene;}}
     public static InputManager Input{get{return input;}}
@@ -31,6 +32,7 @@ public class Hub : IOCContainer<Hub>
 #endregion
     private static ResourcesModule resources;
     private static FrameworkConfigManager frameworkConfig;
+    private static ArchiveManager archive;
     private static CoroutineRunner coroutine;
     private static GameSceneManager scene;
     private static InputManager input;
@@ -56,6 +58,7 @@ public class Hub : IOCContainer<Hub>
     {
         ((IContainer)this).Register(out resources);
         await ((IContainer)this).Register(out frameworkConfig).LoadLabel();
+        ((IContainer)this).Register(out archive);
 
         ((IContainer)this).Register(framework.coroutineRunner, out coroutine);
         ((IContainer)this).Register(framework.audioController, out audio);

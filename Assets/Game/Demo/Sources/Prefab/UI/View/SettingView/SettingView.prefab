@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2708586600983778166}
   - component: {fileID: 6797191256829556486}
   - component: {fileID: 1455589638789202313}
+  - component: {fileID: 9140333654838861929}
   - component: {fileID: 5486649585574189798}
   - component: {fileID: 8073291386164107129}
   m_Layer: 5
@@ -54,12 +55,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a38b4d00ea34afa4cb5d94fc061a7094, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiAnimator: {fileID: 8073291386164107129}
+  uiTransition: {fileID: 9140333654838861929}
   localizationFileGroup: {fileID: 6797191256829556486}
-  selectEffect: {fileID: 3715843603460835993}
   localizationText:
   - {fileID: 6345548846076470357}
   - {fileID: 405764670370584459}
+  selectEffect: {fileID: 3715843603460835993}
   bcak: {fileID: 8299769271378888144}
   language: {fileID: 5822973017570504287}
   sfx: {fileID: 2224873377107891892}
@@ -100,6 +101,19 @@ MonoBehaviour:
   - {fileID: 6166096643225474627}
   - {fileID: 9040884865642864184}
   - {fileID: 5867612275521208194}
+--- !u!114 &9140333654838861929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796173816122870943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e981aca3747452f8ad09b3e43d56735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8073291386164107129}
 --- !u!114 &5486649585574189798
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -13,10 +14,59 @@ namespace ArchiveData{
         }
     }
 
+    [ArchiveKey("RedDotData")]
     public class RedDotData : BaseGameArchive
     {
-        public Dictionary<RedDotLeafNode, bool> leafRedDotState = new();
-        public Dictionary<RedDotNode, RedDotNodeData> nonLeafRedDotState = new();
+        public Dictionary<RedDotLeafNode, bool> leafRedDotState;
+        public Dictionary<RedDotNode, RedDotNodeData> nonLeafRedDotState;
+
+        protected internal override void OnCreateDefaultData()
+        {
+            leafRedDotState = new();
+            nonLeafRedDotState = new();
+            EnsureDefaultRedDotState();
+        }
+
+        protected internal override void OnAfterLoad()
+        {
+            base.OnAfterLoad();
+            leafRedDotState ??= new();
+            nonLeafRedDotState ??= new();
+            if (EnsureDefaultRedDotState())
+            {
+                SetDirty();
+            }
+        }
+
+        private bool EnsureDefaultRedDotState()
+        {
+            var isChanged = false;
+            var redDotLeafNodeArray = Enum.GetValues(typeof(RedDotLeafNode));
+            var redDotNodeArray = Enum.GetValues(typeof(RedDotNode));
+            foreach (RedDotLeafNode item in redDotLeafNodeArray)
+            {
+                if (leafRedDotState.ContainsKey(item))
+                {
+                    continue;
+                }
+
+                leafRedDotState.Add(item, false);
+                isChanged = true;
+            }
+
+            foreach (RedDotNode item in redDotNodeArray)
+            {
+                if (nonLeafRedDotState.ContainsKey(item))
+                {
+                    continue;
+                }
+
+                nonLeafRedDotState.Add(item, new RedDotNodeData(false, 0));
+                isChanged = true;
+            }
+
+            return isChanged;
+        }
 
         /// <summary>
         /// 更新根节点或分支节点状态
@@ -31,6 +81,7 @@ namespace ArchiveData{
             {
                 nonLeafRedDotState.Add(redDotNode, new RedDotNodeData(isActive, activeCount));
             }
+            SetDirty();
         }
 
         /// <summary>
@@ -39,6 +90,7 @@ namespace ArchiveData{
         public void UpdateleafRedDotState(RedDotLeafNode redDotLeafNode, bool isActive)
         {
             leafRedDotState[redDotLeafNode] = isActive;
+            SetDirty();
         }
     }
 }

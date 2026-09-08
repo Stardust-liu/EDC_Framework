@@ -18,8 +18,7 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
 
     protected override void Init()
     {
-        base.Init();   
-        SetInitLanguage();
+        base.Init();
     }
 
     protected override void Ready()
@@ -39,12 +38,6 @@ public class LocalizationManager : BaseIOCComponent<LanguageData>, ISendEvent
         localizationInfo = languageListCfg.localizationInfo;
         supportedLanguageCount = localizationInfo.Length;
         languageOrder = languageListCfg.languageOrder;
-    }
-
-    private void SetInitLanguage(){
-        if(!Data.isInitSave){
-            Data.ChangeLanguage(GetRecommendedLanguage());        
-        }
     }
 
     /// <summary>

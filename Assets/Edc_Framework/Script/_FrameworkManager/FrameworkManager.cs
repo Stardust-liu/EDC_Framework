@@ -45,6 +45,7 @@ public class FrameworkManager : MonoBehaviour
     public static FrameworkRuntimeSetting FrameworkSetting { get { return instance.runtimeSetting; } }
     public static LogLevel LogDisplay { get { return instance.runtimeSetting.logDisplay; } }
     public static bool IsSaveDisabled { get { return instance.runtimeSetting.isSaveDisabled; } }
+    public static int ArchiveSlotCount { get { return Mathf.Max(1, instance.runtimeSetting.archiveSlotCount); } }
     public static bool IsShowLogo { get { return instance.runtimeSetting.isShowLogo; } }
     private void Awake()
     {

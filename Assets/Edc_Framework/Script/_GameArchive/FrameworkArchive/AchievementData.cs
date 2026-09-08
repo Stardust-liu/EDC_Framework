@@ -4,9 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace ArchiveData{
+    [ArchiveKey("AchievementData")]
     public class AchievementData : BaseGameArchive
     {
-        public Dictionary<string, BaseAchievement> unlockAchievement = new();
+        public Dictionary<string, BaseAchievement> unlockAchievement;
+
+        protected internal override void OnCreateDefaultData()
+        {
+            unlockAchievement = new();
+        }
+
+        protected internal override void OnAfterLoad()
+        {
+            base.OnAfterLoad();
+            unlockAchievement ??= new();
+        }
 
         /// <summary>
         /// 更新成就进度
@@ -20,6 +32,7 @@ namespace ArchiveData{
             else{
                 unlockAchievement[achievementID].UpdateAchivementProgress(addCount, completeTime);
             }
+            SetDirty();
         }
 
         /// <summary>

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3692432088343051023}
   - component: {fileID: 7154112981351529962}
+  - component: {fileID: 6492222207386712522}
   - component: {fileID: 6797191256829556486}
   - component: {fileID: 5486649585574189798}
   - component: {fileID: 8073291386164107129}
@@ -53,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc72f93c15bdaeb43a768d348ffb217b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiAnimator: {fileID: 8073291386164107129}
+  uiTransition: {fileID: 6492222207386712522}
   localizationFileGroup: {fileID: 6797191256829556486}
   localizationText:
   - {fileID: 6345548846076470357}
@@ -63,6 +64,19 @@ MonoBehaviour:
   dataViewerBtn: {fileID: 6401375361986727262}
   optionsBtn: {fileID: 3099655817117198405}
   quitGameBtn: {fileID: 5518392439333194206}
+--- !u!114 &6492222207386712522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 796173816122870943}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e981aca3747452f8ad09b3e43d56735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 8073291386164107129}
 --- !u!114 &6797191256829556486
 MonoBehaviour:
   m_ObjectHideFlags: 0

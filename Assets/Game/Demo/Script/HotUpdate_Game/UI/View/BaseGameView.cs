@@ -5,23 +5,7 @@ using DG.Tweening;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-public class BaseReturnableView : BaseDescView
-{
-    public OptionItemBtn bcak;
-    private BaseReturnableViewLogic logic;
-    protected override void Init()
-    {
-        base.Init();
-        logic = new();
-        bcak.SetInitAction(Back, ChangeOptionItem, ExitOptionItem);
-    }
-
-    private void Back()
-    {
-        ConfirmSelect();
-        logic.Bcak();
-    }
-}
+public class BaseReturnableView : BaseReturnableView<EmptyModel>{}
 
 public class BaseReturnableView<Model> : BaseDescView<Model> where Model : BaseUI_Model, new()
 {
@@ -53,40 +37,13 @@ public class BaseReturnableViewLogic {
     }
 }
 
-public class BaseDescView : BaseView
-{
-    [PropertyOrder(1)]
-    public LocalizationText[] localizationText;
-    public SelectEffect selectEffect;
-    private BaseDescViewLogic logic;
-
-    protected override void Init()
-    {
-        base.Init();
-        logic = new BaseDescViewLogic(selectEffect, localizationText);
-        logic.CleanTextContent();
-    }
-
-    protected void ChangeOptionItem(Transform parent, string[] descID)
-    {
-        logic.ChangeOptionItem(parent, descID);
-    }
-
-    protected void ExitOptionItem()
-    {
-        logic.ExitOptionItem();
-    }
-
-    protected void ConfirmSelect(Action _confirmSelectComplete = null)
-    {
-        logic.ConfirmSelect(_confirmSelectComplete);
-    } 
-}
+public class BaseDescView : BaseDescView<EmptyModel>{}
 
 public class BaseDescView<Model> : BaseView<Model> where Model : BaseUI_Model, new()
 {
-    public SelectEffect selectEffect;
+    [PropertyOrder(9999)]
     public LocalizationText[] localizationText;
+    public SelectEffect selectEffect;
     private BaseDescViewLogic logic;
 
     protected override void Init()

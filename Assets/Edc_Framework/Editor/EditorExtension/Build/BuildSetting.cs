@@ -6,7 +6,7 @@ public class BuildSetting : OdinMenuEditorWindow
     [MenuItem("Customize/BuildSetting")]
     private static void OpenWindow()
     {
-        GetWindow<BuildSetting>("打包设置").Show();
+        GetWindow<BuildSetting>().Show();
     }
 
     protected override OdinMenuTree BuildMenuTree()

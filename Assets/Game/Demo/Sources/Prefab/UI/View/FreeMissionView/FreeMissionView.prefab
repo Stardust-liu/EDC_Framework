@@ -763,6 +763,7 @@ GameObject:
   - component: {fileID: 1216112572595916318}
   - component: {fileID: 6523267858271910033}
   - component: {fileID: 184779684342506494}
+  - component: {fileID: 9056061787975048627}
   - component: {fileID: 4521069920318418529}
   m_Layer: 5
   m_Name: FreeMissionView
@@ -805,10 +806,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284738fbd5062be46ac32bce605b8def, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiAnimator: {fileID: 4521069920318418529}
+  uiTransition: {fileID: 9056061787975048627}
   localizationFileGroup: {fileID: 1216112572595916318}
-  selectEffect: {fileID: 6291323688102013975}
   localizationText: []
+  selectEffect: {fileID: 6291323688102013975}
   bcak: {fileID: 4439056868756552904}
   levelSelectBtnPrefab: {fileID: 1972137993310973893, guid: e409b77ffe6d27c4da9b21c9cc536cd3, type: 3}
   levelDesc2: {fileID: 3611761328513128263}
@@ -856,6 +857,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   assetsPath: MainMenu
+--- !u!114 &9056061787975048627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5023929487595189639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e981aca3747452f8ad09b3e43d56735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 4521069920318418529}
 --- !u!95 &4521069920318418529
 Animator:
   serializedVersion: 5
