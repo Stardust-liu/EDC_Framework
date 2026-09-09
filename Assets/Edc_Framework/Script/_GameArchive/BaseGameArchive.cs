@@ -22,19 +22,18 @@ namespace ArchiveData{
 
     public abstract class BaseGameArchive
     {
-        /// <summary>
-        /// 数据是否已经被修改。
-        /// 调用SetDirty后，SaveDirtyData才会真正保存这份数据。
-        /// </summary>
         [JsonIgnore]
-        public bool IsDirty { get; private set; }
+        public Type type;
+
+        [JsonIgnore]
+        public ArchiveDomain archiveDomain;
 
         /// <summary>
         /// 标记数据已经被修改。
         /// </summary>
         protected void SetDirty()
         {
-            IsDirty = true;
+            GameArchive.AddDirtyType(archiveDomain, type);
         }
 
         /// <summary>
@@ -42,7 +41,13 @@ namespace ArchiveData{
         /// </summary>
         internal void ClearDirty()
         {
-            IsDirty = false;
+            GameArchive.RemoveDirtyType(archiveDomain, type);
+        }
+
+        internal void SetInfo()
+        {
+            type = GetType();
+            archiveDomain = (Attribute.GetCustomAttribute(type, typeof(ArchiveKeyAttribute)) as ArchiveKeyAttribute).Domain;
         }
 
         /// <summary>

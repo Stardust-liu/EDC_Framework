@@ -33,7 +33,7 @@ public class AudioManager : BaseMonoIOCComponent<AudioData>
 
     private IResourceOwner resourceOwner;
     private AudioClip audioClip;
-    
+ 
     protected override void Ready()
     {
         base.Ready();

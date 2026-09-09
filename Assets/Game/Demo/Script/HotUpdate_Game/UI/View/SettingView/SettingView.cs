@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using ArchiveData;
 using UnityEngine;
 
 public class SettingView : BaseReturnableView<SettingView_M>
@@ -14,6 +15,12 @@ public class SettingView : BaseReturnableView<SettingView_M>
         language.SetInitAction(GetLanguageToggleInfo(), ChangeOptionItem, ExitOptionItem);
         sfx.SetInitAction(GetSFXInfo(), ChangeOptionItem, ExitOptionItem);
         bgm.SetInitAction(GetBGMInfo(), ChangeOptionItem, ExitOptionItem);
+    }
+
+    protected override void StartHide()
+    {
+        base.StartHide();
+        GameArchive.SaveAllGlobalDirtyData();
     }
 
     private void SetLanguage(int index)

@@ -22,10 +22,11 @@ public class ArchiveManager : BaseIOCComponent<ArchiveInfoData>
 
     protected override void Init()
     {
+        GameArchive.SetSaveDisabledCheck(FrameworkManager.IsSaveDisabled);
         base.Init();
         GameArchive.SetSlotDataSavedCallback(UpdateCurrentSloatSaveTime);
         GameArchive.LoadSlot(Data.CurrentSlotKey);
-        GameArchive.SaveDataNow<ArchiveInfoData>();
+        GameArchive.SaveDirtyData<ArchiveInfoData>();
     }
 
     /// <summary>
@@ -98,7 +99,7 @@ public class ArchiveManager : BaseIOCComponent<ArchiveInfoData>
         }
         Data.SetCurrentSlot(slotIndex, displayName);
         GameArchive.SaveToSlot(Data.GetSlotInfo(slotIndex).slotKey);
-        GameArchive.SaveDataNow<ArchiveInfoData>();
+        GameArchive.SaveDirtyData<ArchiveInfoData>();
     }
 
     /// <summary>
@@ -118,7 +119,7 @@ public class ArchiveManager : BaseIOCComponent<ArchiveInfoData>
         }
         GameArchive.LoadSlot(slotInfo.slotKey);
         Data.LoadSlot(slotIndex);
-        GameArchive.SaveDataNow<ArchiveInfoData>();
+        GameArchive.SaveDirtyData<ArchiveInfoData>();
         return true;
     }
 
@@ -132,7 +133,7 @@ public class ArchiveManager : BaseIOCComponent<ArchiveInfoData>
             return;
         }
         Data.SetSlotDisplayName(slotIndex, displayName);
-        GameArchive.SaveDataNow<ArchiveInfoData>();
+        GameArchive.SaveDirtyData<ArchiveInfoData>();
     }
 
 
@@ -149,7 +150,7 @@ public class ArchiveManager : BaseIOCComponent<ArchiveInfoData>
         if (GameArchive.DeleteSlot(GetSlotInfo(slotIndex).slotKey))
         {
             Data.ClearSlot(slotIndex);
-            GameArchive.SaveDataNow<ArchiveInfoData>();
+            GameArchive.SaveDirtyData<ArchiveInfoData>();
             return true;
         }
         else
@@ -164,7 +165,7 @@ public class ArchiveManager : BaseIOCComponent<ArchiveInfoData>
     private void UpdateCurrentSloatSaveTime(string slotKey)
     {
         Data.MarkSlotSaveTime(CurrentSlotIndex);
-        GameArchive.SaveDataNow<ArchiveInfoData>();
+        GameArchive.SaveDirtyData<ArchiveInfoData>();
     }
 
     private bool CheckSlotIndex(int slotIndex)

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 public interface IContainer{
     //为了方便调用Register后，可以直接调用模块中的异步方法，因此使用了通过out赋值，同时返回实例对象的方法
     T Register<T>(out T value) where T : class, IIOCComponent;

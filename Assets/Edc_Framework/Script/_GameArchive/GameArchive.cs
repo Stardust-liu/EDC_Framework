@@ -21,10 +21,22 @@ namespace ArchiveData{
         private readonly Dictionary<Type, BaseGameArchive> slotArchiveData;
         private readonly Dictionary<Type, string> globalArchivePath;
         private readonly Dictionary<Type, string> slotArchivePath;
+        private readonly HashSet<Type> globalDirtyTypes;
+        private readonly HashSet<Type> slotDirtyTypes;
         private Action<string> onSlotDataSaved;
         private const string dataParentFolder = "Data";
         private const string slotsFolder = "Slots";
         private string currentSlotKey;
+
+        /// <summary>
+        /// 是否禁止写入存档
+        /// </summary>
+        private static bool IsSaveDisabled;
+
+        public static void SetSaveDisabledCheck(bool _IsSaveDisabled)
+        {
+            IsSaveDisabled = _IsSaveDisabled;
+        }
 
         private GameArchive()
         {
@@ -33,6 +45,8 @@ namespace ArchiveData{
             slotArchiveData = new();
             globalArchivePath = new();
             slotArchivePath = new();
+            globalDirtyTypes = new();
+            slotDirtyTypes = new();
         }
 
         /// <summary>
@@ -52,23 +66,31 @@ namespace ArchiveData{
         }
 
         /// <summary>
-        /// 立刻保存数据
+        /// 保存数据
         /// </summary>
-        public static void SaveDataNow<T>()where T : BaseGameArchive, new()
+        public static void SaveDirtyData<T>()where T : BaseGameArchive, new()
         {
             Instance.Save<T>();
         }
 
         /// <summary>
-        /// 异步保存数据
+        /// 保存所有全局数据
         /// </summary>
-        public static async Task SaveDataAsync<T>()where T : BaseGameArchive, new()
+        public static void SaveAllGlobalDirtyData()
         {
-            await Task.Run(Instance.Save<T>);
+            Instance.SaveGlobalAll();
         }
 
         /// <summary>
-        /// 保存所有已修改的数据
+        /// 保存所有槽位数据
+        /// </summary>
+        public static void SaveAllSlotDirtyData()
+        {
+            Instance.SaveSlotAll();
+        }
+
+        /// <summary>
+        /// 保存所有数据
         /// </summary>
         public static void SaveAllDirtyData()
         {
@@ -80,6 +102,10 @@ namespace ArchiveData{
         /// </summary>
         public static void SaveToSlot(string slotKey)
         {
+            if (IsSaveDisabled)
+            {
+                return;
+            }
             Instance.SaveToSlotInternal(slotKey);
         }
 
@@ -105,6 +131,37 @@ namespace ArchiveData{
         }
 
         /// <summary>
+        /// 添加变脏类型
+        /// </summary>
+        internal static void AddDirtyType(ArchiveDomain archiveDomain, Type type)
+        {
+            if (archiveDomain == ArchiveDomain.Global)
+            {
+                Instance.globalDirtyTypes.Add(type);
+            }
+            else
+            {
+                Instance.slotDirtyTypes.Add(type);
+            }
+        }
+
+        /// <summary>
+        /// 删除变脏类型
+        /// </summary>
+        internal static void RemoveDirtyType(ArchiveDomain archiveDomain, Type type)
+        {
+           if (archiveDomain == ArchiveDomain.Global)
+            {
+                Instance.globalDirtyTypes.Remove(type);
+            }
+            else
+            {
+                Instance.slotDirtyTypes.Remove(type);
+            }
+        }
+
+       
+        /// <summary>
         /// 设置存档槽数据保存完成后的回调。
         /// </summary>
         internal static void SetSlotDataSavedCallback(Action<string> onSaved)
@@ -120,6 +177,7 @@ namespace ArchiveData{
             }
             slotArchiveData.Clear();
             slotArchivePath.Clear();
+            slotDirtyTypes.Clear();
             currentSlotKey = slotKey;
         }
 
@@ -151,7 +209,7 @@ namespace ArchiveData{
                 currentSlotKey = _currentSlotKey;
                 slotArchivePath.Clear();
             }
-            SaveAll(slotArchiveData);
+            SaveAll(slotDirtyTypes, slotArchiveData);
             onSlotDataSaved?.Invoke(currentSlotKey);
         }
 
@@ -159,7 +217,7 @@ namespace ArchiveData{
         {
             var type = typeof(T);
             var data = Get<T>();
-            if (data == null || !data.IsDirty)
+            if (data == null)
             {
                 return;
             }
@@ -173,36 +231,39 @@ namespace ArchiveData{
         private void Save(Type type, BaseGameArchive data)
         {
             data.OnBeforeSave();
-            File.WriteAllText(GetDataPath(type), JsonConvert.SerializeObject(data));
+            if (!IsSaveDisabled)
+            {
+                File.WriteAllText(GetDataPath(type), JsonConvert.SerializeObject(data));
+            }
             data.ClearDirty();
+        }
+
+        private void SaveGlobalAll()
+        {
+            SaveAll(globalDirtyTypes, globalArchiveData);
+        }
+
+        private void SaveSlotAll()
+        {
+            SaveAll(slotDirtyTypes, slotArchiveData);
+            onSlotDataSaved?.Invoke(currentSlotKey);
         }
 
         private void SaveAll()
         {
-            SaveAll(globalArchiveData);
-            SaveAll(slotArchiveData);
-            onSlotDataSaved?.Invoke(currentSlotKey);
+            SaveGlobalAll();
+            SaveSlotAll();
         }
 
         /// <summary>
-        /// 只保存已修改的数据，返回是否实际写入过数据文件。
+        /// 只保存已修改的数据，保存完成通知由外层入口统一触发。
         /// </summary>
-        private void SaveAll(Dictionary<Type, BaseGameArchive> archiveData)
+        private void SaveAll(HashSet<Type> dirtyTypes, Dictionary<Type, BaseGameArchive> archiveData)
         {
-            var types = new List<Type>(archiveData.Keys);
+            var types = new List<Type>(dirtyTypes);//防止保存后对dirtyTypes发生修改
             foreach (var type in types)
             {
-                if (!archiveData.TryGetValue(type, out var data))
-                {
-                    continue;
-                }
-
-                if (!data.IsDirty)
-                {
-                    continue;
-                }
-
-                Save(type, data);
+                Save(type, archiveData[type]);
             }
         }
 
@@ -225,15 +286,18 @@ namespace ArchiveData{
                 if (data == null)
                 {
                     data = new T();
+                    data.SetInfo();
                     data.OnCreateDefaultData();
                 }
                 else
                 {
+                    data.SetInfo();
                     data.OnAfterLoad();
                 }
             }
             else{
                 data = new T();
+                data.SetInfo();
                 data.OnCreateDefaultData();
             }
             return data;
