@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Linq;
 using Sirenix.OdinInspector;
-using Unity.Mathematics;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
@@ -126,7 +125,7 @@ public abstract class BaseInfiniteScroll<T> : BaseCustomizeScroll<T>, IPointerDo
         if(!isStopInertia){
             InertiaOffset(inertiaDirection * inertiaSpeedOffset * deltaTime);
             CheckIsNeedPadding();
-            inertiaSpeedOffset -= math.lerp(inertiaSpeedOffset,0, inertia * (1-deltaTime));
+            inertiaSpeedOffset -= Mathf.LerpUnclamped(inertiaSpeedOffset, 0, inertia * (1 - deltaTime));
             if(inertiaSpeedOffset < 0.01f){
                 inertiaSpeedOffset = 0;
                 isStopInertia = true;

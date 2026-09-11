@@ -9,7 +9,6 @@
         "Unity.ResourceManager",
         "Unity.TextMeshPro",
         "UnityEngine.UI",
-        "Unity.Mathematics",
         "DOTween.Modules",
         "JoshClose.CsvHelper"
     ],
